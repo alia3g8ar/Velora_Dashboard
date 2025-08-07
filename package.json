@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc && cross-env NODE_OPTIONS=--max_old_space_size=4096 refine build",
+    "build": "vite build",
     "codegen": "graphql-codegen",
     "dev": "refine dev",
     "format": "prettier --write src",
@@ -56,7 +56,7 @@
     "postcss": "^8.1.4",
     "postcss-nesting": "^12.0.1",
     "prettier": "^2.7.1",
-    "typescript": "^5.4.2",
+    "typescript": "^5.9.2",
     "vite": "^5.4.15",
     "vite-tsconfig-paths": "^4.2.1"
   }
