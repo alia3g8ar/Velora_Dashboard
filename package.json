@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "npx vite build",
+    "build": "NODE_OPTIONS='--max_old_space_size=4096' node ./node_modules/vite/bin/vite.js build",
     "codegen": "graphql-codegen",
     "dev": "refine dev",
     "format": "prettier --write src",
