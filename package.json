@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "vite build",
+    "build": "npx vite build",
     "codegen": "graphql-codegen",
     "dev": "refine dev",
     "format": "prettier --write src",
