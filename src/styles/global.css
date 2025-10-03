@@ -2,8 +2,7 @@
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  display: none;
 }
 
 ::-webkit-scrollbar-track {
@@ -12,17 +11,17 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #6D28D9 0%, #EC4899 100%);
+  background: linear-gradient(135deg, #6d28d9 0%, #ec4899 100%);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #7C3AED 0%, #F472B6 100%);
+  background: linear-gradient(135deg, #7c3aed 0%, #f472b6 100%);
 }
 
 /* Gradient text utility */
 .gradient-text {
-  background: linear-gradient(135deg, #6D28D9 0%, #EC4899 100%);
+  background: linear-gradient(135deg, #6d28d9 0%, #ec4899 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -30,14 +29,14 @@
 
 /* Gradient button */
 .gradient-button {
-  background: linear-gradient(135deg, #6D28D9 0%, #EC4899 100%);
+  background: linear-gradient(135deg, #6d28d9 0%, #ec4899 100%);
   border: none;
   color: white;
   transition: all 0.3s ease;
 }
 
 .gradient-button:hover {
-  background: linear-gradient(135deg, #7C3AED 0%, #F472B6 100%);
+  background: linear-gradient(135deg, #7c3aed 0%, #f472b6 100%);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
 }
@@ -50,11 +49,11 @@
 }
 
 .gradient-border-card::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   padding: 1px;
-  background: linear-gradient(135deg, #6D28D9 0%, #EC4899 100%);
+  background: linear-gradient(135deg, #6d28d9 0%, #ec4899 100%);
   border-radius: inherit;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: xor;
@@ -65,23 +64,23 @@
 .ant-input:focus,
 .ant-select-focused .ant-select-selector,
 .ant-btn:focus {
-  border-color: #6D28D9 !important;
+  border-color: #6d28d9 !important;
   box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.2) !important;
 }
 
 /* Chart customizations */
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical line {
-  stroke: #4B5563;
+  stroke: #4b5563;
 }
 
 .recharts-text {
-  fill: #D1D5DB;
+  fill: #d1d5db;
 }
 
 /* Loading spinner customization */
 .ant-spin-dot-item {
-  background-color: #6D28D9;
+  background-color: #6d28d9;
 }
 
 /* Table hover effects */
@@ -98,7 +97,7 @@
 .ant-modal-header,
 .ant-drawer-header {
   background: #374151 !important;
-  border-bottom: 1px solid #4B5563 !important;
+  border-bottom: 1px solid #4b5563 !important;
 }
 
 /* Tag customizations */
@@ -109,47 +108,47 @@
 
 /* Menu customizations */
 .ant-menu-dark .ant-menu-item-selected {
-  background: linear-gradient(135deg, #6D28D9 0%, #EC4899 100%) !important;
+  background: linear-gradient(135deg, #6d28d9 0%, #ec4899 100%) !important;
 }
 
 /* Form customizations */
 .ant-form-item-label > label {
-  color: #F3F4F6 !important;
+  color: #f3f4f6 !important;
 }
 
 /* Button customizations */
 .ant-btn-primary {
-  background: linear-gradient(135deg, #6D28D9 0%, #EC4899 100%);
+  background: linear-gradient(135deg, #6d28d9 0%, #ec4899 100%);
   border: none;
   box-shadow: 0 2px 4px rgba(109, 40, 217, 0.2);
 }
 
 .ant-btn-primary:hover {
-  background: linear-gradient(135deg, #7C3AED 0%, #F472B6 100%);
+  background: linear-gradient(135deg, #7c3aed 0%, #f472b6 100%);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
 }
 
 /* Card enhancements */
 .ant-card {
-  border: 1px solid #4B5563;
+  border: 1px solid #4b5563;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .ant-card-head {
-  border-bottom: 1px solid #4B5563;
+  border-bottom: 1px solid #4b5563;
 }
 
 /* Notification customizations */
 .ant-notification {
   background: #374151 !important;
-  border: 1px solid #4B5563 !important;
+  border: 1px solid #4b5563 !important;
 }
 
 /* Select dropdown customizations */
 .ant-select-dropdown {
   background: #374151 !important;
-  border: 1px solid #4B5563 !important;
+  border: 1px solid #4b5563 !important;
 }
 
 .ant-select-item-option-selected {
@@ -158,8 +157,8 @@
 
 /* Pagination customizations */
 .ant-pagination-item-active {
-  background: linear-gradient(135deg, #6D28D9 0%, #EC4899 100%) !important;
-  border-color: #6D28D9 !important;
+  background: linear-gradient(135deg, #6d28d9 0%, #ec4899 100%) !important;
+  border-color: #6d28d9 !important;
 }
 
 .ant-pagination-item-active a {
@@ -169,10 +168,10 @@
 /* Tooltip customizations */
 .ant-tooltip-inner {
   background: #374151 !important;
-  border: 1px solid #4B5563 !important;
+  border: 1px solid #4b5563 !important;
 }
 
 .ant-tooltip-arrow::before {
   background: #374151 !important;
-  border: 1px solid #4B5563 !important;
+  border: 1px solid #4b5563 !important;
 }
