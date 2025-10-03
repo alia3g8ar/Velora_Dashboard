@@ -12,7 +12,7 @@ export const Header = () => {
   const headerStyles: React.CSSProperties = {
     backgroundColor: token.colorBgElevated,
     display: "flex",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
     alignItems: "center",
     padding: "0px 24px",
     height: "64px",
@@ -23,6 +23,7 @@ export const Header = () => {
 
   return (
     <Layout.Header style={headerStyles}>
+      <div></div>
       <Space align="center" size="middle">
         <CurrentUser />
       </Space>

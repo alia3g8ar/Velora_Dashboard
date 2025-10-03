@@ -23,7 +23,7 @@ export const ContactStatusTag = ({ status }: Props) => {
     case "CONTACTED":
     case "INTERESTED":
       icon = <PlayCircleOutlined />;
-      color = "cyan";
+      color = "purple";
       break;
     case "UNQUALIFIED":
       icon = <PlayCircleOutlined />;
@@ -32,7 +32,7 @@ export const ContactStatusTag = ({ status }: Props) => {
     case "QUALIFIED":
     case "NEGOTIATION":
       icon = <PlayCircleFilled />;
-      color = "green";
+      color = "magenta";
       break;
     case "LOST":
       icon = <PlayCircleFilled />;
@@ -40,7 +40,7 @@ export const ContactStatusTag = ({ status }: Props) => {
       break;
     case "WON":
       icon = <CheckCircleOutlined />;
-      color = "green";
+      color = "magenta";
       break;
     case "CHURNED":
       icon = <MinusCircleOutlined />;

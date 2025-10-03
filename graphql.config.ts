@@ -1,6 +1,7 @@
 import type { IGraphQLConfig } from "graphql-config";
 
 const config: IGraphQLConfig = {
+  // GraphQL schema endpoint for Velora CRM
   schema: "https://api.crm.refine.dev/graphql",
   extensions: {
     codegen: {

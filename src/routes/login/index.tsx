@@ -1,6 +1,7 @@
-import { AuthPage, ThemedTitleV2 } from "@refinedev/antd";
+import { AuthPage } from "@refinedev/antd";
 
 import { authCredentials } from "@/providers";
+import { VeloraLogo } from "@/components";
 
 export const LoginPage = () => {
   return (
@@ -8,7 +9,7 @@ export const LoginPage = () => {
       type="login"
       registerLink={false}
       forgotPasswordLink={false}
-      title={<ThemedTitleV2 collapsed={false} text="Refine Project" />}
+      title={<VeloraLogo width={200} height={60} />}
       formProps={{
         initialValues: authCredentials,
       }}

@@ -1,0 +1,178 @@
+/* Velora Global Styles */
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #374151;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #6D28D9 0%, #EC4899 100%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #7C3AED 0%, #F472B6 100%);
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, #6D28D9 0%, #EC4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gradient button */
+.gradient-button {
+  background: linear-gradient(135deg, #6D28D9 0%, #EC4899 100%);
+  border: none;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.gradient-button:hover {
+  background: linear-gradient(135deg, #7C3AED 0%, #F472B6 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
+}
+
+/* Card with gradient border */
+.gradient-border-card {
+  position: relative;
+  background: #374151;
+  border-radius: 8px;
+}
+
+.gradient-border-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  background: linear-gradient(135deg, #6D28D9 0%, #EC4899 100%);
+  border-radius: inherit;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  -webkit-mask-composite: xor;
+}
+
+/* Custom focus styles */
+.ant-input:focus,
+.ant-select-focused .ant-select-selector,
+.ant-btn:focus {
+  border-color: #6D28D9 !important;
+  box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.2) !important;
+}
+
+/* Chart customizations */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #4B5563;
+}
+
+.recharts-text {
+  fill: #D1D5DB;
+}
+
+/* Loading spinner customization */
+.ant-spin-dot-item {
+  background-color: #6D28D9;
+}
+
+/* Table hover effects */
+.ant-table-tbody > tr:hover > td {
+  background: rgba(109, 40, 217, 0.1) !important;
+}
+
+/* Modal and drawer customizations */
+.ant-modal-content,
+.ant-drawer-content {
+  background: #374151 !important;
+}
+
+.ant-modal-header,
+.ant-drawer-header {
+  background: #374151 !important;
+  border-bottom: 1px solid #4B5563 !important;
+}
+
+/* Tag customizations */
+.ant-tag {
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* Menu customizations */
+.ant-menu-dark .ant-menu-item-selected {
+  background: linear-gradient(135deg, #6D28D9 0%, #EC4899 100%) !important;
+}
+
+/* Form customizations */
+.ant-form-item-label > label {
+  color: #F3F4F6 !important;
+}
+
+/* Button customizations */
+.ant-btn-primary {
+  background: linear-gradient(135deg, #6D28D9 0%, #EC4899 100%);
+  border: none;
+  box-shadow: 0 2px 4px rgba(109, 40, 217, 0.2);
+}
+
+.ant-btn-primary:hover {
+  background: linear-gradient(135deg, #7C3AED 0%, #F472B6 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
+}
+
+/* Card enhancements */
+.ant-card {
+  border: 1px solid #4B5563;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.ant-card-head {
+  border-bottom: 1px solid #4B5563;
+}
+
+/* Notification customizations */
+.ant-notification {
+  background: #374151 !important;
+  border: 1px solid #4B5563 !important;
+}
+
+/* Select dropdown customizations */
+.ant-select-dropdown {
+  background: #374151 !important;
+  border: 1px solid #4B5563 !important;
+}
+
+.ant-select-item-option-selected {
+  background: rgba(109, 40, 217, 0.2) !important;
+}
+
+/* Pagination customizations */
+.ant-pagination-item-active {
+  background: linear-gradient(135deg, #6D28D9 0%, #EC4899 100%) !important;
+  border-color: #6D28D9 !important;
+}
+
+.ant-pagination-item-active a {
+  color: white !important;
+}
+
+/* Tooltip customizations */
+.ant-tooltip-inner {
+  background: #374151 !important;
+  border: 1px solid #4B5563 !important;
+}
+
+.ant-tooltip-arrow::before {
+  background: #374151 !important;
+  border: 1px solid #4B5563 !important;
+}

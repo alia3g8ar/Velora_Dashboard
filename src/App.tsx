@@ -1,6 +1,6 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
-import { RefineThemes, useNotificationProvider } from "@refinedev/antd";
+import { useNotificationProvider } from "@refinedev/antd";
 import { Authenticated, ErrorComponent, Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import routerProvider, {
@@ -14,6 +14,7 @@ import { App as AntdApp, ConfigProvider } from "antd";
 
 import { Layout } from "@/components";
 import { resources } from "@/config/resources";
+import { veloraTheme } from "@/config/theme";
 import { authProvider, dataProvider, liveProvider } from "@/providers";
 import {
   CompanyCreatePage,
@@ -27,11 +28,12 @@ import {
 } from "@/routes";
 
 import "@refinedev/antd/dist/reset.css";
+import "@/styles/global.css";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <ConfigProvider theme={RefineThemes.Blue}>
+      <ConfigProvider theme={veloraTheme}>
         <AntdApp>
           <DevtoolsProvider>
             <Refine
