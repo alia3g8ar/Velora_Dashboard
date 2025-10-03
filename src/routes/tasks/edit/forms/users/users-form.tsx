@@ -1,10 +1,12 @@
 import { useForm, useSelect } from "@refinedev/antd";
 import type { HttpError } from "@refinedev/core";
+import { useInvalidate } from "@refinedev/core";
 import type {
   GetFields,
   GetFieldsFromList,
   GetVariables,
 } from "@refinedev/nestjs-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Button, Form, Select, Space } from "antd";
 
@@ -25,6 +27,9 @@ type Props = {
 };
 
 export const UsersForm = ({ initialValues, cancelForm }: Props) => {
+  const invalidate = useInvalidate();
+  const queryClient = useQueryClient();
+
   const { formProps, saveButtonProps } = useForm<
     GetFields<UpdateTaskMutation>,
     HttpError,
@@ -35,6 +40,15 @@ export const UsersForm = ({ initialValues, cancelForm }: Props) => {
     },
     redirect: false,
     onMutationSuccess: () => {
+      // Force refetch all task-related queries
+      queryClient.refetchQueries({
+        queryKey: ["default", "tasks"],
+      });
+      // Also use Refine's invalidate
+      invalidate({
+        invalidates: ["list", "detail"],
+        resource: "tasks",
+      });
       cancelForm();
     },
     meta: {

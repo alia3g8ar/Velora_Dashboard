@@ -3,6 +3,7 @@ import React from "react";
 import { useForm } from "@refinedev/antd";
 import { type HttpError, useInvalidate } from "@refinedev/core";
 import type { GetFields, GetVariables } from "@refinedev/nestjs-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { Form, Skeleton } from "antd";
 
@@ -47,6 +48,7 @@ type Props = {
 
 export const TitleForm = ({ initialValues, isLoading }: Props) => {
   const invalidate = useInvalidate();
+  const queryClient = useQueryClient();
 
   const { formProps } = useForm<
     GetFields<UpdateTaskMutation>,
@@ -58,11 +60,25 @@ export const TitleForm = ({ initialValues, isLoading }: Props) => {
     },
     redirect: false,
     warnWhenUnsavedChanges: false,
+    mutationMode: "pessimistic", // Add pessimistic mode
     autoSave: {
       enabled: true,
     },
     onMutationSuccess: () => {
-      invalidate({ invalidates: ["list"], resource: "tasks" });
+      // Force refetch all task-related queries
+      queryClient.refetchQueries({
+        queryKey: ["default", "tasks"],
+      });
+      // Also use Refine's invalidate
+      invalidate({
+        invalidates: ["list", "detail"],
+        resource: "tasks",
+      });
+
+      // Force page refresh as last resort
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     },
     meta: {
       gqlMutation: UPDATE_TASK_MUTATION,

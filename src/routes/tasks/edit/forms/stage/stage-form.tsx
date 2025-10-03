@@ -1,10 +1,12 @@
 import { useForm, useSelect } from "@refinedev/antd";
 import type { HttpError } from "@refinedev/core";
+import { useInvalidate } from "@refinedev/core";
 import type {
   GetFields,
   GetFieldsFromList,
   GetVariables,
 } from "@refinedev/nestjs-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { FlagOutlined } from "@ant-design/icons";
 import { Checkbox, Form, Select, Space } from "antd";
@@ -24,6 +26,9 @@ type Props = {
 };
 
 export const StageForm = ({ isLoading }: Props) => {
+  const invalidate = useInvalidate();
+  const queryClient = useQueryClient();
+
   const { formProps } = useForm<
     GetFields<UpdateTaskMutation>,
     HttpError,
@@ -32,9 +37,21 @@ export const StageForm = ({ isLoading }: Props) => {
     queryOptions: {
       enabled: false,
     },
+    mutationMode: "pessimistic", // Add pessimistic mode
     autoSave: {
       enabled: true,
       debounce: 0,
+    },
+    onMutationSuccess: () => {
+      // Force refetch all task-related queries
+      queryClient.refetchQueries({
+        queryKey: ["default", "tasks"],
+      });
+      // Also use Refine's invalidate
+      invalidate({
+        invalidates: ["list", "detail"],
+        resource: "tasks",
+      });
     },
     meta: {
       gqlMutation: UPDATE_TASK_MUTATION,
