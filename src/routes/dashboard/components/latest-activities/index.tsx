@@ -75,6 +75,14 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
 
   const isLoading = isLoadingAudit || isLoadingDeals;
 
+  const getTitleFormat = () => {
+    if (typeof window !== "undefined") {
+      const width = window.innerWidth;
+      return width < 768 ? "MMM DD, HH:mm" : "MMM DD, YYYY - HH:mm";
+    }
+    return "MMM DD, YYYY - HH:mm";
+  };
+
   return (
     <Card
       headStyle={{ padding: "16px" }}
@@ -128,7 +136,7 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
                     <AntdSkeleton.Button
                       active
                       style={{
-                        width: "300px",
+                        width: "100%",
                         height: "16px",
                       }}
                     />
@@ -147,6 +155,11 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
               deals?.data.find((deal) => deal.id === `${item.targetId}`) ||
               undefined;
 
+            const titleFormat = getTitleFormat();
+            const titleText = deal
+              ? dayjs(deal.createdAt).format(titleFormat)
+              : "";
+
             return (
               <List.Item>
                 <List.Item.Meta
@@ -158,17 +171,52 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
                       name={deal?.company.name}
                     />
                   }
-                  title={dayjs(deal?.createdAt).format("MMM DD, YYYY - HH:mm")}
+                  title={
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {titleText}
+                    </div>
+                  }
                   description={
-                    <Space size={4}>
-                      <Text strong>{item.user?.name}</Text>
-                      <Text>
+                    <Space
+                      size={4}
+                      style={{
+                        flexWrap: "wrap",
+                        width: "100%",
+                        gap: "4px",
+                      }}
+                      direction="horizontal"
+                    >
+                      <Text strong style={{ whiteSpace: "nowrap" }}>
+                        {item.user?.name}
+                      </Text>
+                      <Text style={{ whiteSpace: "nowrap" }}>
                         {item.action === "CREATE" ? "created" : "moved"}
                       </Text>
-                      <Text strong>{deal?.title}</Text>
-                      <Text>deal</Text>
-                      <Text>{item.action === "CREATE" ? "in" : "to"}</Text>
-                      <Text strong>{deal?.stage?.title || "Unassigned"}.</Text>
+                      <Text
+                        strong
+                        style={{
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          maxWidth: "150px",
+                        }}
+                      >
+                        {deal?.title}
+                      </Text>
+                      <Text style={{ whiteSpace: "nowrap" }}>deal</Text>
+                      <Text style={{ whiteSpace: "nowrap" }}>
+                        {item.action === "CREATE" ? "in" : "to"}
+                      </Text>
+                      <Text strong style={{ whiteSpace: "nowrap" }}>
+                        {deal?.stage?.title || "Unassigned"}.
+                      </Text>
                     </Space>
                   }
                 />
