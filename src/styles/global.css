@@ -91,12 +91,12 @@
 /* Modal and drawer customizations */
 .ant-modal-content,
 .ant-drawer-content {
-  background: #374151 !important;
+  /* background: #374151 !important; */
 }
 
 .ant-modal-header,
 .ant-drawer-header {
-  background: #374151 !important;
+  /* background: #374151 !important; */
   border-bottom: 1px solid #4b5563 !important;
 }
 
@@ -141,13 +141,13 @@
 
 /* Notification customizations */
 .ant-notification {
-  background: #374151 !important;
+  /* background: #374151 !important; */
   border: 1px solid #4b5563 !important;
 }
 
 /* Select dropdown customizations */
 .ant-select-dropdown {
-  background: #374151 !important;
+  /* background: #374151 !important; */
   border: 1px solid #4b5563 !important;
 }
 
@@ -167,11 +167,11 @@
 
 /* Tooltip customizations */
 .ant-tooltip-inner {
-  background: #374151 !important;
+  /* background: #374151 !important; */
   border: 1px solid #4b5563 !important;
 }
 
 .ant-tooltip-arrow::before {
-  background: #374151 !important;
+  /* background: #374151 !important; */
   border: 1px solid #4b5563 !important;
 }
