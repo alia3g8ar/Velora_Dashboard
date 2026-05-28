@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://via.placeholder.com/1200x300/6D28D9/FFFFFF?text=🚀+VELORA+CRM+DASHBOARD" alt="Velora CRM Dashboard" width="100%" style="border-radius: 15px; margin: 20px 0;" />
+  <img src="https://velora-dc.vercel.app//1200x300/6D28D9/FFFFFF?text=🚀+VELORA+CRM+DASHBOAR" alt="Velora CRM Dashboard" width="100%" style="border-radius: 15px; margin: 20px 0;" />
 </div>
 
 <h1 align="center">🌟 Velora CRM Dashboard</h1>
