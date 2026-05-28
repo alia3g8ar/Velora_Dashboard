@@ -17,7 +17,7 @@
 
 ## ✨ About Velora
 
-> 🚀 **[Live Demo Available Here](#)** - Experience Velora in action!
+> 🚀 **[Live Demo Available Here](https://velora-dc.vercel.app/)** - Experience Velora in action!
 
 **Velora** is a cutting-edge, enterprise-grade CRM dashboard that redefines business management with its stunning **purple-pink gradient theme** and powerful feature set.
 
