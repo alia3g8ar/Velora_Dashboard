@@ -15,14 +15,6 @@
   <img src="https://img.shields.io/badge/Ant_Design-0170FE?style=for-the-badge&logo=antdesign&logoColor=white" />
 </p>
 
-<p align="center">
-  <a href="#">🏠 Home</a> •
-  <a href="#">💬 Discord</a> •
-  <a href="#">📚 Examples</a> •
-  <a href="#">📝 Blog</a> •
-  <a href="#">📖 Documentation</a>
-</p>
-
 ## ✨ About Velora
 
 > 🚀 **[Live Demo Available Here](#)** - Experience Velora in action!
@@ -44,12 +36,6 @@
 - **Admin Panels** - Manage everything from one place
 - **Dashboards** - Visualize data beautifully
 - **CRUD Applications** - Full data management capabilities
-
-## Tutorial
-
-This repository contains the code corresponding to an in-depth tutorial available on <a href="https://www.youtube.com/@javascriptmastery/videos" target="_blank"><b>JavaScript Mastery</b></a> YouTube channel.
-
-<a href="https://youtu.be/6a3Dz8gwjdg" target="_blank"><img src="https://github.com/sujatagunale/EasyRead/assets/151519281/1736fca5-a031-4854-8c09-bc110e3bc16d" /></a>
 
 ## 🛠️ Tech Stack
 
