@@ -19,7 +19,7 @@ import {
 } from 'class-validator';
 import { In, Repository } from 'typeorm';
 import { Type } from 'class-transformer';
-import { CheckListItem, ChecklistItemInput } from '../entities/check-list-item';
+import { ChecklistItemInput } from '../entities/check-list-item';
 import { Task } from '../entities/task.entity';
 import { User } from '../entities/user.entity';
 
@@ -138,7 +138,7 @@ export class TaskResolver extends CRUDResolver(Task, {
             dueDate: dueDate ?? null,
             stageId: stageId == null ? null : Number(stageId),
             completed: false,
-            checklist: (checklist as CheckListItem[] | undefined) ?? null,
+            checklist: checklist ?? null,
         });
 
         const saved = await this.taskRepository.save(task);

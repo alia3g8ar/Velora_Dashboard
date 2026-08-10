@@ -12,12 +12,7 @@ import { Deal } from '../entities/deal.entity';
 import { User } from '../entities/user.entity';
 
 type AuditedDealField =
-    | 'title'
-    | 'value'
-    | 'stageId'
-    | 'companyId'
-    | 'dealOwnerId'
-    | 'notes';
+    'title' | 'value' | 'stageId' | 'companyId' | 'dealOwnerId' | 'notes';
 
 const AUDITED_FIELDS: AuditedDealField[] = [
     'title',
@@ -72,7 +67,7 @@ export class AuditSubscriber implements EntitySubscriberInterface<Deal> {
             }
 
             changes.push({
-                field: field as string,
+                field: field,
                 from: from === null ? null : String(from),
                 to: to === null ? null : String(to),
             });
