@@ -3,11 +3,21 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { accessSync, constants } from 'fs';
 import { join } from 'path';
 import { DatabaseConfig } from '../../config/database.config';
 import { UserContextMiddleware } from '../../common/middleware/user-context.middleware';
 import { AuthModule } from '../auth/auth.module';
 import { CrmModule } from '../crm/crm.module';
+
+function isFilesystemWritable(): boolean {
+    try {
+        accessSync(process.cwd(), constants.W_OK);
+        return true;
+    } catch {
+        return false;
+    }
+}
 
 @Module({
     imports: [
@@ -20,13 +30,14 @@ import { CrmModule } from '../crm/crm.module';
         GraphQLModule.forRootAsync<ApolloDriverConfig>({
             driver: ApolloDriver,
             useFactory: () => ({
-                // In production (e.g. Vercel) the filesystem is read-only, so the
-                // schema is generated in memory. Locally it is written to
-                // src/schema.gql, which feeds GraphQL Codegen.
-                autoSchemaFile:
-                    process.env.NODE_ENV === 'production'
-                        ? true
-                        : join(process.cwd(), 'src/schema.gql'),
+                // Serverless platforms (e.g. Vercel) run on a read-only
+                // filesystem, so the schema is generated in memory there.
+                // Locally it is written to src/schema.gql, which feeds GraphQL
+                // Codegen. Deciding by writability (rather than NODE_ENV) keeps
+                // the app safe even if NODE_ENV is misconfigured.
+                autoSchemaFile: isFilesystemWritable()
+                    ? join(process.cwd(), 'src/schema.gql')
+                    : true,
                 sortSchema: true,
                 playground: true,
                 introspection: true,

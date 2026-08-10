@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { SQLComparisonBuilder } from '@ptc-org/nestjs-query-typeorm/src/query/sql-comparison.builder';
+import express from 'express';
 import { AppModule } from './modules/app/app.module';
 
 // The Refine data provider maps its `contains` operator to `iLike`. nestjs-query
@@ -12,7 +13,45 @@ SQLComparisonBuilder.DEFAULT_COMPARISON_MAP.ilike = 'LIKE';
 SQLComparisonBuilder.DEFAULT_COMPARISON_MAP.notilike = 'NOT LIKE';
 
 async function bootstrap(): Promise<void> {
-    const app = await NestFactory.create<NestExpressApplication>(AppModule);
+    // On cloud platforms the platform injects PORT and must be respected in
+    // production. Locally we default to 3001. An explicit BACKEND_PORT wins.
+    const port =
+        process.env.BACKEND_PORT ??
+        (process.env.NODE_ENV === 'production' ? process.env.PORT : 3001) ??
+        3001;
+
+    let app: NestExpressApplication;
+
+    try {
+        // abortOnError: false — without it NestFactory exits the process on a
+        // boot failure, which on serverless platforms (Vercel) surfaces as an
+        // opaque FUNCTION_INVOCATION_FAILED with no detail.
+        app = await NestFactory.create<NestExpressApplication>(AppModule, {
+            abortOnError: false,
+        });
+    } catch (error) {
+        // Log the real error and answer every request with it so the cause is
+        // visible in the function logs and the HTTP body.
+        const detail =
+            error instanceof Error
+                ? (error.stack ?? error.message)
+                : String(error);
+        Logger.error(`Velora CRM failed to start: ${detail}`);
+
+        const fallback = express();
+        // Middleware without a path pattern (express 5's path-to-regexp rejects
+        // the legacy '*' route) — matches every request.
+        fallback.use((_req, res) => {
+            res.status(500).json({
+                error: 'Velora CRM backend failed to start',
+                detail,
+            });
+        });
+        // express listen() returns the http.Server, not a Promise — keep the
+        // fallback non-blocking.
+        fallback.listen(port);
+        return;
+    }
 
     const rawFrontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 
@@ -27,9 +66,14 @@ async function bootstrap(): Promise<void> {
 
         allowedOrigin = parsedFrontendUrl.origin;
     } catch {
-        throw new Error(
-            'FRONTEND_URL must be a valid HTTP(S) URL without extra text',
+        // A misconfigured FRONTEND_URL must never take the API down. Log the
+        // problem and fall back to the local dev origin; same-origin requests
+        // on Vercel (no Origin header) are allowed regardless.
+        Logger.warn(
+            `Ignoring invalid FRONTEND_URL "${rawFrontendUrl}" — it must be a valid HTTP(S) URL. ` +
+                'Falling back to http://localhost:5173 for cross-origin CORS.',
         );
+        allowedOrigin = 'http://localhost:5173';
     }
 
     const allowedOrigins = new Set([
@@ -70,13 +114,6 @@ async function bootstrap(): Promise<void> {
         }),
     );
     app.enableShutdownHooks();
-
-    // On cloud platforms the platform injects PORT and must be respected in
-    // production. Locally we default to 3001. An explicit BACKEND_PORT wins.
-    const port =
-        process.env.BACKEND_PORT ??
-        (process.env.NODE_ENV === 'production' ? process.env.PORT : 3001) ??
-        3001;
 
     await app.listen(port);
     Logger.log(`Velora CRM API is running on http://localhost:${port}/graphql`);

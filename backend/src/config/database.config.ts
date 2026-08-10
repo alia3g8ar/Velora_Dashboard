@@ -1,9 +1,10 @@
+import { Logger } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { join } from 'path';
 
 type DatabaseSslOptions = {
-    ca: string;
-    rejectUnauthorized: true;
+    ca?: string;
+    rejectUnauthorized: boolean;
 };
 
 export class DatabaseConfig implements TypeOrmOptionsFactory {
@@ -23,6 +24,10 @@ export class DatabaseConfig implements TypeOrmOptionsFactory {
             migrations: [join(__dirname, '../database/migrations/*{.ts,.js}')],
             migrationsTableName: 'migrations',
             migrationsRun: false,
+            // On serverless platforms (Vercel) a long connection retry loop
+            // would exceed the function duration and fail invisibly. Fail fast
+            // so the bootstrap error handler can surface the real error.
+            ...(isProduction ? { retryAttempts: 2, retryDelay: 1000 } : {}),
             ...(sslOptions ? { ssl: sslOptions } : {}),
         };
     }
@@ -35,9 +40,20 @@ export class DatabaseConfig implements TypeOrmOptionsFactory {
         const encodedCertificate = process.env.DB_SSL_CA_BASE64?.trim();
 
         if (!encodedCertificate) {
-            throw new Error(
-                'DB_SSL_CA_BASE64 is required when DB_SSL_ENABLED=true.',
+            // No CA certificate provided. Managed providers like Aiven require
+            // TLS but use their own CA, which is not in the system trust store
+            // — without it the handshake would fail outright. Encrypt the
+            // connection with certificate verification disabled so the app
+            // works out of the box. Production deployments should set
+            // DB_SSL_CA_BASE64 for real verification.
+            Logger.warn(
+                'DB_SSL_ENABLED=true but DB_SSL_CA_BASE64 is not set — ' +
+                    'connecting with TLS encryption and certificate ' +
+                    'verification disabled. Set DB_SSL_CA_BASE64 to the ' +
+                    'Base64 encoding of your CA certificate to enable ' +
+                    'verification.',
             );
+            return { rejectUnauthorized: false };
         }
 
         const normalizedCertificate = encodedCertificate.replace(/\s/g, '');
@@ -47,7 +63,9 @@ export class DatabaseConfig implements TypeOrmOptionsFactory {
             !/^[A-Za-z0-9+/]*={0,2}$/.test(normalizedCertificate)
         ) {
             throw new Error(
-                'DB_SSL_CA_BASE64 must contain a valid Base64 value.',
+                'DB_SSL_CA_BASE64 must be a valid Base64 string. Encode your ' +
+                    'certificate file with: base64 -w0 ca.pem (no line breaks, ' +
+                    'no PEM headers).',
             );
         }
 
@@ -60,7 +78,8 @@ export class DatabaseConfig implements TypeOrmOptionsFactory {
             !certificate.includes('-----END CERTIFICATE-----')
         ) {
             throw new Error(
-                'DB_SSL_CA_BASE64 must decode to a valid PEM certificate.',
+                'DB_SSL_CA_BASE64 must decode to a valid PEM certificate. ' +
+                    'Encode your certificate file with: base64 -w0 ca.pem',
             );
         }
 
