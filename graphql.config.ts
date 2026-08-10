@@ -1,8 +1,8 @@
 import type { IGraphQLConfig } from "graphql-config";
 
 const config: IGraphQLConfig = {
-  // GraphQL schema endpoint for Velora CRM
-  schema: "https://api.crm.refine.dev/graphql",
+  // GraphQL schema endpoint for Velora CRM — the local NestJS backend.
+  schema: "http://localhost:3001/graphql",
   extensions: {
     codegen: {
       hooks: {

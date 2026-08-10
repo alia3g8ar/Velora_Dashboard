@@ -1,0 +1,66 @@
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { NestjsQueryGraphQLModule } from '@ptc-org/nestjs-query-graphql';
+import { NestjsQueryTypeOrmModule } from '@ptc-org/nestjs-query-typeorm';
+import { AuditSubscriber } from './subscribers/audit.subscriber';
+import { DealSubscriber } from './subscribers/deal.subscriber';
+import { Audit } from './entities/audit.entity';
+import { Company } from './entities/company.entity';
+import { Contact } from './entities/contact.entity';
+import { DealStage } from './entities/deal-stage.entity';
+import { Deal } from './entities/deal.entity';
+import { EventCategory } from './entities/event-category.entity';
+import { Event } from './entities/event.entity';
+import { TaskStage } from './entities/task-stage.entity';
+import { Task } from './entities/task.entity';
+import { User } from './entities/user.entity';
+import { AuditResolver } from './resolvers/audit.resolver';
+import { CompanyResolver } from './resolvers/company.resolver';
+import { ContactResolver } from './resolvers/contact.resolver';
+import { DealStageResolver } from './resolvers/deal-stage.resolver';
+import { DealResolver } from './resolvers/deal.resolver';
+import { EventCategoryResolver } from './resolvers/event-category.resolver';
+import { EventResolver } from './resolvers/event.resolver';
+import { TaskStageResolver } from './resolvers/task-stage.resolver';
+import { TaskResolver } from './resolvers/task.resolver';
+import { UserResolver } from './resolvers/user.resolver';
+
+const entities = [
+    Audit,
+    Company,
+    Contact,
+    Deal,
+    DealStage,
+    Event,
+    EventCategory,
+    Task,
+    TaskStage,
+    User,
+];
+
+@Module({
+    imports: [
+        TypeOrmModule.forFeature(entities),
+        NestjsQueryTypeOrmModule.forFeature(entities),
+        // Registers the default (allow-all) authorizer provider for each DTO,
+        // which the CRUD resolvers' AuthorizerInterceptor requires.
+        NestjsQueryGraphQLModule.forFeature({
+            dtos: entities.map((DTOClass) => ({ DTOClass })),
+        }),
+    ],
+    providers: [
+        CompanyResolver,
+        ContactResolver,
+        DealResolver,
+        DealStageResolver,
+        EventResolver,
+        EventCategoryResolver,
+        TaskResolver,
+        TaskStageResolver,
+        UserResolver,
+        AuditResolver,
+        DealSubscriber,
+        AuditSubscriber,
+    ],
+})
+export class CrmModule {}
