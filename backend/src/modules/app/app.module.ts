@@ -20,7 +20,13 @@ import { CrmModule } from '../crm/crm.module';
         GraphQLModule.forRootAsync<ApolloDriverConfig>({
             driver: ApolloDriver,
             useFactory: () => ({
-                autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+                // In production (e.g. Vercel) the filesystem is read-only, so the
+                // schema is generated in memory. Locally it is written to
+                // src/schema.gql, which feeds GraphQL Codegen.
+                autoSchemaFile:
+                    process.env.NODE_ENV === 'production'
+                        ? true
+                        : join(process.cwd(), 'src/schema.gql'),
                 sortSchema: true,
                 playground: true,
                 introspection: true,

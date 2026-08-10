@@ -32,8 +32,25 @@ async function bootstrap(): Promise<void> {
         );
     }
 
+    const allowedOrigins = new Set([
+        allowedOrigin,
+        // Keep local development working even when FRONTEND_URL points at a
+        // production origin.
+        'http://localhost:5173',
+    ]);
+
     app.enableCors({
-        origin: allowedOrigin,
+        origin: (origin, callback) => {
+            // Same-origin requests (no Origin header — how the browser talks to
+            // the API on Vercel, where both apps share one domain) and the
+            // configured frontend origin(s) are allowed. Any other origin is
+            // served without CORS headers rather than being blocked.
+            if (!origin || allowedOrigins.has(origin)) {
+                callback(null, true);
+            } else {
+                callback(null, false);
+            }
+        },
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
         allowedHeaders: [

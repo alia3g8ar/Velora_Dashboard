@@ -160,9 +160,34 @@ Environment files stay separated per app and are never committed:
 - `frontend/.env.example` — `VITE_API_URL` (backend base URL) and optional `VITE_WS_URL` for realtime
 - `backend/.env.example` — `JWT_SECRET`, MySQL connection, `SYNCHRONIZE`, optional `DB_SSL_*`, `FRONTEND_URL` (CORS origin) and `BACKEND_PORT`
 
+## ☁️ Vercel Deployment
+
+The repository is configured for **Vercel Services** — one project, two services, one domain. All routing lives in the root `vercel.json`:
+
+```text
+/              → frontend service (Vite)
+/companies     → frontend service (SPA fallback to index.html)
+/tasks         → frontend service
+/graphql       → backend service (NestJS)
+```
+
+- Frontend service root: `frontend` (framework `vite`)
+- Backend service root: `backend` (framework `nestjs`)
+- `/graphql` and `/graphql/*` route to the backend; every other path goes to the frontend
+- In the Vercel project settings, set the framework preset to **Services**
+
+In production builds the frontend calls the API through the **same origin** (`/graphql`), so no `VITE_API_URL` is required — Preview deployments work automatically. Set `VITE_API_URL` only if you intentionally point the frontend at an external API domain.
+
+Backend secrets are entered through **Vercel Environment Variables** (never in the repository): `JWT_SECRET`, `TYPE_DB`, `HOST_DB`, `PORT_DB`, `USERNAME_DB`, `PASSWORD_DB`, `DATABASE_DB`, `AUTOLOADENTITIES`, `SYNCHRONIZE=false`, plus optional `DB_SSL_ENABLED` / `DB_SSL_CA_BASE64` for a managed TLS database. Migrations are not run automatically on Vercel — apply them once against your production database:
+
+```bash
+npm run migration:run
+npm run seed
+```
+
 ## GraphQL
 
-The local development endpoint is http://localhost:3001/graphql (GraphQL Playground enabled). Authentication uses a Bearer JWT in the `Authorization` header.
+The local development endpoint is http://localhost:3001/graphql (GraphQL Playground enabled); in production it is the same-origin `/graphql` on your Vercel domain. Authentication uses a Bearer JWT in the `Authorization` header.
 
 Realtime subscriptions are optional and stay disabled unless `VITE_WS_URL` is set — CRUD works through plain refetch after mutations.
 

@@ -7,11 +7,13 @@ import { createClient } from "graphql-ws";
 
 import { fetchWrapper } from "./fetch-wrapper";
 
-// The API base comes from the environment. Defaults to the local dev server
-// so the app works out of the box without configuration.
+// The API base comes from the environment. In development it defaults to the
+// local backend. In production builds the frontend and API are served from the
+// same origin (Vercel), so /graphql is relative and no VITE_API_URL is needed.
+// An explicit VITE_API_URL always wins when set.
 export const API_BASE_URL =
   (import.meta.env.VITE_API_URL as string | undefined) ??
-  "http://localhost:3001";
+  (import.meta.env.PROD ? "" : "http://localhost:3001");
 export const API_URL = `${API_BASE_URL}/graphql`;
 
 // Realtime is opt-in. Without VITE_WS_URL the live provider stays disabled and
