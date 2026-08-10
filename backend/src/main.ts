@@ -1,32 +1,24 @@
 import { NestFactory } from '@nestjs/core';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { SQLComparisonBuilder } from '@ptc-org/nestjs-query-typeorm/src/query/sql-comparison.builder';
 import express from 'express';
 
-// The Refine data provider maps its `contains` operator to `iLike`. nestjs-query
-// emits Postgres-only `ILIKE` for that comparison, which MySQL rejects. MySQL's
-// `LIKE` is already case-insensitive for the default collations, so remapping
-// `iLike`/`notILike` to `LIKE`/`NOT LIKE` is semantically correct here.
-SQLComparisonBuilder.DEFAULT_COMPARISON_MAP.ilike = 'LIKE';
-SQLComparisonBuilder.DEFAULT_COMPARISON_MAP.notilike = 'NOT LIKE';
-
 async function bootstrap(): Promise<void> {
-    // On cloud platforms the platform injects PORT and must be respected in
-    // production. Locally we default to 3001. An explicit BACKEND_PORT wins.
-    const port =
-        process.env.BACKEND_PORT ??
-        (process.env.NODE_ENV === 'production' ? process.env.PORT : 3001) ??
-        3001;
+    // BACKEND_PORT is the local override (backend/.env sets 3001); on cloud
+    // platforms (Vercel) the platform injects PORT. Default matches the
+    // frontend's local API default.
+    const port = process.env.BACKEND_PORT ?? process.env.PORT ?? 3001;
 
     let app: NestExpressApplication;
 
     try {
-        // Dynamic import keeps module-load-time failures (e.g. a native module
-        // that cannot be loaded on the platform) inside the error handling
-        // below, so they are surfaced instead of crashing the function.
-        // nodenext resolution requires the explicit extension on dynamic
-        // import specifiers.
+        // MySQL compatibility patch (ILIKE -> LIKE). Imported dynamically so
+        // nothing from the application/package graph can throw before this
+        // error handler is active — the deep import it uses has no public
+        // export, so keep it out of top-level module evaluation.
+        await import('./common/sql-comparison.patch.js');
+
+        // Dynamic import keeps module-load-time failures inside this handler.
         const { AppModule } = await import('./modules/app/app.module.js');
 
         // abortOnError: false — without it NestFactory exits the process on a
