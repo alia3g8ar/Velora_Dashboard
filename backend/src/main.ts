@@ -3,7 +3,6 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { SQLComparisonBuilder } from '@ptc-org/nestjs-query-typeorm/src/query/sql-comparison.builder';
 import express from 'express';
-import { AppModule } from './modules/app/app.module';
 
 // The Refine data provider maps its `contains` operator to `iLike`. nestjs-query
 // emits Postgres-only `ILIKE` for that comparison, which MySQL rejects. MySQL's
@@ -23,6 +22,13 @@ async function bootstrap(): Promise<void> {
     let app: NestExpressApplication;
 
     try {
+        // Dynamic import keeps module-load-time failures (e.g. a native module
+        // that cannot be loaded on the platform) inside the error handling
+        // below, so they are surfaced instead of crashing the function.
+        // nodenext resolution requires the explicit extension on dynamic
+        // import specifiers.
+        const { AppModule } = await import('./modules/app/app.module.js');
+
         // abortOnError: false — without it NestFactory exits the process on a
         // boot failure, which on serverless platforms (Vercel) surfaces as an
         // opaque FUNCTION_INVOCATION_FAILED with no detail.
