@@ -3,8 +3,8 @@ import React from "react";
 import { useForm } from "@refinedev/antd";
 import { type HttpError, useInvalidate } from "@refinedev/core";
 import type { GetFields, GetVariables } from "@refinedev/nestjs-query";
-import { useQueryClient } from "@tanstack/react-query";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { Form, Skeleton } from "antd";
 
 import { Text } from "@/components";
@@ -74,11 +74,6 @@ export const TitleForm = ({ initialValues, isLoading }: Props) => {
         invalidates: ["list", "detail"],
         resource: "tasks",
       });
-
-      // Force page refresh as last resort
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
     },
     meta: {
       gqlMutation: UPDATE_TASK_MUTATION,

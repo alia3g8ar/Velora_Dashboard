@@ -1,5 +1,10 @@
 /* Velora Global Styles */
 
+/* Prevent horizontal overflow on the main content area */
+.ant-layout-content {
+  overflow-x: hidden;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   display: none;
@@ -44,7 +49,7 @@
 /* Card with gradient border */
 .gradient-border-card {
   position: relative;
-  background: #374151;
+  background: #ffffff;
   border-radius: 8px;
 }
 
@@ -89,15 +94,9 @@
 }
 
 /* Modal and drawer customizations */
-.ant-modal-content,
-.ant-drawer-content {
-  /* background: #374151 !important; */
-}
-
 .ant-modal-header,
 .ant-drawer-header {
-  /* background: #374151 !important; */
-  border-bottom: 1px solid #4b5563 !important;
+  border-bottom: 1px solid #e5e7eb !important;
 }
 
 /* Tag customizations */
@@ -113,7 +112,7 @@
 
 /* Form customizations */
 .ant-form-item-label > label {
-  color: #f3f4f6 !important;
+  color: #111827 !important;
 }
 
 /* Button customizations */
@@ -131,24 +130,22 @@
 
 /* Card enhancements */
 .ant-card {
-  border: 1px solid #4b5563;
+  border: 1px solid #e5e7eb;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .ant-card-head {
-  border-bottom: 1px solid #4b5563;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 /* Notification customizations */
 .ant-notification {
-  /* background: #374151 !important; */
-  border: 1px solid #4b5563 !important;
+  border: 1px solid #e5e7eb !important;
 }
 
 /* Select dropdown customizations */
 .ant-select-dropdown {
-  /* background: #374151 !important; */
-  border: 1px solid #4b5563 !important;
+  border: 1px solid #e5e7eb !important;
 }
 
 .ant-select-item-option-selected {
@@ -167,11 +164,9 @@
 
 /* Tooltip customizations */
 .ant-tooltip-inner {
-  /* background: #374151 !important; */
-  border: 1px solid #4b5563 !important;
+  border: 1px solid #e5e7eb !important;
 }
 
 .ant-tooltip-arrow::before {
-  /* background: #374151 !important; */
-  border: 1px solid #4b5563 !important;
+  border: 1px solid #e5e7eb !important;
 }

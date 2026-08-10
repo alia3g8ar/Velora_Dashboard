@@ -6,9 +6,9 @@ import type {
   GetFieldsFromList,
   GetVariables,
 } from "@refinedev/nestjs-query";
-import { useQueryClient } from "@tanstack/react-query";
 
 import { FlagOutlined } from "@ant-design/icons";
+import { useQueryClient } from "@tanstack/react-query";
 import { Checkbox, Form, Select, Space } from "antd";
 
 import { AccordionHeaderSkeleton } from "@/components";

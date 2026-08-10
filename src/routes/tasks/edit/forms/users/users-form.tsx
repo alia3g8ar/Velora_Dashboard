@@ -6,8 +6,8 @@ import type {
   GetFieldsFromList,
   GetVariables,
 } from "@refinedev/nestjs-query";
-import { useQueryClient } from "@tanstack/react-query";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { Button, Form, Select, Space } from "antd";
 
 import { USERS_SELECT_QUERY } from "@/graphql/queries";

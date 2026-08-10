@@ -1,7 +1,7 @@
 import { AuthPage } from "@refinedev/antd";
 
-import { authCredentials } from "@/providers";
 import { VeloraLogo } from "@/components";
+import { authCredentials } from "@/providers";
 
 export const LoginPage = () => {
   return (

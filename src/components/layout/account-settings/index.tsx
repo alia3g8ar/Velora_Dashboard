@@ -1,11 +1,10 @@
 import { SaveButton, useForm } from "@refinedev/antd";
 import type { HttpError } from "@refinedev/core";
-import { useInvalidate } from "@refinedev/core";
+import { useInvalidate, useOne } from "@refinedev/core";
 import type { GetFields, GetVariables } from "@refinedev/nestjs-query";
-import { useQueryClient } from "@tanstack/react-query";
-import { useOne } from "@refinedev/core";
 
 import { CloseOutlined } from "@ant-design/icons";
+import { useQueryClient } from "@tanstack/react-query";
 import { Button, Card, Drawer, Form, Input, Spin } from "antd";
 
 import type {
@@ -55,8 +54,9 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
       queryClient.refetchQueries({
         queryKey: ["default", "users"],
       });
+      // Refetch the authenticated user identity so the header updates live
       queryClient.refetchQueries({
-        queryKey: ["default", "me"],
+        queryKey: ["default", "auth", "identity"],
       });
 
       // Also use Refine's invalidate
@@ -64,15 +64,6 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
         invalidates: ["list", "detail"],
         resource: "users",
       });
-      invalidate({
-        invalidates: ["detail"],
-        resource: "me",
-      });
-
-      // Force page refresh as last resort
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
     },
     meta: {
       gqlMutation: UPDATE_USER_MUTATION,

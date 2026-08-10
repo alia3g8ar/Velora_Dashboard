@@ -1,7 +1,6 @@
 import type { GraphQLFormattedError } from "graphql";
 
-type Error = {
-  message: string;
+type GraphQLError = Error & {
   statusCode: string;
 };
 
@@ -60,12 +59,13 @@ export const fetchWrapper = async (
       );
     }
 
-    // Handle authentication errors
-    if (error instanceof Error && error.message.includes("UNAUTHENTICATED")) {
-      // Clear the token and redirect to login
+    // Handle authentication errors. The authProvider's `onError` is responsible
+    // for logging the user out when it receives a UNAUTHENTICATED error.
+    if (
+      error instanceof Error &&
+      (error as GraphQLError).statusCode === "UNAUTHENTICATED"
+    ) {
       localStorage.removeItem("access_token");
-      window.location.href = "/login";
-      throw new Error("Session expired. Please log in again.");
     }
 
     // Re-throw other errors
@@ -75,12 +75,9 @@ export const fetchWrapper = async (
 
 const getGraphQLErrors = (
   body: Record<"errors", GraphQLFormattedError[] | undefined>,
-): Error | null => {
+): GraphQLError | null => {
   if (!body) {
-    return {
-      message: "Unknown error",
-      statusCode: "INTERNAL_SERVER_ERROR",
-    };
+    return createGraphQLError("Unknown error", "INTERNAL_SERVER_ERROR");
   }
 
   if ("errors" in body) {
@@ -88,11 +85,18 @@ const getGraphQLErrors = (
     const messages = errors?.map((error) => error?.message)?.join("");
     const code = errors?.[0]?.extensions?.code;
 
-    return {
-      message: messages || JSON.stringify(errors),
-      statusCode: code || 500,
-    };
+    return createGraphQLError(
+      messages || JSON.stringify(errors),
+      (code as string) || "INTERNAL_SERVER_ERROR",
+    );
   }
 
   return null;
+};
+
+const createGraphQLError = (message: string, code: string) => {
+  const error = new Error(message) as GraphQLError;
+  error.statusCode = code;
+
+  return error;
 };

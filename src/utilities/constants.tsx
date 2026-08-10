@@ -1,5 +1,12 @@
 import { AuditOutlined, ShopOutlined, TeamOutlined } from "@ant-design/icons";
 
+import {
+  BusinessType,
+  CompanySize,
+  Contact,
+  Industry,
+} from "@/graphql/schema.types";
+
 const IconWrapper = ({
   color,
   children,
@@ -20,13 +27,6 @@ const IconWrapper = ({
     </div>
   );
 };
-
-import {
-  BusinessType,
-  CompanySize,
-  Contact,
-  Industry,
-} from "@/graphql/schema.types";
 
 export type TotalCountType = "companies" | "contacts" | "deals";
 

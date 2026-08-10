@@ -1,13 +1,13 @@
 import { Edit, useForm, useSelect } from "@refinedev/antd";
 import type { HttpError } from "@refinedev/core";
-import { useInvalidate, useOne } from "@refinedev/core";
+import { useInvalidate } from "@refinedev/core";
 import type {
   GetFields,
   GetFieldsFromList,
   GetVariables,
 } from "@refinedev/nestjs-query";
-import { useQueryClient } from "@tanstack/react-query";
 
+import { useQueryClient } from "@tanstack/react-query";
 import { Form, Input, InputNumber, Select } from "antd";
 
 import { CustomAvatar, SelectOptionWithAvatar } from "@/components";
@@ -30,9 +30,6 @@ export const CompanyForm = () => {
   const invalidate = useInvalidate();
   const queryClient = useQueryClient();
 
-  // Get current company ID from URL or form data
-  const companyId = window.location.pathname.split("/").pop();
-
   const {
     saveButtonProps,
     formProps,
@@ -52,14 +49,9 @@ export const CompanyForm = () => {
       });
       // Also use Refine's invalidate
       invalidate({
-        invalidates: ["list", "detail"],
+        invalidates: ["list", "detail", "many"],
         resource: "companies",
       });
-
-      // Force page refresh as last resort
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
     },
     meta: {
       gqlMutation: UPDATE_COMPANY_MUTATION,
@@ -128,6 +120,9 @@ export const CompanyForm = () => {
             placeholder="0,00"
             formatter={(value) =>
               `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
+            parser={(value: string | undefined) =>
+              Number(value?.replace(/,/g, "") || 0)
             }
           />
         </Form.Item>
