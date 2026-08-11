@@ -113,7 +113,8 @@
     "name": "نام",
     "email": "ایمیل",
     "jobTitle": "عنوان شغلی",
-    "phone": "تلفن"
+    "phone": "تلفن",
+    "changePhoto": "تغییر عکس"
   },
   "pages": {
     "login": {

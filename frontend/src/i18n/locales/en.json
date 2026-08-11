@@ -113,7 +113,8 @@
     "name": "Name",
     "email": "Email",
     "jobTitle": "Job title",
-    "phone": "Phone"
+    "phone": "Phone",
+    "changePhoto": "Change photo"
   },
   "pages": {
     "login": {

@@ -4957,6 +4957,7 @@ export type UserUpdateFilter = {
 };
 
 export type UserUpdateInput = {
+  avatarUrl?: InputMaybe<Scalars["String"]["input"]>;
   email?: InputMaybe<Scalars["String"]["input"]>;
   jobTitle?: InputMaybe<Scalars["String"]["input"]>;
   name?: InputMaybe<Scalars["String"]["input"]>;
