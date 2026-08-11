@@ -178,12 +178,7 @@ The repository is configured for **Vercel Services** — one project, two servic
 
 In production builds the frontend calls the API through the **same origin** (`/graphql`), so no `VITE_API_URL` is required — Preview deployments work automatically. Set `VITE_API_URL` only if you intentionally point the frontend at an external API domain.
 
-Backend secrets are entered through **Vercel Environment Variables** (never in the repository): `JWT_SECRET`, `TYPE_DB`, `HOST_DB`, `PORT_DB`, `USERNAME_DB`, `PASSWORD_DB`, `DATABASE_DB`, `AUTOLOADENTITIES`, `SYNCHRONIZE=false`, plus optional `DB_SSL_ENABLED` / `DB_SSL_CA_BASE64` for a managed TLS database (e.g. Aiven). With `DB_SSL_ENABLED=true`, the connection is encrypted; adding `DB_SSL_CA_BASE64` (Base64 of the CA certificate) also enables certificate verification. Migrations are not run automatically on Vercel — apply them once against your production database:
-
-```bash
-npm run migration:run
-npm run seed
-```
+Backend secrets are entered through **Vercel Environment Variables** (never in the repository): `JWT_SECRET`, `TYPE_DB`, `HOST_DB`, `PORT_DB`, `USERNAME_DB`, `PASSWORD_DB`, `DATABASE_DB`, `AUTOLOADENTITIES`, `SYNCHRONIZE=false`, plus optional `DB_SSL_ENABLED` / `DB_SSL_CA_BASE64` for a managed TLS database (e.g. Aiven). With `DB_SSL_ENABLED=true`, the connection is encrypted; adding `DB_SSL_CA_BASE64` (Base64 of the CA certificate) also enables certificate verification. Migrations and the demo login are applied automatically during every production build (via `migration:deploy` and `seed:demo-user`), so the database stays in sync with the code and the demo credentials below always work — both scripts are idempotent and never touch existing business data.
 
 ## GraphQL
 
