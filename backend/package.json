@@ -18,6 +18,7 @@
     "seed:demo": "ts-node -r tsconfig-paths/register src/scripts/seed-demo-data.ts",
     "migration:run": "ts-node -r tsconfig-paths/register src/scripts/manage-migrations.ts run",
     "migration:show": "ts-node -r tsconfig-paths/register src/scripts/manage-migrations.ts show",
+    "migration:deploy": "ts-node -r tsconfig-paths/register src/scripts/migrate-deploy.ts",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",

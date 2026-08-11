@@ -16,6 +16,7 @@
     "seed": "npm --prefix backend run seed:demo",
     "migration:run": "npm --prefix backend run migration:run",
     "migration:show": "npm --prefix backend run migration:show",
+    "migration:deploy": "npm --prefix backend run migration:deploy",
     "test:frontend": "npm --prefix frontend run test:run"
   }
 }
