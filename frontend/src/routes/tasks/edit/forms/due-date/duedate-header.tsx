@@ -1,18 +1,17 @@
 import { useTranslation } from "react-i18next";
 
 import { Space, Tag, Typography } from "antd";
-import dayjs from "dayjs";
 
 import { Text } from "@/components";
 import type { Task } from "@/graphql/schema.types";
-import { getDateColor } from "@/utilities";
+import { formatDate, getDateColor } from "@/utilities";
 
 type Props = {
   dueData?: Task["dueDate"];
 };
 
 export const DueDateHeader = ({ dueData }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   if (dueData) {
     const color = getDateColor({
@@ -33,7 +32,7 @@ export const DueDateHeader = ({ dueData }: Props) => {
     return (
       <Space size={[0, 8]}>
         <Tag color={color}>{getTagText()}</Tag>
-        <Text>{dayjs(dueData).format("MMMM D, YYYY - h:mm A")}</Text>
+        <Text>{formatDate(dueData, "MMMM D, YYYY - h:mm A", i18n.language)}</Text>
       </Space>
     );
   }

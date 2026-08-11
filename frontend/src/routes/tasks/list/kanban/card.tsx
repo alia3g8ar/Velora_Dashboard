@@ -25,7 +25,7 @@ import dayjs from "dayjs";
 
 import { CustomAvatar, Text, TextIcon } from "@/components";
 import type { User } from "@/graphql/schema.types";
-import { getDateColor } from "@/utilities";
+import { formatDate, getDateColor } from "@/utilities";
 
 type ProjectCardProps = {
   id: string;
@@ -87,7 +87,7 @@ export const ProjectCard = ({
 
     return {
       color: getDateColor({ date: dueDate }) as string,
-      text: date.format("MMM D"),
+      text: formatDate(date, "MMM D", i18n.language),
     };
     // The formatted label depends on the active dayjs locale, so recompute
     // on language switches even when dueDate itself did not change.

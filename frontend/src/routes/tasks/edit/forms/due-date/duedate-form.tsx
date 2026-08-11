@@ -14,6 +14,7 @@ import type {
   UpdateTaskMutation,
   UpdateTaskMutationVariables,
 } from "@/graphql/types";
+import { formatDate } from "@/utilities";
 
 import { UPDATE_TASK_MUTATION } from "../../queries";
 
@@ -27,7 +28,7 @@ type Props = {
 export const DueDateForm = ({ initialValues, cancelForm }: Props) => {
   const invalidate = useInvalidate();
   const queryClient = useQueryClient();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const { formProps, saveButtonProps } = useForm<
     GetFields<UpdateTaskMutation>,
@@ -73,7 +74,15 @@ export const DueDateForm = ({ initialValues, cancelForm }: Props) => {
           }}
         >
           <DatePicker
-            format="YYYY-MM-DD HH:mm"
+            format={(value) =>
+              formatDate(
+                value,
+                i18n.language === "fa"
+                  ? "YYYY/MM/DD HH:mm"
+                  : "YYYY-MM-DD HH:mm",
+                i18n.language,
+              )
+            }
             showTime={{
               showSecond: false,
               format: "HH:mm",

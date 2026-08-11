@@ -9,11 +9,12 @@ import dayjs from "dayjs";
 
 import { Text } from "@/components";
 import type { DashboardCalendarUpcomingEventsQuery } from "@/graphql/types";
+import { formatDate } from "@/utilities";
 
 import { DASHBOARD_CALENDAR_UPCOMING_EVENTS_QUERY } from "./queries";
 
 export const CalendarUpcomingEvents = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data, isLoading } = useList<
     GetFieldsFromList<DashboardCalendarUpcomingEventsQuery>
   >({
@@ -103,10 +104,16 @@ export const CalendarUpcomingEvents = () => {
           dataSource={data?.data || []}
           renderItem={(item) => {
             const renderDate = () => {
-              const start = dayjs(item.startDate).format(
+              const start = formatDate(
+                item.startDate,
                 "MMM DD, YYYY - HH:mm",
+                i18n.language,
               );
-              const end = dayjs(item.endDate).format("MMM DD, YYYY - HH:mm");
+              const end = formatDate(
+                item.endDate,
+                "MMM DD, YYYY - HH:mm",
+                i18n.language,
+              );
 
               return `${start} - ${end}`;
             };

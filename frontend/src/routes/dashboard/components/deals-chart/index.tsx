@@ -25,9 +25,9 @@ export const DashboardDealsChart = () => {
   });
 
   const dealData = React.useMemo(() => {
-    return mapDealsData(data?.data);
-    // The x-axis labels are month names formatted in the active dayjs
-    // locale, so remap when the language changes.
+    return mapDealsData(data?.data, i18n.language);
+    // The x-axis labels are month names formatted in the active
+    // locale/calendar, so remap when the language changes.
   }, [data?.data, i18n.language]);
 
   const config: AreaConfig = {

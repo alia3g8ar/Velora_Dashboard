@@ -3,6 +3,7 @@ import type { GetFieldsFromList } from "@refinedev/nestjs-query";
 import dayjs from "dayjs";
 
 import type { DashboardDealsChartQuery } from "@/graphql/types";
+import { formatDate } from "@/utilities";
 
 type DealStage = GetFieldsFromList<DashboardDealsChartQuery>;
 
@@ -21,6 +22,7 @@ const filterDeal = (deal?: DealAggregate) =>
 const mapDeals = (
   deals: DealAggregate[] = [],
   state: string,
+  locale?: string,
 ): MappedDealData[] => {
   return deals.filter(filterDeal).map((deal) => {
     const { closeDateMonth, closeDateYear } = deal.groupBy as NonNullable<
@@ -31,7 +33,7 @@ const mapDeals = (
 
     return {
       timeUnix: date.unix(),
-      timeText: date.format("MMM YYYY"),
+      timeText: formatDate(date, "MMM YYYY", locale),
       value: deal.sum?.value ?? 0,
       state,
     };
@@ -40,14 +42,15 @@ const mapDeals = (
 
 export const mapDealsData = (
   dealStages: DealStage[] = [],
+  locale?: string,
 ): MappedDealData[] => {
   const won = dealStages.find((stage) => stage.title === "WON");
 
-  const wonDeals = mapDeals(won?.dealsAggregate, "Won");
+  const wonDeals = mapDeals(won?.dealsAggregate, "Won", locale);
 
   const lost = dealStages.find((stage) => stage.title === "LOST");
 
-  const lostDeals = mapDeals(lost?.dealsAggregate, "Lost");
+  const lostDeals = mapDeals(lost?.dealsAggregate, "Lost", locale);
 
   return [...wonDeals, ...lostDeals].sort((a, b) => a.timeUnix - b.timeUnix);
 };

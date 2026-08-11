@@ -5,13 +5,13 @@ import type { GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { UnorderedListOutlined } from "@ant-design/icons";
 import { Card, List, Skeleton as AntdSkeleton, Space } from "antd";
-import dayjs from "dayjs";
 
 import { CustomAvatar, Text } from "@/components";
 import type {
   DashboardLatestActivitiesAuditsQuery,
   DashboardLatestActivitiesDealsQuery,
 } from "@/graphql/types";
+import { formatDate } from "@/utilities";
 
 import {
   DASHBOARD_LATEST_ACTIVITIES_AUDITS_QUERY,
@@ -21,7 +21,7 @@ import {
 type Props = { limit?: number };
 
 export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const {
     data: audit,
     isLoading: isLoadingAudit,
@@ -160,7 +160,7 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
 
             const titleFormat = getTitleFormat();
             const titleText = deal
-              ? dayjs(deal.createdAt).format(titleFormat)
+              ? formatDate(deal.createdAt, titleFormat, i18n.language)
               : "";
 
             return (
