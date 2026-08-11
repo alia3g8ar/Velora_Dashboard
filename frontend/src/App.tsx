@@ -25,6 +25,9 @@ import {
   CompanyEditPage,
   CompanyListPage,
   DashboardPage,
+  DealCreatePage,
+  DealEditPage,
+  DealListPage,
   LoginPage,
   TasksCreatePage,
   TasksEditPage,
@@ -133,6 +136,12 @@ const App = () => {
                   <Route index element={<CompanyListPage />} />
                   <Route path="new" element={<CompanyCreatePage />} />
                   <Route path="edit/:id" element={<CompanyEditPage />} />
+                </Route>
+
+                <Route path="/deals">
+                  <Route index element={<DealListPage />} />
+                  <Route path="new" element={<DealCreatePage />} />
+                  <Route path="edit/:id" element={<DealEditPage />} />
                 </Route>
 
                 <Route path="*" element={<ErrorComponent />} />

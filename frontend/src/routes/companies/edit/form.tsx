@@ -104,7 +104,7 @@ export const CompanyForm = () => {
                 value: id,
                 label: (
                   <SelectOptionWithAvatar
-                    name={name}
+                    name={name ?? ""}
                     avatarUrl={avatarUrl ?? undefined}
                   />
                 ),

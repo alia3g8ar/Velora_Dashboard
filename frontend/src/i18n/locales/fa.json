@@ -74,14 +74,58 @@
       "website": "وب‌سایت"
     },
     "contacts": {
+      "contacts": "مخاطبان",
+      "singular": "مخاطب",
       "title": "مخاطبان",
       "totalContacts": "تعداد کل مخاطبان: ",
       "name": "نام",
-      "title": "عنوان",
+      "jobTitle": "عنوان شغلی",
       "stage": "مرحله",
       "searchName": "جستجوی نام",
-      "searchTitle": "جستجوی عنوان",
-      "selectStage": "انتخاب مرحله"
+      "searchTitle": "جستجوی عنوان شغلی",
+      "selectStage": "انتخاب مرحله",
+      "addContact": "افزودن مخاطب",
+      "editContact": "ویرایش مخاطب",
+      "email": "ایمیل",
+      "phone": "تلفن",
+      "score": "امتیاز",
+      "status": "وضعیت",
+      "enterName": "لطفاً نام مخاطب را وارد کنید",
+      "enterEmail": "لطفاً یک ایمیل معتبر وارد کنید",
+      "deleteContact": "حذف مخاطب",
+      "noContacts": "هنوز مخاطبی وجود ندارد — اولین مخاطب این شرکت را اضافه کنید."
+    }
+  },
+  "contacts": {
+    "contacts": "مخاطبان",
+    "singular": "مخاطب",
+    "titles": {
+      "list": "مخاطبان",
+      "create": "ایجاد مخاطب",
+      "edit": "ویرایش مخاطب"
+    }
+  },
+  "deals": {
+    "deals": "معامله‌ها",
+    "singular": "معامله",
+    "titles": {
+      "list": "معامله‌ها",
+      "create": "ایجاد معامله",
+      "edit": "ویرایش معامله"
+    },
+    "fields": {
+      "title": "عنوان معامله",
+      "titlePlaceholder": "عنوان معامله را وارد کنید",
+      "company": "شرکت",
+      "companyPlaceholder": "یک شرکت انتخاب کنید",
+      "owner": "مالک معامله",
+      "ownerPlaceholder": "یک مالک معامله انتخاب کنید",
+      "stage": "مرحله",
+      "stagePlaceholder": "یک مرحله انتخاب کنید",
+      "value": "مبلغ",
+      "closeDate": "تاریخ پیش‌بینی بستن",
+      "notes": "یادداشت‌ها",
+      "notesPlaceholder": "یادداشت‌هایی درباره این معامله اضافه کنید"
     }
   },
   "tasks": {
@@ -217,11 +261,6 @@
       "INTERESTED": "علاقه‌مند",
       "CONTACTED": "تماس گرفته شده",
       "CHURNED": "ریزش‌شده"
-    },
-    "quoteStatus": {
-      "DRAFT": "پیش‌نویس",
-      "SENT": "ارسال شده",
-      "ACCEPTED": "پذیرفته شده"
     }
   },
   "errors": {

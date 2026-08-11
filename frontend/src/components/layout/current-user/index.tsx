@@ -29,7 +29,7 @@ export const CurrentUser = () => {
         }}
       >
         <CustomAvatar
-          name={user?.name}
+          name={user?.name ?? undefined}
           src={user?.avatarUrl}
           size={36}
           style={{ flexShrink: 0 }}
@@ -84,7 +84,7 @@ export const CurrentUser = () => {
         overlayStyle={{ zIndex: 999 }}
       >
         <CustomAvatar
-          name={user?.name}
+          name={user?.name ?? undefined}
           src={user?.avatarUrl}
           size="default"
           style={{ cursor: "pointer" }}

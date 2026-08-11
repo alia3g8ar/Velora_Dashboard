@@ -41,3 +41,41 @@ export const UPDATE_COMPANY_MUTATION = gql`
     }
   }
 `;
+
+export const CREATE_CONTACT_MUTATION = gql`
+  mutation CreateContact($input: CreateOneContactInput!) {
+    createOneContact(input: $input) {
+      id
+      name
+      email
+      jobTitle
+      phone
+      status
+      stage
+      score
+    }
+  }
+`;
+
+export const UPDATE_CONTACT_MUTATION = gql`
+  mutation UpdateContact($input: UpdateOneContactInput!) {
+    updateOneContact(input: $input) {
+      id
+      name
+      email
+      jobTitle
+      phone
+      status
+      stage
+      score
+    }
+  }
+`;
+
+export const DELETE_CONTACT_MUTATION = gql`
+  mutation DeleteContact($input: DeleteOneContactInput!) {
+    deleteOneContact(input: $input) {
+      id
+    }
+  }
+`;

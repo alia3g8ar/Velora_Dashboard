@@ -23,10 +23,10 @@ export const UserTag = ({ user }: Props) => {
       <Space size={4}>
         <CustomAvatar
           src={user.avatarUrl}
-          name={user.name}
+          name={user.name ?? undefined}
           style={{ display: "inline-flex" }}
         />
-        {user.name}
+        {user.name || ""}
       </Space>
     </Tag>
   );

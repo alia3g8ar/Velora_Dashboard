@@ -74,14 +74,58 @@
       "website": "Website"
     },
     "contacts": {
+      "contacts": "Contacts",
+      "singular": "Contact",
       "title": "Contacts",
       "totalContacts": "Total contacts: ",
       "name": "Name",
-      "title": "Title",
+      "jobTitle": "Job title",
       "stage": "Stage",
       "searchName": "Search Name",
-      "searchTitle": "Search Title",
-      "selectStage": "Select Stage"
+      "searchTitle": "Search Job title",
+      "selectStage": "Select Stage",
+      "addContact": "Add contact",
+      "editContact": "Edit contact",
+      "email": "Email",
+      "phone": "Phone",
+      "score": "Score",
+      "status": "Status",
+      "enterName": "Please enter the contact name",
+      "enterEmail": "Please enter a valid email",
+      "deleteContact": "Delete contact",
+      "noContacts": "No contacts yet — add the first contact for this company."
+    }
+  },
+  "contacts": {
+    "contacts": "Contacts",
+    "singular": "Contact",
+    "titles": {
+      "list": "Contacts",
+      "create": "Create Contact",
+      "edit": "Edit Contact"
+    }
+  },
+  "deals": {
+    "deals": "Deals",
+    "singular": "Deal",
+    "titles": {
+      "list": "Deals",
+      "create": "Create Deal",
+      "edit": "Edit Deal"
+    },
+    "fields": {
+      "title": "Deal title",
+      "titlePlaceholder": "Enter deal title",
+      "company": "Company",
+      "companyPlaceholder": "Select a company",
+      "owner": "Deal owner",
+      "ownerPlaceholder": "Select a deal owner",
+      "stage": "Stage",
+      "stagePlaceholder": "Select a stage",
+      "value": "Value",
+      "closeDate": "Expected close date",
+      "notes": "Notes",
+      "notesPlaceholder": "Add notes about this deal"
     }
   },
   "tasks": {
@@ -217,11 +261,6 @@
       "INTERESTED": "Interested",
       "CONTACTED": "Contacted",
       "CHURNED": "Churned"
-    },
-    "quoteStatus": {
-      "DRAFT": "Draft",
-      "SENT": "Sent",
-      "ACCEPTED": "Accepted"
     }
   },
   "errors": {

@@ -1,8 +1,11 @@
 import type { IGraphQLConfig } from "graphql-config";
 
 const config: IGraphQLConfig = {
-  // GraphQL schema endpoint for Velora CRM — the local NestJS backend.
-  schema: "http://localhost:3001/graphql",
+  // Load the schema from the local SDL file the backend writes on boot
+  // (backend/src/schema.gql). Loading from the live URL triggers a codegen
+  // parser bug ("Unexpected Name DIRECTIVE_DEFINITION"); the file does not.
+  // Boot the backend once before running `npm run codegen`.
+  schema: "../backend/src/schema.gql",
   extensions: {
     codegen: {
       hooks: {

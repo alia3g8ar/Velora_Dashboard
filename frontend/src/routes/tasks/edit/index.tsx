@@ -102,7 +102,7 @@ export const TasksEditPage = () => {
         <UsersForm
           initialValues={{
             userIds: users?.map((user) => ({
-              label: user.name,
+              label: user.name ?? "",
               value: user.id,
             })),
           }}

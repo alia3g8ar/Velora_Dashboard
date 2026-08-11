@@ -1,13 +1,29 @@
-import { Field, ID, InputType, Int } from '@nestjs/graphql';
+import {
+    Field,
+    Float,
+    GraphQLISODateTime,
+    ID,
+    InputType,
+    Int,
+} from '@nestjs/graphql';
 import {
     IsEmail,
+    IsEnum,
     IsInt,
     IsNotEmpty,
+    IsNumber,
     IsOptional,
     IsString,
     MaxLength,
 } from 'class-validator';
-import { BusinessType, CompanySize, Industry, Role } from './enums';
+import {
+    BusinessType,
+    CompanySize,
+    ContactStage,
+    ContactStatus,
+    Industry,
+    Role,
+} from './enums';
 
 /**
  * GraphQL input types for the entities the frontend actually mutates.
@@ -148,4 +164,203 @@ export class UserUpdateInput {
     @Field(() => Role, { nullable: true })
     @IsOptional()
     role?: Role;
+}
+
+@InputType('ContactCreateInput')
+export class ContactCreateInput {
+    @Field(() => String)
+    @IsString()
+    @IsNotEmpty()
+    name: string;
+
+    @Field(() => String)
+    @IsEmail()
+    email: string;
+
+    @Field(() => ID)
+    @IsString()
+    @IsNotEmpty()
+    companyId: number;
+
+    @Field(() => ID)
+    @IsString()
+    @IsNotEmpty()
+    salesOwnerId: number;
+
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    avatarUrl?: string | null;
+
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    phone?: string | null;
+
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    jobTitle?: string | null;
+
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    timezone?: string | null;
+
+    @Field(() => ContactStatus, { nullable: true })
+    @IsOptional()
+    @IsEnum(ContactStatus)
+    status?: ContactStatus;
+
+    @Field(() => ContactStage, { nullable: true })
+    @IsOptional()
+    @IsEnum(ContactStage)
+    stage?: ContactStage;
+
+    @Field(() => Int, { nullable: true })
+    @IsOptional()
+    @IsInt()
+    score?: number | null;
+}
+
+@InputType('ContactUpdateInput')
+export class ContactUpdateInput {
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    name?: string;
+
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsEmail()
+    email?: string;
+
+    @Field(() => ID, { nullable: true })
+    @IsOptional()
+    @IsString()
+    companyId?: number;
+
+    @Field(() => ID, { nullable: true })
+    @IsOptional()
+    @IsString()
+    salesOwnerId?: number;
+
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    avatarUrl?: string | null;
+
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    phone?: string | null;
+
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    jobTitle?: string | null;
+
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    timezone?: string | null;
+
+    @Field(() => ContactStatus, { nullable: true })
+    @IsOptional()
+    @IsEnum(ContactStatus)
+    status?: ContactStatus;
+
+    @Field(() => ContactStage, { nullable: true })
+    @IsOptional()
+    @IsEnum(ContactStage)
+    stage?: ContactStage;
+
+    @Field(() => Int, { nullable: true })
+    @IsOptional()
+    @IsInt()
+    score?: number | null;
+}
+
+@InputType('DealCreateInput')
+export class DealCreateInput {
+    @Field(() => String)
+    @IsString()
+    @IsNotEmpty()
+    title: string;
+
+    @Field(() => ID)
+    @IsString()
+    @IsNotEmpty()
+    companyId: number;
+
+    @Field(() => ID)
+    @IsString()
+    @IsNotEmpty()
+    dealOwnerId: number;
+
+    @Field(() => Float, { nullable: true })
+    @IsOptional()
+    @IsNumber()
+    value?: number | null;
+
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    notes?: string | null;
+
+    @Field(() => GraphQLISODateTime, { nullable: true })
+    @IsOptional()
+    closeDate?: Date | null;
+
+    @Field(() => ID, { nullable: true })
+    @IsOptional()
+    @IsString()
+    dealContactId?: number | null;
+
+    @Field(() => ID, { nullable: true })
+    @IsOptional()
+    @IsString()
+    stageId?: number | null;
+}
+
+@InputType('DealUpdateInput')
+export class DealUpdateInput {
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    title?: string;
+
+    @Field(() => ID, { nullable: true })
+    @IsOptional()
+    @IsString()
+    companyId?: number;
+
+    @Field(() => ID, { nullable: true })
+    @IsOptional()
+    @IsString()
+    dealOwnerId?: number;
+
+    @Field(() => Float, { nullable: true })
+    @IsOptional()
+    @IsNumber()
+    value?: number | null;
+
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    notes?: string | null;
+
+    @Field(() => GraphQLISODateTime, { nullable: true })
+    @IsOptional()
+    closeDate?: Date | null;
+
+    @Field(() => ID, { nullable: true })
+    @IsOptional()
+    @IsString()
+    dealContactId?: number | null;
+
+    @Field(() => ID, { nullable: true })
+    @IsOptional()
+    @IsString()
+    stageId?: number | null;
 }

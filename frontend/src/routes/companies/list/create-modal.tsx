@@ -89,7 +89,7 @@ export const CompanyCreateModal = () => {
                 value: user.id,
                 label: (
                   <SelectOptionWithAvatar
-                    name={user.name}
+                    name={user.name ?? ""}
                     avatarUrl={user.avatarUrl ?? undefined}
                   />
                 ),

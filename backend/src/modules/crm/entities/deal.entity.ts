@@ -64,7 +64,8 @@ export class Deal {
     @Column({ name: 'close_date_year', type: 'int', nullable: true })
     closeDateYear?: number | null;
 
-    /** Not exposed through GraphQL; powers the month/year aggregate fields. */
+    /** Also powers the month/year aggregate fields via DealSubscriber. */
+    @FilterableField(() => GraphQLISODateTime, { nullable: true })
     @Column({ name: 'close_date', type: 'datetime', nullable: true })
     closeDate?: Date | null;
 

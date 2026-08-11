@@ -34,7 +34,7 @@ type ProjectCardProps = {
   dueDate?: string;
   users?: {
     id: string;
-    name: string;
+    name?: string | null;
     avatarUrl?: User["avatarUrl"];
   }[];
 };
@@ -197,7 +197,10 @@ export const ProjectCard = ({
               {users.map((user) => {
                 return (
                   <Tooltip key={user.id} title={user.name}>
-                    <CustomAvatar name={user.name} src={user.avatarUrl} />
+                    <CustomAvatar
+                      name={user.name ?? undefined}
+                      src={user.avatarUrl}
+                    />
                   </Tooltip>
                 );
               })}

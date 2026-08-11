@@ -2,6 +2,7 @@ import { Resolver } from '@nestjs/graphql';
 import { InjectQueryService, QueryService } from '@ptc-org/nestjs-query-core';
 import { CRUDResolver, PagingStrategies } from '@ptc-org/nestjs-query-graphql';
 import { Deal } from '../entities/deal.entity';
+import { DealCreateInput, DealUpdateInput } from '../inputs';
 
 @Resolver(() => Deal)
 export class DealResolver extends CRUDResolver(Deal, {
@@ -9,9 +10,11 @@ export class DealResolver extends CRUDResolver(Deal, {
     pagingStrategy: PagingStrategies.OFFSET,
     // Allow the frontend's un-paged `mode: "off"` list fetches.
     read: { maxResultsSize: -1 },
-    create: { one: { disabled: true }, many: { disabled: true } },
-    update: { one: { disabled: true }, many: { disabled: true } },
-    delete: { one: { disabled: true }, many: { disabled: true } },
+    CreateDTOClass: DealCreateInput,
+    UpdateDTOClass: DealUpdateInput,
+    create: { many: { disabled: true } },
+    update: { many: { disabled: true } },
+    delete: { many: { disabled: true } },
 }) {
     constructor(
         @InjectQueryService(Deal) readonly service: QueryService<Deal>,
