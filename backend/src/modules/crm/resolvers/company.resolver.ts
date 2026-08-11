@@ -33,8 +33,10 @@ export class CompanyResolver extends CRUDResolver(Company, {
     }
 
     /**
-     * Sum of the deal values for a company. Powers the "Open deals amount"
-     * column of the companies list, backed by real Deal records.
+     * Sum of the OPEN deal values for a company. Powers the "Open deals
+     * amount" column of the companies list, backed by real Deal records.
+     * Deals whose stage is WON or LOST are excluded; deals without a stage
+     * still count as open pipeline.
      */
     @ResolveField(() => [DealAggregateResponse])
     async dealsAggregate(
@@ -43,7 +45,14 @@ export class CompanyResolver extends CRUDResolver(Company, {
         const row = await this.dealRepository
             .createQueryBuilder('deal')
             .select('SUM(deal.value)', 'value')
+            .leftJoin('deal.stage', 'stage')
             .where('deal.companyId = :companyId', { companyId: company.id })
+            .andWhere(
+                '(stage.id IS NULL OR stage.title NOT IN (:...closedTitles))',
+                {
+                    closedTitles: ['WON', 'LOST'],
+                },
+            )
             .getRawOne<{ value: string | number | null }>();
 
         const sum: DealSumAggregate = {
