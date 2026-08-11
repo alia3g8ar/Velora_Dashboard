@@ -16,6 +16,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "seed:demo": "ts-node -r tsconfig-paths/register src/scripts/seed-demo-data.ts",
+    "seed:demo-user": "ts-node -r tsconfig-paths/register src/scripts/seed-demo-user.ts",
     "migration:run": "ts-node -r tsconfig-paths/register src/scripts/manage-migrations.ts run",
     "migration:show": "ts-node -r tsconfig-paths/register src/scripts/manage-migrations.ts show",
     "migration:deploy": "ts-node -r tsconfig-paths/register src/scripts/migrate-deploy.ts",

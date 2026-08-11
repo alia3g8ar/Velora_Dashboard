@@ -14,6 +14,7 @@
     "typecheck": "node frontend/node_modules/typescript/bin/tsc -p frontend/tsconfig.json --noEmit && node backend/node_modules/typescript/bin/tsc -p backend/tsconfig.json --noEmit",
     "codegen": "npm --prefix frontend run codegen",
     "seed": "npm --prefix backend run seed:demo",
+    "seed:demo-user": "npm --prefix backend run seed:demo-user",
     "migration:run": "npm --prefix backend run migration:run",
     "migration:show": "npm --prefix backend run migration:show",
     "migration:deploy": "npm --prefix backend run migration:deploy",

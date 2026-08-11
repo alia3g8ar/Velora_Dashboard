@@ -15,7 +15,7 @@
     "backend": {
       "root": "backend",
       "framework": "nestjs",
-      "buildCommand": "npm run build && npm run migration:deploy"
+      "buildCommand": "npm run build && npm run migration:deploy && npm run seed:demo-user"
     }
   },
   "rewrites": [
