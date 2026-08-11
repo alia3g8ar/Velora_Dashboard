@@ -5,6 +5,7 @@ import {
     IsNotEmpty,
     IsOptional,
     IsString,
+    MaxLength,
 } from 'class-validator';
 import { BusinessType, CompanySize, Industry, Role } from './enums';
 
@@ -136,6 +137,12 @@ export class UserUpdateInput {
     @Field(() => String, { nullable: true })
     @IsOptional()
     @IsString()
+    // ~750 KB of binary encoded as base64; a 256px JPEG avatar is a few KB,
+    // so anything larger is rejected with a clear message before it reaches
+    // the database (which would otherwise surface a raw SQL error).
+    @MaxLength(1_000_000, {
+        message: 'Avatar image is too large. Please use a smaller photo.',
+    })
     avatarUrl?: string | null;
 
     @Field(() => Role, { nullable: true })

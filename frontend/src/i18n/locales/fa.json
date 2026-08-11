@@ -144,11 +144,11 @@
     "success": "موفق",
     "error": "خطا",
     "createSuccess": "{{resource}} با موفقیت ایجاد شد",
-    "createError": "خطا در ایجاد {{resource}} (کد خطا: {{statusCode}})",
+    "createError": "خطا در ایجاد {{resource}}",
     "editSuccess": "{{resource}} با موفقیت به‌روزرسانی شد",
-    "editError": "خطا در به‌روزرسانی {{resource}} (کد خطا: {{statusCode}})",
+    "editError": "خطا در به‌روزرسانی {{resource}}",
     "deleteSuccess": "{{resource}} با موفقیت حذف شد",
-    "deleteError": "خطا در حذف {{resource}} (کد خطا: {{statusCode}})"
+    "deleteError": "خطا در حذف {{resource}}"
   },
   "warnWhenUnsavedChanges": "آیا مطمئن هستید که می‌خواهید خارج شوید؟ تغییرات ذخیره‌نشده‌ای وجود دارد.",
   "enums": {
@@ -231,23 +231,8 @@
     "notFound": "منبع درخواستی یافت نشد.",
     "validation": "لطفاً اطلاعات وارد شده را بررسی کنید و دوباره تلاش کنید.",
     "internal": "مشکلی پیش آمد. لطفاً دوباره تلاش کنید.",
-    "unknown": "مشکلی پیش آمد. لطفاً دوباره تلاش کنید."
-  },
-  "documentTitle": {
-    "default": "ولورا CRM",
-    "suffix": " | ولورا CRM",
-    "dashboard": {
-      "list": "داشبورد | ولورا CRM"
-    },
-    "companies": {
-      "list": "شرکت‌ها | ولورا CRM",
-      "create": "ایجاد شرکت | ولورا CRM",
-      "edit": "ویرایش شرکت | ولورا CRM"
-    },
-    "tasks": {
-      "list": "وظایف | ولورا CRM",
-      "create": "ایجاد وظیفه | ولورا CRM",
-      "edit": "ویرایش وظیفه | ولورا CRM"
-    }
+    "unknown": "مشکلی پیش آمد. لطفاً دوباره تلاش کنید.",
+    "avatarTooLarge": "حجم تصویر انتخاب‌شده زیاد است. لطفاً عکس کوچک‌تری انتخاب کنید.",
+    "saveFailed": "تغییرات شما ذخیره نشد. لطفاً دوباره تلاش کنید."
   }
 }

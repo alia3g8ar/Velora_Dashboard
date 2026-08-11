@@ -9,8 +9,16 @@ type GraphQLError = Error & {
 /**
  * Maps known backend messages to localized, user-friendly UI text so raw
  * implementation details never leak into notifications.
+ *
+ * Validation errors (BAD_USER_INPUT) carry user-facing messages from the
+ * API's class-validator rules and are shown as-is. Anything else is mapped
+ * to a friendly message; unknown internal failures fall back to a generic
+ * text (the raw detail is logged for debugging).
  */
-const mapKnownError = (message: string): string => {
+const mapKnownError = (message: string, code?: string): string => {
+  if (code === "BAD_USER_INPUT") {
+    return message;
+  }
   if (message.includes("Invalid email or password")) {
     return i18n.t("pages.login.errors.invalidCredentials");
   }
@@ -23,7 +31,15 @@ const mapKnownError = (message: string): string => {
   if (message.includes("User not found")) {
     return i18n.t("errors.notFound");
   }
-  return message;
+  if (message.includes("Avatar image is too large")) {
+    return i18n.t("errors.avatarTooLarge");
+  }
+  if (message.includes("Data too long")) {
+    return i18n.t("errors.saveFailed");
+  }
+  // Unknown backend failure: never show raw implementation text.
+  console.error("[Velora] backend error:", message);
+  return i18n.t("errors.internal");
 };
 
 const customFetch = async (url: string, options: RequestInit) => {
@@ -106,7 +122,7 @@ const getGraphQLErrors = (
     const code = errors?.[0]?.extensions?.code;
 
     return createGraphQLError(
-      mapKnownError(messages || JSON.stringify(errors)),
+      mapKnownError(messages || JSON.stringify(errors), code as string),
       (code as string) || "INTERNAL_SERVER_ERROR",
     );
   }

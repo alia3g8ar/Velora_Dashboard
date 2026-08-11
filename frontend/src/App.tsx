@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { BrowserRouter, Outlet, Route, Routes, useLocation } from "react-router";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 import { useNotificationProvider } from "@refinedev/antd";
 import { Authenticated, ErrorComponent, Refine } from "@refinedev/core";
@@ -37,21 +37,9 @@ import "@/styles/global.css";
 const PERSIAN_FONT_STACK =
   '"Dana", "Vazirmatn", "Segoe UI", Tahoma, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif';
 
-const getDocumentTitleForPath = (pathname: string, t: (key: string) => string) => {
-  if (pathname === "/login") return t("documentTitle.default");
-  if (pathname === "/") return t("documentTitle.dashboard.list");
-  if (pathname.startsWith("/companies/new"))
-    return t("documentTitle.companies.create");
-  if (pathname.startsWith("/companies/edit/"))
-    return t("documentTitle.companies.edit");
-  if (pathname.startsWith("/companies"))
-    return t("documentTitle.companies.list");
-  if (pathname.startsWith("/tasks/new"))
-    return t("documentTitle.tasks.create");
-  if (pathname.startsWith("/tasks/edit/")) return t("documentTitle.tasks.edit");
-  if (pathname.startsWith("/tasks")) return t("documentTitle.tasks.list");
-  return t("documentTitle.default");
-};
+// The browser tab always shows just the brand name; page-specific titles
+// would add no value at this size and the user asked for a single label.
+const DOCUMENT_TITLE = "Velora";
 
 /**
  * Applies the active locale to Ant Design (locale + direction), the theme
@@ -62,7 +50,6 @@ const getDocumentTitleForPath = (pathname: string, t: (key: string) => string) =
  */
 const LocaleProvider = ({ children }: React.PropsWithChildren) => {
   const { i18n } = useTranslation();
-  const location = useLocation();
 
   const locale = resolveInitialLocale(i18n.language);
   const direction = getLocaleDirection(locale);
@@ -81,11 +68,8 @@ const LocaleProvider = ({ children }: React.PropsWithChildren) => {
   }, [locale]);
 
   React.useEffect(() => {
-    document.title = getDocumentTitleForPath(
-      location.pathname,
-      i18n.t.bind(i18n),
-    );
-  }, [locale, location.pathname]);
+    document.title = DOCUMENT_TITLE;
+  }, []);
 
   return (
     <ConfigProvider

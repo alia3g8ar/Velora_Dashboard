@@ -144,11 +144,11 @@
     "success": "Success",
     "error": "Error",
     "createSuccess": "Successfully created {{resource}}",
-    "createError": "There was an error creating {{resource}} (status code: {{statusCode}})",
+    "createError": "Error creating {{resource}}",
     "editSuccess": "Successfully updated {{resource}}",
-    "editError": "There was an error updating {{resource}} (status code: {{statusCode}})",
+    "editError": "Error updating {{resource}}",
     "deleteSuccess": "Successfully deleted {{resource}}",
-    "deleteError": "There was an error deleting {{resource}} (status code: {{statusCode}})"
+    "deleteError": "Error deleting {{resource}}"
   },
   "warnWhenUnsavedChanges": "Are you sure you want to leave? You have unsaved changes.",
   "enums": {
@@ -231,23 +231,8 @@
     "notFound": "The requested resource was not found.",
     "validation": "Please check the entered information and try again.",
     "internal": "Something went wrong. Please try again.",
-    "unknown": "Something went wrong. Please try again."
-  },
-  "documentTitle": {
-    "default": "Velora CRM",
-    "suffix": " | Velora CRM",
-    "dashboard": {
-      "list": "Dashboard | Velora CRM"
-    },
-    "companies": {
-      "list": "Companies | Velora CRM",
-      "create": "Create Company | Velora CRM",
-      "edit": "Edit Company | Velora CRM"
-    },
-    "tasks": {
-      "list": "Tasks | Velora CRM",
-      "create": "Create Task | Velora CRM",
-      "edit": "Edit Task | Velora CRM"
-    }
+    "unknown": "Something went wrong. Please try again.",
+    "avatarTooLarge": "The selected image is too large. Please choose a smaller photo.",
+    "saveFailed": "Your changes could not be saved. Please try again."
   }
 }
