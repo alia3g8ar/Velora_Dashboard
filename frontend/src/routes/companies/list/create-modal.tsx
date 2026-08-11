@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { useModalForm, useSelect } from "@refinedev/antd";
 import { type HttpError, useGo } from "@refinedev/core";
 import type {
@@ -20,6 +22,7 @@ import { CREATE_COMPANY_MUTATION } from "./queries";
 
 export const CompanyCreateModal = () => {
   const go = useGo();
+  const { t } = useTranslation();
 
   const goToListPage = () => {
     go({
@@ -62,24 +65,24 @@ export const CompanyCreateModal = () => {
       {...modalProps}
       mask={true}
       onCancel={goToListPage}
-      title="Add new company"
+      title={t("companies.fields.addNewCompany")}
       width={512}
     >
       <Form {...formProps} layout="vertical">
         <Form.Item
-          label="Company name"
+          label={t("companies.fields.companyName")}
           name="name"
           rules={[{ required: true }]}
         >
-          <Input placeholder="Please enter company name" />
+          <Input placeholder={t("companies.fields.enterCompanyName")} />
         </Form.Item>
         <Form.Item
-          label="Sales owner"
+          label={t("companies.fields.salesOwner")}
           name="salesOwnerId"
           rules={[{ required: true }]}
         >
           <Select
-            placeholder="Please enter sales owner user"
+            placeholder={t("companies.fields.enterSalesOwner")}
             {...selectProps}
             options={
               queryResult.data?.data?.map((user) => ({

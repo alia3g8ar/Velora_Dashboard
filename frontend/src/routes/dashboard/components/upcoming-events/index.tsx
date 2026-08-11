@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { useList } from "@refinedev/core";
 import type { GetFieldsFromList } from "@refinedev/nestjs-query";
 
@@ -11,6 +13,7 @@ import type { DashboardCalendarUpcomingEventsQuery } from "@/graphql/types";
 import { DASHBOARD_CALENDAR_UPCOMING_EVENTS_QUERY } from "./queries";
 
 export const CalendarUpcomingEvents = () => {
+  const { t } = useTranslation();
   const { data, isLoading } = useList<
     GetFieldsFromList<DashboardCalendarUpcomingEventsQuery>
   >({
@@ -54,8 +57,8 @@ export const CalendarUpcomingEvents = () => {
           }}
         >
           <CalendarOutlined />
-          <Text size="sm" style={{ marginLeft: ".7rem" }}>
-            Upcoming events
+          <Text size="sm" style={{ marginInlineStart: ".7rem" }}>
+            {t("dashboard.upcomingEvents")}
           </Text>
         </div>
       }
@@ -130,15 +133,19 @@ export const CalendarUpcomingEvents = () => {
   );
 };
 
-const NoEvent = () => (
-  <span
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "220px",
-    }}
-  >
-    No Upcoming Event
-  </span>
-);
+const NoEvent = () => {
+  const { t } = useTranslation();
+
+  return (
+    <span
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "220px",
+      }}
+    >
+      {t("dashboard.noUpcomingEvent")}
+    </span>
+  );
+};

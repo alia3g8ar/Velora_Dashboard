@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import {
   CheckCircleOutlined,
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export const ContactStatusTag = ({ status }: Props) => {
+  const { t } = useTranslation();
   let icon: React.ReactNode = null;
   let color: TagProps["color"] = undefined;
 
@@ -52,8 +54,8 @@ export const ContactStatusTag = ({ status }: Props) => {
   }
 
   return (
-    <Tag color={color} style={{ textTransform: "capitalize" }}>
-      {icon} {status.toLowerCase()}
+    <Tag color={color}>
+      {icon} {t(`enums.contactStatus.${status}`, status.toLowerCase())}
     </Tag>
   );
 };

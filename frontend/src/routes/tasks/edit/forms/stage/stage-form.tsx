@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { useForm, useSelect } from "@refinedev/antd";
 import type { HttpError } from "@refinedev/core";
 import { useInvalidate } from "@refinedev/core";
@@ -28,6 +30,7 @@ type Props = {
 export const StageForm = ({ isLoading }: Props) => {
   const invalidate = useInvalidate();
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   const { formProps } = useForm<
     GetFields<UpdateTaskMutation>,
@@ -102,22 +105,29 @@ export const StageForm = ({ isLoading }: Props) => {
             <Select
               {...selectProps}
               popupMatchSelectWidth={false}
-              options={selectProps.options?.concat([
-                {
-                  label: "Unassigned",
-                  value: null,
-                },
-              ])}
+              options={selectProps.options
+                ?.map((option) => ({
+                  ...option,
+                  label: t(`enums.taskStage.${option.label}`, {
+                    defaultValue: option.label,
+                  }),
+                }))
+                .concat([
+                  {
+                    label: t("common.unassigned"),
+                    value: null,
+                  },
+                ])}
               bordered={false}
               showSearch={false}
-              placeholder="Select a stage"
+              placeholder={t("tasks.selectStage")}
               onSearch={undefined}
               size="small"
             />
           </Form.Item>
         </Space>
         <Form.Item noStyle name="completed" valuePropName="checked">
-          <Checkbox>Mark as complete</Checkbox>
+          <Checkbox>{t("tasks.markAsComplete")}</Checkbox>
         </Form.Item>
       </Form>
     </div>

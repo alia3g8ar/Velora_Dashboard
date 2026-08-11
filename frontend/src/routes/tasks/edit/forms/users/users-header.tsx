@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { Space, Typography } from "antd";
 
 import { UserTag } from "@/components";
@@ -8,6 +10,8 @@ type Props = {
 };
 
 export const UsersHeader = ({ users = [] }: Props) => {
+  const { t } = useTranslation();
+
   if (users.length > 0) {
     return (
       <Space size={[0, 8]} wrap>
@@ -18,5 +22,5 @@ export const UsersHeader = ({ users = [] }: Props) => {
     );
   }
 
-  return <Typography.Link>Assign to users</Typography.Link>;
+  return <Typography.Link>{t("tasks.assignToUsers")}</Typography.Link>;
 };

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import {
   CheckCircleOutlined,
@@ -32,15 +33,11 @@ type Props = {
 };
 
 export const QuoteStatusTag = ({ status }: Props) => {
+  const { t } = useTranslation();
+
   return (
-    <Tag
-      style={{
-        textTransform: "capitalize",
-      }}
-      color={variant[status].color}
-      icon={variant[status].icon}
-    >
-      {status.toLowerCase()}
+    <Tag color={variant[status].color} icon={variant[status].icon}>
+      {t(`enums.quoteStatus.${status}`, status.toLowerCase())}
     </Tag>
   );
 };

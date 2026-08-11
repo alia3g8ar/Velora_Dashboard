@@ -1,0 +1,251 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "actions": "Actions",
+    "unassigned": "Unassigned",
+    "paginationTotal": "{{count}} {{entity}} in total"
+  },
+  "buttons": {
+    "create": "Create",
+    "edit": "Edit",
+    "save": "Save",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "refresh": "Refresh",
+    "confirm": "Are you sure?",
+    "filter": "Filter",
+    "clear": "Clear",
+    "logout": "Logout"
+  },
+  "brand": {
+    "logoAlt": "Velora Logo"
+  },
+  "language": {
+    "label": "Language",
+    "english": "English",
+    "persian": "فارسی"
+  },
+  "dashboard": {
+    "dashboard": "Dashboard",
+    "title": "Dashboard",
+    "companiesCount": "Number of companies",
+    "contactsCount": "Number of contacts",
+    "dealsCount": "Total deals in pipeline",
+    "deals": "Deals",
+    "latestActivities": "Latest activities",
+    "upcomingEvents": "Upcoming events",
+    "noUpcomingEvent": "No Upcoming Event",
+    "dealState": {
+      "won": "Won",
+      "lost": "Lost"
+    },
+    "activities": {
+      "createdSentence": "{{user}} created the deal \"{{deal}}\" in {{stage}}.",
+      "movedSentence": "{{user}} moved the deal \"{{deal}}\" to {{stage}}."
+    }
+  },
+  "companies": {
+    "companies": "Companies",
+    "singular": "Company",
+    "titles": {
+      "list": "Companies",
+      "create": "Create Company",
+      "edit": "Edit Company"
+    },
+    "fields": {
+      "companyTitle": "Company title",
+      "searchCompany": "Search Company",
+      "openDealsAmount": "Open deals amount",
+      "addNewCompany": "Add new company",
+      "companyName": "Company name",
+      "enterCompanyName": "Please enter company name",
+      "salesOwner": "Sales owner",
+      "enterSalesOwner": "Please enter sales owner user",
+      "companySize": "Company size",
+      "totalRevenue": "Total revenue",
+      "industry": "Industry",
+      "businessType": "Business type",
+      "country": "Country",
+      "website": "Website"
+    },
+    "contacts": {
+      "title": "Contacts",
+      "totalContacts": "Total contacts: ",
+      "name": "Name",
+      "title": "Title",
+      "stage": "Stage",
+      "searchName": "Search Name",
+      "searchTitle": "Search Title",
+      "selectStage": "Select Stage"
+    }
+  },
+  "tasks": {
+    "tasks": "Tasks",
+    "titles": {
+      "list": "Tasks",
+      "create": "Create Task",
+      "edit": "Edit Task"
+    },
+    "viewCard": "View card",
+    "deleteCard": "Delete card",
+    "addNewCard": "Add new card",
+    "title": "Title",
+    "description": "Description",
+    "dueDate": "Due date",
+    "users": "Users",
+    "assignToUsers": "Assign to users",
+    "addTaskDescription": "Add task description",
+    "addDueDate": "Add due date",
+    "overdue": "Overdue",
+    "dueSoon": "Due soon",
+    "processing": "Processing",
+    "selectStage": "Select a stage",
+    "markAsComplete": "Mark as complete"
+  },
+  "accountSettings": {
+    "menuItem": "Account settings",
+    "title": "Account Settings",
+    "name": "Name",
+    "email": "Email",
+    "jobTitle": "Job title",
+    "phone": "Phone"
+  },
+  "pages": {
+    "login": {
+      "title": "Sign in to your account",
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "errors": {
+        "requiredEmail": "Email is required",
+        "validEmail": "Invalid email address",
+        "requiredPassword": "Password is required",
+        "invalidCredentials": "Invalid email or password",
+        "loginFailed": "Login failed"
+      },
+      "signin": "Sign in",
+      "buttons": {
+        "rememberMe": "Remember me"
+      }
+    },
+    "error": {
+      "404": "Sorry, the page you visited does not exist.",
+      "backHome": "Back Home"
+    }
+  },
+  "notifications": {
+    "success": "Success",
+    "error": "Error",
+    "createSuccess": "Successfully created {{resource}}",
+    "createError": "There was an error creating {{resource}} (status code: {{statusCode}})",
+    "editSuccess": "Successfully updated {{resource}}",
+    "editError": "There was an error updating {{resource}} (status code: {{statusCode}})",
+    "deleteSuccess": "Successfully deleted {{resource}}",
+    "deleteError": "There was an error deleting {{resource}} (status code: {{statusCode}})"
+  },
+  "warnWhenUnsavedChanges": "Are you sure you want to leave? You have unsaved changes.",
+  "enums": {
+    "taskStage": {
+      "TODO": "To Do",
+      "IN PROGRESS": "In Progress",
+      "IN REVIEW": "In Review",
+      "DONE": "Done"
+    },
+    "dealStage": {
+      "NEW": "New",
+      "QUALIFIED": "Qualified",
+      "PROPOSAL": "Proposal",
+      "WON": "Won",
+      "LOST": "Lost"
+    },
+    "companySize": {
+      "ENTERPRISE": "Enterprise",
+      "LARGE": "Large",
+      "MEDIUM": "Medium",
+      "SMALL": "Small"
+    },
+    "businessType": {
+      "B2B": "B2B",
+      "B2C": "B2C",
+      "B2G": "B2G"
+    },
+    "industry": {
+      "AEROSPACE": "Aerospace",
+      "AGRICULTURE": "Agriculture",
+      "AUTOMOTIVE": "Automotive",
+      "CHEMICALS": "Chemicals",
+      "CONSTRUCTION": "Construction",
+      "DEFENSE": "Defense",
+      "EDUCATION": "Education",
+      "ENERGY": "Energy",
+      "FINANCIAL_SERVICES": "Financial Services",
+      "FOOD_AND_BEVERAGE": "Food and Beverage",
+      "GOVERNMENT": "Government",
+      "HEALTHCARE": "Healthcare",
+      "HOSPITALITY": "Hospitality",
+      "INDUSTRIAL_MANUFACTURING": "Industrial Manufacturing",
+      "INSURANCE": "Insurance",
+      "LIFE_SCIENCES": "Life Sciences",
+      "LOGISTICS": "Logistics",
+      "MEDIA": "Media",
+      "MINING": "Mining",
+      "NONPROFIT": "Nonprofit",
+      "OTHER": "Other",
+      "PHARMACEUTICALS": "Pharmaceuticals",
+      "PROFESSIONAL_SERVICES": "Professional Services",
+      "REAL_ESTATE": "Real Estate",
+      "RETAIL": "Retail",
+      "TECHNOLOGY": "Technology",
+      "TELECOMMUNICATIONS": "Telecommunications",
+      "TRANSPORTATION": "Transportation",
+      "UTILITIES": "Utilities"
+    },
+    "contactStatus": {
+      "NEW": "New",
+      "QUALIFIED": "Qualified",
+      "UNQUALIFIED": "Unqualified",
+      "WON": "Won",
+      "NEGOTIATION": "Negotiation",
+      "LOST": "Lost",
+      "INTERESTED": "Interested",
+      "CONTACTED": "Contacted",
+      "CHURNED": "Churned"
+    },
+    "quoteStatus": {
+      "DRAFT": "Draft",
+      "SENT": "Sent",
+      "ACCEPTED": "Accepted"
+    }
+  },
+  "errors": {
+    "network": "Network error: Unable to connect to the server. Please check your internet connection and try again.",
+    "unauthorized": "You are not authorized to perform this action. Please sign in again.",
+    "forbidden": "You do not have permission to perform this action.",
+    "notFound": "The requested resource was not found.",
+    "validation": "Please check the entered information and try again.",
+    "internal": "Something went wrong. Please try again.",
+    "unknown": "Something went wrong. Please try again."
+  },
+  "documentTitle": {
+    "default": "Velora CRM",
+    "suffix": " | Velora CRM",
+    "dashboard": {
+      "list": "Dashboard | Velora CRM"
+    },
+    "companies": {
+      "list": "Companies | Velora CRM",
+      "create": "Create Company | Velora CRM",
+      "edit": "Edit Company | Velora CRM"
+    },
+    "tasks": {
+      "list": "Tasks | Velora CRM",
+      "create": "Create Task | Velora CRM",
+      "edit": "Edit Task | Velora CRM"
+    }
+  }
+}

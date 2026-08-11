@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import {
   type HttpError,
@@ -29,6 +30,7 @@ type TaskStage = GetFieldsFromList<TaskStagesQuery> & { tasks: Task[] };
 
 export const TasksListPage = ({ children }: React.PropsWithChildren) => {
   const { replace } = useNavigation();
+  const { t } = useTranslation();
 
   const { data: stages, isLoading: isLoadingStages } = useList<TaskStage>({
     resource: "taskStages",
@@ -144,7 +146,7 @@ export const TasksListPage = ({ children }: React.PropsWithChildren) => {
         <KanbanBoard onDragEnd={handleOnDragEnd}>
           <KanbanColumn
             id={"unassigned"}
-            title={"unassigned"}
+            title={t("common.unassigned")}
             count={taskStages?.unassignedStage?.length || 0}
             onAddClick={() => handleAddCard({ stageId: "unassigned" })}
           >
@@ -173,7 +175,7 @@ export const TasksListPage = ({ children }: React.PropsWithChildren) => {
               <KanbanColumn
                 key={column.id}
                 id={column.id}
-                title={column.title}
+                title={t(`enums.taskStage.${column.title}`)}
                 count={column.tasks.length}
                 onAddClick={() => handleAddCard({ stageId: column.id })}
               >

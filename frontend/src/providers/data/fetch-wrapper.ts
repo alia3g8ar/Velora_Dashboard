@@ -1,7 +1,29 @@
 import type { GraphQLFormattedError } from "graphql";
 
+import i18n from "@/i18n";
+
 type GraphQLError = Error & {
   statusCode: string;
+};
+
+/**
+ * Maps known backend messages to localized, user-friendly UI text so raw
+ * implementation details never leak into notifications.
+ */
+const mapKnownError = (message: string): string => {
+  if (message.includes("Invalid email or password")) {
+    return i18n.t("pages.login.errors.invalidCredentials");
+  }
+  if (
+    message.includes("Not authenticated") ||
+    message.includes("Invalid or expired access token")
+  ) {
+    return i18n.t("errors.unauthorized");
+  }
+  if (message.includes("User not found")) {
+    return i18n.t("errors.notFound");
+  }
+  return message;
 };
 
 const customFetch = async (url: string, options: RequestInit) => {
@@ -34,7 +56,7 @@ export const fetchWrapper = async (
 
     // Check if the response is ok
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(i18n.t("errors.internal"));
     }
 
     const responseClone = response.clone();
@@ -54,9 +76,7 @@ export const fetchWrapper = async (
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1 second before retry
         return fetchWrapper(url, options, retries - 1);
       }
-      throw new Error(
-        "Network error: Unable to connect to the server. Please check your internet connection and try again.",
-      );
+      throw new Error(i18n.t("errors.network"));
     }
 
     // Handle authentication errors. The authProvider's `onError` is responsible
@@ -86,7 +106,7 @@ const getGraphQLErrors = (
     const code = errors?.[0]?.extensions?.code;
 
     return createGraphQLError(
-      messages || JSON.stringify(errors),
+      mapKnownError(messages || JSON.stringify(errors)),
       (code as string) || "INTERNAL_SERVER_ERROR",
     );
   }

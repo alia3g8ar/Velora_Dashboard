@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import { useList } from "@refinedev/core";
 import type { GetFieldsFromList } from "@refinedev/nestjs-query";
@@ -14,6 +15,7 @@ import { DASHBOARD_DEALS_CHART_QUERY } from "./queries";
 import { mapDealsData } from "./utils";
 
 export const DashboardDealsChart = () => {
+  const { t } = useTranslation();
   const { data } = useList<GetFieldsFromList<DashboardDealsChartQuery>>({
     resource: "dealStages",
     filters: [{ field: "title", operator: "in", value: ["WON", "LOST"] }],
@@ -37,6 +39,11 @@ export const DashboardDealsChart = () => {
     smooth: true,
     legend: {
       offsetY: -6,
+      itemName: {
+        formatter: (name: string) => {
+          return t(`dashboard.dealState.${name.toLowerCase()}`, name);
+        },
+      },
     },
     yAxis: {
       tickCount: 4,
@@ -49,7 +56,9 @@ export const DashboardDealsChart = () => {
     tooltip: {
       formatter: (data) => {
         return {
-          name: data.state,
+          name: String(
+            t(`dashboard.dealState.${data.state.toLowerCase()}`, data.state),
+          ),
           value: `$${Number(data.value) / 1000}k`,
         };
       },
@@ -78,8 +87,8 @@ export const DashboardDealsChart = () => {
           }}
         >
           <DollarOutlined />
-          <Text size="sm" style={{ marginLeft: ".5rem" }}>
-            Deals
+          <Text size="sm" style={{ marginInlineStart: ".5rem" }}>
+            {t("dashboard.deals")}
           </Text>
         </div>
       }

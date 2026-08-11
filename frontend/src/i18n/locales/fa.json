@@ -1,0 +1,251 @@
+{
+  "common": {
+    "save": "ذخیره",
+    "cancel": "انصراف",
+    "delete": "حذف",
+    "edit": "ویرایش",
+    "create": "ایجاد",
+    "actions": "عملیات",
+    "unassigned": "بدون دسته",
+    "paginationTotal": "در مجموع {{count}} {{entity}}"
+  },
+  "buttons": {
+    "create": "ایجاد",
+    "edit": "ویرایش",
+    "save": "ذخیره",
+    "delete": "حذف",
+    "cancel": "انصراف",
+    "refresh": "تازه‌سازی",
+    "confirm": "آیا مطمئن هستید؟",
+    "filter": "فیلتر",
+    "clear": "پاک کردن",
+    "logout": "خروج"
+  },
+  "brand": {
+    "logoAlt": "لوگوی ولورا"
+  },
+  "language": {
+    "label": "زبان",
+    "english": "English",
+    "persian": "فارسی"
+  },
+  "dashboard": {
+    "dashboard": "داشبورد",
+    "title": "داشبورد",
+    "companiesCount": "تعداد شرکت‌ها",
+    "contactsCount": "تعداد مخاطبان",
+    "dealsCount": "کل معامله‌های در جریان",
+    "deals": "معامله‌ها",
+    "latestActivities": "آخرین فعالیت‌ها",
+    "upcomingEvents": "رویدادهای پیش‌رو",
+    "noUpcomingEvent": "رویداد پیش‌رویی وجود ندارد",
+    "dealState": {
+      "won": "برنده",
+      "lost": "از دست رفته"
+    },
+    "activities": {
+      "createdSentence": "{{user}} معاملهٔ «{{deal}}» را در مرحلهٔ {{stage}} ایجاد کرد.",
+      "movedSentence": "{{user}} معاملهٔ «{{deal}}» را به مرحلهٔ {{stage}} منتقل کرد."
+    }
+  },
+  "companies": {
+    "companies": "شرکت‌ها",
+    "singular": "شرکت",
+    "titles": {
+      "list": "شرکت‌ها",
+      "create": "ایجاد شرکت",
+      "edit": "ویرایش شرکت"
+    },
+    "fields": {
+      "companyTitle": "نام شرکت",
+      "searchCompany": "جستجوی شرکت",
+      "openDealsAmount": "مبلغ معامله‌های باز",
+      "addNewCompany": "افزودن شرکت جدید",
+      "companyName": "نام شرکت",
+      "enterCompanyName": "لطفاً نام شرکت را وارد کنید",
+      "salesOwner": "مالک فروش",
+      "enterSalesOwner": "لطفاً کاربر مالک فروش را انتخاب کنید",
+      "companySize": "اندازه شرکت",
+      "totalRevenue": "درآمد کل",
+      "industry": "صنعت",
+      "businessType": "نوع کسب‌وکار",
+      "country": "کشور",
+      "website": "وب‌سایت"
+    },
+    "contacts": {
+      "title": "مخاطبان",
+      "totalContacts": "تعداد کل مخاطبان: ",
+      "name": "نام",
+      "title": "عنوان",
+      "stage": "مرحله",
+      "searchName": "جستجوی نام",
+      "searchTitle": "جستجوی عنوان",
+      "selectStage": "انتخاب مرحله"
+    }
+  },
+  "tasks": {
+    "tasks": "وظایف",
+    "titles": {
+      "list": "وظایف",
+      "create": "ایجاد وظیفه",
+      "edit": "ویرایش وظیفه"
+    },
+    "viewCard": "مشاهده کارت",
+    "deleteCard": "حذف کارت",
+    "addNewCard": "افزودن کارت جدید",
+    "title": "عنوان",
+    "description": "توضیحات",
+    "dueDate": "تاریخ سررسید",
+    "users": "کاربران",
+    "assignToUsers": "اختصاص به کاربران",
+    "addTaskDescription": "افزودن توضیحات وظیفه",
+    "addDueDate": "افزودن تاریخ سررسید",
+    "overdue": "گذشته",
+    "dueSoon": "نزدیک",
+    "processing": "در حال انجام",
+    "selectStage": "انتخاب مرحله",
+    "markAsComplete": "علامت‌گذاری به‌عنوان انجام‌شده"
+  },
+  "accountSettings": {
+    "menuItem": "تنظیمات حساب",
+    "title": "تنظیمات حساب",
+    "name": "نام",
+    "email": "ایمیل",
+    "jobTitle": "عنوان شغلی",
+    "phone": "تلفن"
+  },
+  "pages": {
+    "login": {
+      "title": "ورود به حساب کاربری",
+      "fields": {
+        "email": "ایمیل",
+        "password": "رمز عبور"
+      },
+      "errors": {
+        "requiredEmail": "ایمیل الزامی است",
+        "validEmail": "آدرس ایمیل نامعتبر است",
+        "requiredPassword": "رمز عبور الزامی است",
+        "invalidCredentials": "ایمیل یا رمز عبور اشتباه است",
+        "loginFailed": "ورود ناموفق بود"
+      },
+      "signin": "ورود",
+      "buttons": {
+        "rememberMe": "مرا به خاطر بسپار"
+      }
+    },
+    "error": {
+      "404": "با عرض پوزش، صفحه‌ای که بازدید کرده‌اید وجود ندارد.",
+      "backHome": "بازگشت به خانه"
+    }
+  },
+  "notifications": {
+    "success": "موفق",
+    "error": "خطا",
+    "createSuccess": "{{resource}} با موفقیت ایجاد شد",
+    "createError": "خطا در ایجاد {{resource}} (کد خطا: {{statusCode}})",
+    "editSuccess": "{{resource}} با موفقیت به‌روزرسانی شد",
+    "editError": "خطا در به‌روزرسانی {{resource}} (کد خطا: {{statusCode}})",
+    "deleteSuccess": "{{resource}} با موفقیت حذف شد",
+    "deleteError": "خطا در حذف {{resource}} (کد خطا: {{statusCode}})"
+  },
+  "warnWhenUnsavedChanges": "آیا مطمئن هستید که می‌خواهید خارج شوید؟ تغییرات ذخیره‌نشده‌ای وجود دارد.",
+  "enums": {
+    "taskStage": {
+      "TODO": "برای انجام",
+      "IN PROGRESS": "در حال انجام",
+      "IN REVIEW": "در حال بررسی",
+      "DONE": "انجام شده"
+    },
+    "dealStage": {
+      "NEW": "جدید",
+      "QUALIFIED": "واجد شرایط",
+      "PROPOSAL": "پیشنهاد",
+      "WON": "برنده",
+      "LOST": "از دست رفته"
+    },
+    "companySize": {
+      "ENTERPRISE": "سازمانی",
+      "LARGE": "بزرگ",
+      "MEDIUM": "متوسط",
+      "SMALL": "کوچک"
+    },
+    "businessType": {
+      "B2B": "B2B",
+      "B2C": "B2C",
+      "B2G": "B2G"
+    },
+    "industry": {
+      "AEROSPACE": "هوافضا",
+      "AGRICULTURE": "کشاورزی",
+      "AUTOMOTIVE": "خودروسازی",
+      "CHEMICALS": "مواد شیمیایی",
+      "CONSTRUCTION": "ساخت‌وساز",
+      "DEFENSE": "دفاعی",
+      "EDUCATION": "آموزش",
+      "ENERGY": "انرژی",
+      "FINANCIAL_SERVICES": "خدمات مالی",
+      "FOOD_AND_BEVERAGE": "غذا و نوشیدنی",
+      "GOVERNMENT": "دولت",
+      "HEALTHCARE": "بهداشت و درمان",
+      "HOSPITALITY": "مهمان‌داری",
+      "INDUSTRIAL_MANUFACTURING": "تولید صنعتی",
+      "INSURANCE": "بیمه",
+      "LIFE_SCIENCES": "علوم زیستی",
+      "LOGISTICS": "لجستیک",
+      "MEDIA": "رسانه",
+      "MINING": "معدن",
+      "NONPROFIT": "غیرانتفاعی",
+      "OTHER": "سایر",
+      "PHARMACEUTICALS": "داروسازی",
+      "PROFESSIONAL_SERVICES": "خدمات تخصصی",
+      "REAL_ESTATE": "املاک",
+      "RETAIL": "خرده‌فروشی",
+      "TECHNOLOGY": "فناوری",
+      "TELECOMMUNICATIONS": "مخابرات",
+      "TRANSPORTATION": "حمل‌ونقل",
+      "UTILITIES": "تأسیسات"
+    },
+    "contactStatus": {
+      "NEW": "جدید",
+      "QUALIFIED": "واجد شرایط",
+      "UNQUALIFIED": "نامناسب",
+      "WON": "برنده",
+      "NEGOTIATION": "در حال مذاکره",
+      "LOST": "از دست رفته",
+      "INTERESTED": "علاقه‌مند",
+      "CONTACTED": "تماس گرفته شده",
+      "CHURNED": "ریزش‌شده"
+    },
+    "quoteStatus": {
+      "DRAFT": "پیش‌نویس",
+      "SENT": "ارسال شده",
+      "ACCEPTED": "پذیرفته شده"
+    }
+  },
+  "errors": {
+    "network": "خطای شبکه: امکان اتصال به سرور وجود ندارد. لطفاً اتصال اینترنت خود را بررسی کنید و دوباره تلاش کنید.",
+    "unauthorized": "شما مجاز به انجام این عملیات نیستید. لطفاً دوباره وارد شوید.",
+    "forbidden": "شما اجازه انجام این عملیات را ندارید.",
+    "notFound": "منبع درخواستی یافت نشد.",
+    "validation": "لطفاً اطلاعات وارد شده را بررسی کنید و دوباره تلاش کنید.",
+    "internal": "مشکلی پیش آمد. لطفاً دوباره تلاش کنید.",
+    "unknown": "مشکلی پیش آمد. لطفاً دوباره تلاش کنید."
+  },
+  "documentTitle": {
+    "default": "ولورا CRM",
+    "suffix": " | ولورا CRM",
+    "dashboard": {
+      "list": "داشبورد | ولورا CRM"
+    },
+    "companies": {
+      "list": "شرکت‌ها | ولورا CRM",
+      "create": "ایجاد شرکت | ولورا CRM",
+      "edit": "ویرایش شرکت | ولورا CRM"
+    },
+    "tasks": {
+      "list": "وظایف | ولورا CRM",
+      "create": "ایجاد وظیفه | ولورا CRM",
+      "edit": "ویرایش وظیفه | ولورا CRM"
+    }
+  }
+}

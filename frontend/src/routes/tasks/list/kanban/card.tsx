@@ -1,4 +1,5 @@
 import { memo, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 import { useDelete, useNavigation } from "@refinedev/core";
 
@@ -47,11 +48,12 @@ export const ProjectCard = ({
   const { token } = theme.useToken();
   const { edit } = useNavigation();
   const { mutate } = useDelete();
+  const { t } = useTranslation();
 
   const dropdownItems = useMemo(() => {
     const dropdownItems: MenuProps["items"] = [
       {
-        label: "View card",
+        label: t("tasks.viewCard"),
         key: "1",
         icon: <EyeOutlined />,
         onClick: () => {
@@ -60,7 +62,7 @@ export const ProjectCard = ({
       },
       {
         danger: true,
-        label: "Delete card",
+        label: t("tasks.deleteCard"),
         key: "2",
         icon: <DeleteOutlined />,
         onClick: () => {
@@ -76,7 +78,7 @@ export const ProjectCard = ({
     ];
 
     return dropdownItems;
-  }, []);
+  }, [t]);
 
   const dueDateOptions = useMemo(() => {
     if (!dueDate) return null;
@@ -153,7 +155,7 @@ export const ProjectCard = ({
         >
           <TextIcon
             style={{
-              marginRight: "4px",
+              marginInlineEnd: "4px",
             }}
           />
           {dueDateOptions && (
@@ -186,8 +188,8 @@ export const ProjectCard = ({
               style={{
                 display: "flex",
                 justifyContent: "flex-end",
-                marginLeft: "auto",
-                marginRight: "0",
+                marginInlineStart: "auto",
+                marginInlineEnd: "0",
               }}
             >
               {users.map((user) => {

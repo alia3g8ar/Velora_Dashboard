@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import { useGetIdentity } from "@refinedev/core";
 
@@ -12,6 +13,7 @@ import { Text } from "../../text";
 import { AccountSettings } from "../account-settings";
 
 export const CurrentUser = () => {
+  const { t } = useTranslation();
   const [opened, setOpened] = React.useState(false);
   const { data: user } = useGetIdentity<User>();
 
@@ -40,13 +42,13 @@ export const CurrentUser = () => {
         }}
       >
         <Button
-          style={{ textAlign: "left" }}
+          style={{ textAlign: "start" }}
           icon={<SettingOutlined />}
           type="text"
           block
           onClick={() => setOpened(true)}
         >
-          Account settings
+          {t("accountSettings.menuItem")}
         </Button>
       </div>
     </div>

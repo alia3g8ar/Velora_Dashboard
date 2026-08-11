@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 
 import { FilterDropdown, useTable } from "@refinedev/antd";
@@ -20,6 +21,7 @@ type Contact = GetFieldsFromList<CompanyContactsTableQuery>;
 
 export const CompanyContactsTable = () => {
   const params = useParams();
+  const { t } = useTranslation();
 
   const { tableProps } = useTable<Contact>({
     resource: "contacts",
@@ -73,12 +75,12 @@ export const CompanyContactsTable = () => {
       title={
         <Space size="middle">
           <TeamOutlined />
-          <Text>Contacts</Text>
+          <Text>{t("companies.contacts.title")}</Text>
         </Space>
       }
       extra={
         <>
-          <Text className="tertiary">Total contacts: </Text>
+          <Text className="tertiary">{t("companies.contacts.totalContacts")}</Text>
           <Text strong>
             {tableProps?.pagination !== false && tableProps.pagination?.total}
           </Text>
@@ -94,7 +96,7 @@ export const CompanyContactsTable = () => {
         }}
       >
         <Table.Column<Contact>
-          title="Name"
+          title={t("companies.contacts.name")}
           dataIndex="name"
           render={(_, record) => {
             return (
@@ -113,22 +115,22 @@ export const CompanyContactsTable = () => {
           filterIcon={<SearchOutlined />}
           filterDropdown={(props) => (
             <FilterDropdown {...props}>
-              <Input placeholder="Search Name" />
+              <Input placeholder={t("companies.contacts.searchName")} />
             </FilterDropdown>
           )}
         />
         <Table.Column
-          title="Title"
+          title={t("companies.contacts.title")}
           dataIndex="jobTitle"
           filterIcon={<SearchOutlined />}
           filterDropdown={(props) => (
             <FilterDropdown {...props}>
-              <Input placeholder="Search Title" />
+              <Input placeholder={t("companies.contacts.searchTitle")} />
             </FilterDropdown>
           )}
         />
         <Table.Column<Contact>
-          title="Stage"
+          title={t("companies.contacts.stage")}
           dataIndex="status"
           render={(_, record) => {
             return <ContactStatusTag status={record.status} />;
@@ -138,8 +140,11 @@ export const CompanyContactsTable = () => {
               <Select
                 style={{ width: "200px" }}
                 mode="multiple"
-                placeholder="Select Stage"
-                options={statusOptions}
+                placeholder={t("companies.contacts.selectStage")}
+                options={statusOptions.map((option) => ({
+                  ...option,
+                  label: t(`enums.contactStatus.${option.value}`),
+                }))}
               />
             </FilterDropdown>
           )}

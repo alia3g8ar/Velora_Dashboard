@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { useList } from "@refinedev/core";
 import type { GetFieldsFromList } from "@refinedev/nestjs-query";
 
@@ -19,6 +21,7 @@ import {
 type Props = { limit?: number };
 
 export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
+  const { t } = useTranslation();
   const {
     data: audit,
     isLoading: isLoadingAudit,
@@ -98,8 +101,8 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
           }}
         >
           <UnorderedListOutlined />
-          <Text size="sm" style={{ marginLeft: ".5rem" }}>
-            Latest activities
+          <Text size="sm" style={{ marginInlineStart: ".5rem" }}>
+            {t("dashboard.latestActivities")}
           </Text>
         </div>
       }
@@ -193,29 +196,29 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
                       }}
                       direction="horizontal"
                     >
-                      <Text strong style={{ whiteSpace: "nowrap" }}>
-                        {item.user?.name}
-                      </Text>
-                      <Text style={{ whiteSpace: "nowrap" }}>
-                        {item.action === "CREATE" ? "created" : "moved"}
-                      </Text>
                       <Text
-                        strong
                         style={{
                           whiteSpace: "nowrap",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
-                          maxWidth: "150px",
+                          maxWidth: "100%",
                         }}
                       >
-                        {deal?.title}
-                      </Text>
-                      <Text style={{ whiteSpace: "nowrap" }}>deal</Text>
-                      <Text style={{ whiteSpace: "nowrap" }}>
-                        {item.action === "CREATE" ? "in" : "to"}
-                      </Text>
-                      <Text strong style={{ whiteSpace: "nowrap" }}>
-                        {deal?.stage?.title || "Unassigned"}.
+                        {item.action === "CREATE"
+                          ? t("dashboard.activities.createdSentence", {
+                              user: item.user?.name,
+                              deal: deal?.title,
+                              stage: deal?.stage?.title
+                                ? t(`enums.dealStage.${deal.stage.title}`)
+                                : t("common.unassigned"),
+                            })
+                          : t("dashboard.activities.movedSentence", {
+                              user: item.user?.name,
+                              deal: deal?.title,
+                              stage: deal?.stage?.title
+                                ? t(`enums.dealStage.${deal.stage.title}`)
+                                : t("common.unassigned"),
+                            })}
                       </Text>
                     </Space>
                   }

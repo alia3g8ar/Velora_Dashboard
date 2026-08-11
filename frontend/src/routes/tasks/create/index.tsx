@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router";
 
 import { useModalForm } from "@refinedev/antd";
@@ -10,6 +11,7 @@ import { CREATE_TASK_MUTATION } from "./queries";
 export const TasksCreatePage = () => {
   const [searchParams] = useSearchParams();
   const { list } = useNavigation();
+  const { t } = useTranslation();
   const { formProps, modalProps, close } = useModalForm({
     action: "create",
     defaultVisible: true,
@@ -25,7 +27,7 @@ export const TasksCreatePage = () => {
         close();
         list("tasks", "replace");
       }}
-      title="Add new card"
+      title={t("tasks.addNewCard")}
       width={512}
     >
       <Form
@@ -41,7 +43,7 @@ export const TasksCreatePage = () => {
           });
         }}
       >
-        <Form.Item label="Title" name="title" rules={[{ required: true }]}>
+        <Form.Item label={t("tasks.title")} name="title" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
       </Form>

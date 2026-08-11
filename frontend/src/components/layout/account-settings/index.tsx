@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { SaveButton, useForm } from "@refinedev/antd";
 import type { HttpError } from "@refinedev/core";
 import { useInvalidate, useOne } from "@refinedev/core";
@@ -24,6 +26,7 @@ type Props = {
 };
 
 export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
+  const { t } = useTranslation();
   const invalidate = useInvalidate();
   const queryClient = useQueryClient();
 
@@ -113,7 +116,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
           backgroundColor: "#fff",
         }}
       >
-        <Text strong>Account Settings</Text>
+        <Text strong>{t("accountSettings.title")}</Text>
         <Button
           type="text"
           icon={<CloseOutlined />}
@@ -137,24 +140,24 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
                 marginBottom: "24px",
               }}
             />
-            <Form.Item label="Name" name="name">
-              <Input placeholder="Name" />
+            <Form.Item label={t("accountSettings.name")} name="name">
+              <Input placeholder={t("accountSettings.name")} />
             </Form.Item>
-            <Form.Item label="Email" name="email">
-              <Input placeholder="email" />
+            <Form.Item label={t("accountSettings.email")} name="email">
+              <Input placeholder={t("accountSettings.email")} />
             </Form.Item>
-            <Form.Item label="Job title" name="jobTitle">
-              <Input placeholder="jobTitle" />
+            <Form.Item label={t("accountSettings.jobTitle")} name="jobTitle">
+              <Input placeholder={t("accountSettings.jobTitle")} />
             </Form.Item>
-            <Form.Item label="Phone" name="phone">
-              <Input placeholder="Timezone" />
+            <Form.Item label={t("accountSettings.phone")} name="phone">
+              <Input placeholder={t("accountSettings.phone")} />
             </Form.Item>
           </Form>
           <SaveButton
             {...saveButtonProps}
             style={{
               display: "block",
-              marginLeft: "auto",
+              marginInlineStart: "auto",
             }}
           />
         </Card>

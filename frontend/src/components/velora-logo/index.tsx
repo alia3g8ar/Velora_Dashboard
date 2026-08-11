@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface VeloraLogoProps {
   width?: number;
@@ -11,10 +12,12 @@ export const VeloraLogo: React.FC<VeloraLogoProps> = ({
   height = 40, 
   className 
 }) => {
+  const { t } = useTranslation();
+
   return (
     <img
       src="/logo-w715.webp"
-      alt="Velora Logo"
+      alt={t("brand.logoAlt")}
       width={width}
       height={height}
       className={className}

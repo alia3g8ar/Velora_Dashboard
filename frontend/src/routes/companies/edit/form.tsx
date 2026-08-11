@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { Edit, useForm, useSelect } from "@refinedev/antd";
 import type { HttpError } from "@refinedev/core";
 import { useInvalidate } from "@refinedev/core";
@@ -29,6 +31,7 @@ import { UPDATE_COMPANY_MUTATION } from "./queries";
 export const CompanyForm = () => {
   const invalidate = useInvalidate();
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   const {
     saveButtonProps,
@@ -90,7 +93,7 @@ export const CompanyForm = () => {
           }}
         />
         <Form.Item
-          label="Sales owner"
+          label={t("companies.fields.salesOwner")}
           name="salesOwnerId"
           initialValue={formProps?.initialValues?.salesOwner?.id}
         >
@@ -109,10 +112,15 @@ export const CompanyForm = () => {
             }
           />
         </Form.Item>
-        <Form.Item label="Company size" name="companySize">
-          <Select options={companySizeOptions} />
+        <Form.Item label={t("companies.fields.companySize")} name="companySize">
+          <Select
+            options={companySizeOptions.map((option) => ({
+              ...option,
+              label: t(`enums.companySize.${option.value}`),
+            }))}
+          />
         </Form.Item>
-        <Form.Item label="Total revenue" name="totalRevenue">
+        <Form.Item label={t("companies.fields.totalRevenue")} name="totalRevenue">
           <InputNumber
             autoFocus
             addonBefore={"$"}
@@ -126,17 +134,27 @@ export const CompanyForm = () => {
             }
           />
         </Form.Item>
-        <Form.Item label="Industry" name="industry">
-          <Select options={industryOptions} />
+        <Form.Item label={t("companies.fields.industry")} name="industry">
+          <Select
+            options={industryOptions.map((option) => ({
+              ...option,
+              label: t(`enums.industry.${option.value}`),
+            }))}
+          />
         </Form.Item>
-        <Form.Item label="Business type" name="businessType">
-          <Select options={businessTypeOptions} />
+        <Form.Item label={t("companies.fields.businessType")} name="businessType">
+          <Select
+            options={businessTypeOptions.map((option) => ({
+              ...option,
+              label: t(`enums.businessType.${option.value}`),
+            }))}
+          />
         </Form.Item>
-        <Form.Item label="Country" name="country">
-          <Input placeholder="Country" />
+        <Form.Item label={t("companies.fields.country")} name="country">
+          <Input placeholder={t("companies.fields.country")} />
         </Form.Item>
-        <Form.Item label="Website" name="website">
-          <Input placeholder="Website" />
+        <Form.Item label={t("companies.fields.website")} name="website">
+          <Input placeholder={t("companies.fields.website")} />
         </Form.Item>
       </Form>
     </Edit>

@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { useForm } from "@refinedev/antd";
 import type { HttpError } from "@refinedev/core";
 import { useInvalidate } from "@refinedev/core";
@@ -25,6 +27,7 @@ type Props = {
 export const DueDateForm = ({ initialValues, cancelForm }: Props) => {
   const invalidate = useInvalidate();
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   const { formProps, saveButtonProps } = useForm<
     GetFields<UpdateTaskMutation>,
@@ -81,10 +84,10 @@ export const DueDateForm = ({ initialValues, cancelForm }: Props) => {
       </Form>
       <Space>
         <Button type="default" onClick={cancelForm}>
-          Cancel
+          {t("common.cancel")}
         </Button>
         <Button {...saveButtonProps} type="primary">
-          Save
+          {t("common.save")}
         </Button>
       </Space>
     </div>

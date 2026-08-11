@@ -1,8 +1,37 @@
 import type { AuthProvider } from "@refinedev/core";
 
 import type { User } from "@/graphql/schema.types";
+import i18n from "@/i18n";
 
 import { API_URL, dataProvider } from "./data";
+
+/**
+ * Maps known backend auth failures to localized, user-friendly messages so
+ * raw implementation details never leak into the UI.
+ */
+const mapAuthError = (error: unknown) => {
+  const message = error instanceof Error ? error.message : "";
+  // The fetch wrapper already maps known backend messages to the active
+  // language, so match both the raw backend text and its translated form.
+  const invalidCredentials = i18n.t("pages.login.errors.invalidCredentials");
+  const unauthorized = i18n.t("errors.unauthorized");
+
+  if (
+    message === invalidCredentials ||
+    message.includes("Invalid email or password")
+  ) {
+    return invalidCredentials;
+  }
+  if (
+    message === unauthorized ||
+    message.includes("Not authenticated") ||
+    message.includes("Invalid or expired access token")
+  ) {
+    return unauthorized;
+  }
+
+  return i18n.t("pages.login.errors.loginFailed");
+};
 
 /**
  * For demo purposes and to make it easier to test Velora CRM, you can use the following credentials:
@@ -41,13 +70,13 @@ export const authProvider: AuthProvider = {
         redirectTo: "/",
       };
     } catch (e) {
-      const error = e as Error;
+      const translated = mapAuthError(e);
 
       return {
         success: false,
         error: {
-          message: "message" in error ? error.message : "Login failed",
-          name: "name" in error ? error.name : "Invalid email or password",
+          message: translated,
+          name: translated,
         },
       };
     }

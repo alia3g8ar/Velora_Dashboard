@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { DeleteButton, useModalForm } from "@refinedev/antd";
 import { useNavigation } from "@refinedev/core";
@@ -27,6 +28,7 @@ export const TasksEditPage = () => {
   const [activeKey, setActiveKey] = useState<string | undefined>();
 
   const { list } = useNavigation();
+  const { t } = useTranslation();
   const { modalProps, close, queryResult } = useModalForm<Task>({
     action: "edit",
     defaultVisible: true,
@@ -55,7 +57,7 @@ export const TasksEditPage = () => {
             list("tasks", "replace");
           }}
         >
-          Delete card
+          {t("tasks.deleteCard")}
         </DeleteButton>
       }
     >
@@ -67,7 +69,7 @@ export const TasksEditPage = () => {
         fallback={<DescriptionHeader description={description} />}
         isLoading={isLoading}
         icon={<AlignLeftOutlined />}
-        label="Description"
+        label={t("tasks.description")}
       >
         <DescriptionForm
           initialValues={{ description }}
@@ -81,7 +83,7 @@ export const TasksEditPage = () => {
         fallback={<DueDateHeader dueData={dueDate} />}
         isLoading={isLoading}
         icon={<FieldTimeOutlined />}
-        label="Due date"
+        label={t("tasks.dueDate")}
       >
         <DueDateForm
           initialValues={{ dueDate: dueDate ?? undefined }}
@@ -95,7 +97,7 @@ export const TasksEditPage = () => {
         fallback={<UsersHeader users={users} />}
         isLoading={isLoading}
         icon={<UsergroupAddOutlined />}
-        label="Users"
+        label={t("tasks.users")}
       >
         <UsersForm
           initialValues={{

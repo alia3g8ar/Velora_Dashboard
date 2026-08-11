@@ -2,6 +2,7 @@ import React from "react";
 
 import { Layout, Space, theme } from "antd";
 
+import { LanguageSwitcher } from "../../language-switcher";
 import { CurrentUser } from "../current-user";
 
 const { useToken } = theme;
@@ -25,6 +26,7 @@ export const Header = () => {
     <Layout.Header style={headerStyles}>
       <div></div>
       <Space align="center" size="middle">
+        <LanguageSwitcher />
         <CurrentUser />
       </Space>
     </Layout.Header>

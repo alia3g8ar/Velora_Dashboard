@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import {
   CreateButton,
@@ -24,6 +25,7 @@ type Company = GetFieldsFromList<CompaniesListQuery>;
 
 export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
   const go = useGo();
+  const { t } = useTranslation();
 
   const { tableProps, filters } = useTable<Company, HttpError, Company>({
     resource: "companies",
@@ -100,12 +102,12 @@ export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
         >
           <Table.Column<Company>
             dataIndex="name"
-            title="Company title"
+            title={t("companies.fields.companyTitle")}
             defaultFilteredValue={getDefaultFilter("id", filters)}
             filterIcon={<SearchOutlined />}
             filterDropdown={(props) => (
               <FilterDropdown {...props}>
-                <Input placeholder="Search Company" />
+                <Input placeholder={t("companies.fields.searchCompany")} />
               </FilterDropdown>
             )}
             render={(_, record) => {
@@ -129,7 +131,7 @@ export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
           />
           <Table.Column<Company>
             dataIndex={"totalRevenue"}
-            title="Open deals amount"
+            title={t("companies.fields.openDealsAmount")}
             render={(_, company) => {
               return (
                 <Text>
@@ -141,7 +143,7 @@ export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
           <Table.Column<Company>
             fixed="right"
             dataIndex="id"
-            title="Actions"
+            title={t("common.actions")}
             render={(value) => (
               <Space>
                 <EditButton hideText size="small" recordItemId={value} />

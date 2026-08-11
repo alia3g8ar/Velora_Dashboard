@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 import { Space, Tag, Typography } from "antd";
 import dayjs from "dayjs";
 
@@ -10,6 +12,8 @@ type Props = {
 };
 
 export const DueDateHeader = ({ dueData }: Props) => {
+  const { t } = useTranslation();
+
   if (dueData) {
     const color = getDateColor({
       date: dueData,
@@ -18,21 +22,21 @@ export const DueDateHeader = ({ dueData }: Props) => {
     const getTagText = () => {
       switch (color) {
         case "error":
-          return "Overdue";
+          return t("tasks.overdue");
         case "warning":
-          return "Due soon";
+          return t("tasks.dueSoon");
         default:
-          return "Processing";
+          return t("tasks.processing");
       }
     };
 
     return (
       <Space size={[0, 8]}>
         <Tag color={color}>{getTagText()}</Tag>
-        <Text>{dayjs(dueData).format("MMMM D, YYYY - h:ma")}</Text>
+        <Text>{dayjs(dueData).format("MMMM D, YYYY - h:mm A")}</Text>
       </Space>
     );
   }
 
-  return <Typography.Link>Add due date</Typography.Link>;
+  return <Typography.Link>{t("tasks.addDueDate")}</Typography.Link>;
 };

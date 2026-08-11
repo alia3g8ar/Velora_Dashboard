@@ -1,6 +1,7 @@
 export * from "./accordion";
 export * from "./custom-avatar";
 export * from "./icon";
+export * from "./language-switcher";
 export * from "./layout";
 export * from "./pagination-total";
 export * from "./select-option-with-avatar";

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import { AuditOutlined, ShopOutlined, TeamOutlined } from "@ant-design/icons";
 import { Area, type AreaConfig } from "@ant-design/plots";
@@ -19,7 +20,9 @@ export const DashboardTotalCountCard = ({
   isLoading,
   totalCount,
 }: Props) => {
-  const { primaryColor, secondaryColor, icon, title } = variants[resource];
+  const { t } = useTranslation();
+  const { primaryColor, secondaryColor, icon } = variants[resource];
+  const title = t(`dashboard.${resource}Count`);
 
   const config: AreaConfig = {
     appendPadding: [1, 0, 0, 0],
@@ -62,7 +65,8 @@ export const DashboardTotalCountCard = ({
     <Card
       style={{ height: "96px", padding: 0 }}
       bodyStyle={{
-        padding: "8px 8px 8px 12px",
+        padding: "8px",
+        paddingInlineStart: "12px",
       }}
       size="small"
     >
@@ -75,7 +79,11 @@ export const DashboardTotalCountCard = ({
         }}
       >
         {icon}
-        <Text size="md" className="secondary" style={{ marginLeft: "8px" }}>
+        <Text
+          size="md"
+          className="secondary"
+          style={{ marginInlineStart: "8px" }}
+        >
           {title}
         </Text>
       </div>
@@ -93,7 +101,7 @@ export const DashboardTotalCountCard = ({
             whiteSpace: "nowrap",
             flexShrink: 0,
             textAlign: "start",
-            marginLeft: "48px",
+            marginInlineStart: "48px",
             fontVariantNumeric: "tabular-nums",
           }}
         >
@@ -145,7 +153,6 @@ const variants: {
     primaryColor: string;
     secondaryColor?: string;
     icon: React.ReactNode;
-    title: string;
     data: { index: string; value: number }[];
   };
 } = {
@@ -162,7 +169,6 @@ const variants: {
         />
       </IconWrapper>
     ),
-    title: "Number of companies",
     data: [
       {
         index: "1",
@@ -199,7 +205,6 @@ const variants: {
         />
       </IconWrapper>
     ),
-    title: "Number of contacts",
     data: [
       {
         index: "1",
@@ -240,7 +245,6 @@ const variants: {
         />
       </IconWrapper>
     ),
-    title: "Total deals in pipeline",
     data: [
       {
         index: "1",

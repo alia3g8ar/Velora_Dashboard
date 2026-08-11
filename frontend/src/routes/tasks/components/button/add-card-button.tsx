@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import { PlusSquareOutlined } from "@ant-design/icons";
 import { Button } from "antd";
@@ -13,6 +14,8 @@ export const KanbanAddCardButton = ({
   children,
   onClick,
 }: React.PropsWithChildren<Props>) => {
+  const { t } = useTranslation();
+
   return (
     <Button
       size="large"
@@ -25,7 +28,7 @@ export const KanbanAddCardButton = ({
     >
       {children ?? (
         <Text size="md" type="secondary">
-          Add new card
+          {t("tasks.addNewCard")}
         </Text>
       )}
     </Button>

@@ -6,12 +6,17 @@ import {
   ShopOutlined,
 } from "@ant-design/icons";
 
+/**
+ * Resource labels are intentionally not hardcoded here: Refine resolves the
+ * sidebar/menu labels through the i18nProvider using the
+ * `${resourceName}.${resourceName}` key convention, so removing `meta.label`
+ * lets the labels be translated (see src/i18n/locales/*.json).
+ */
 export const resources: IResourceItem[] = [
   {
     name: "dashboard",
     list: "/",
     meta: {
-      label: "Dashboard",
       icon: <DashboardOutlined />,
     },
   },
@@ -22,7 +27,6 @@ export const resources: IResourceItem[] = [
     create: "/companies/new",
     edit: "/companies/edit/:id",
     meta: {
-      label: "Companies",
       icon: <ShopOutlined />,
     },
   },
@@ -32,7 +36,6 @@ export const resources: IResourceItem[] = [
     create: "/tasks/new",
     edit: "/tasks/edit/:id",
     meta: {
-      label: "Tasks",
       icon: <ProjectOutlined />,
     },
   },

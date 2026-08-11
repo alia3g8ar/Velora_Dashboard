@@ -14,10 +14,10 @@ export const UserTag = ({ user }: Props) => {
       key={user.id}
       style={{
         padding: 2,
-        paddingRight: 8,
+        paddingInlineEnd: 8,
         borderRadius: 24,
         lineHeight: "unset",
-        marginRight: "unset",
+        marginInlineEnd: "unset",
       }}
     >
       <Space size={4}>
