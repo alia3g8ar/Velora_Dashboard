@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useGetIdentity } from "@refinedev/core";
 
 import { SettingOutlined } from "@ant-design/icons";
-import { Button, Popover } from "antd";
+import { Button, Popover, theme } from "antd";
 
 import type { User } from "@/graphql/schema.types";
 
@@ -14,27 +14,47 @@ import { AccountSettings } from "../account-settings";
 
 export const CurrentUser = () => {
   const { t } = useTranslation();
+  const { token } = theme.useToken();
   const [opened, setOpened] = React.useState(false);
   const { data: user } = useGetIdentity<User>();
 
   const content = (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <Text
-        strong
-        style={{
-          padding: "12px 20px",
-        }}
-      >
-        {user?.name}
-      </Text>
+    <div style={{ width: 240, padding: 4 }}>
       <div
         style={{
-          borderTop: "1px solid #d9d9d9",
+          display: "flex",
+          alignItems: "center",
+          gap: "12px",
+          padding: "10px 12px",
+        }}
+      >
+        <CustomAvatar
+          name={user?.name}
+          src={user?.avatarUrl}
+          size={36}
+          style={{ flexShrink: 0 }}
+        />
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <Text
+            strong
+            ellipsis={{ tooltip: user?.name }}
+            style={{ display: "block" }}
+          >
+            {user?.name}
+          </Text>
+          <Text
+            className="secondary"
+            size="xs"
+            ellipsis={{ tooltip: user?.email }}
+            style={{ display: "block" }}
+          >
+            {user?.email}
+          </Text>
+        </div>
+      </div>
+      <div
+        style={{
+          borderTop: `1px solid ${token.colorBorderSecondary}`,
           padding: "4px",
           display: "flex",
           flexDirection: "column",

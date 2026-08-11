@@ -7,7 +7,7 @@ import type { GetFields, GetVariables } from "@refinedev/nestjs-query";
 
 import { CloseOutlined } from "@ant-design/icons";
 import { useQueryClient } from "@tanstack/react-query";
-import { Button, Card, Drawer, Form, Input, Spin } from "antd";
+import { Button, Form, Input, Modal, Spin, theme } from "antd";
 
 import type {
   UpdateUserMutation,
@@ -27,6 +27,7 @@ type Props = {
 
 export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
   const { t } = useTranslation();
+  const { token } = theme.useToken();
   const invalidate = useInvalidate();
   const queryClient = useQueryClient();
 
@@ -45,25 +46,29 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
     HttpError,
     GetVariables<UpdateUserMutationVariables>
   >({
-    mutationMode: "pessimistic", // Change to pessimistic for better reliability
+    mutationMode: "pessimistic",
     resource: "users",
     action: "edit",
     id: userId,
-    onMutationSuccess: async () => {
+    onMutationSuccess: () => {
+      // Close immediately; the cache refreshes below run in the background so
+      // the reopened modal and header always show fresh data.
+      closeModal();
+
       // Force refetch user data immediately
-      await refetchUser();
+      void refetchUser();
 
       // Force refetch all user-related queries
-      queryClient.refetchQueries({
+      void queryClient.refetchQueries({
         queryKey: ["default", "users"],
       });
       // Refetch the authenticated user identity so the header updates live
-      queryClient.refetchQueries({
+      void queryClient.refetchQueries({
         queryKey: ["default", "auth", "identity"],
       });
 
       // Also use Refine's invalidate
-      invalidate({
+      void invalidate({
         invalidates: ["list", "detail"],
         resource: "users",
       });
@@ -72,7 +77,7 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
       gqlMutation: UPDATE_USER_MUTATION,
     },
   });
-  const { avatarUrl, name } = queryResult?.data?.data || {};
+  const { avatarUrl, name, email } = queryResult?.data?.data || {};
 
   const closeModal = () => {
     setOpened(false);
@@ -80,88 +85,113 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
 
   if (queryResult?.isLoading) {
     return (
-      <Drawer
+      <Modal
         open={opened}
-        width={756}
+        footer={null}
+        closable={false}
+        centered
+        width={360}
         styles={{
-          body: {
-            background: "#f5f5f5",
+          content: {
+            borderRadius: token.borderRadiusLG,
             display: "flex",
-            alignItems: "center",
             justifyContent: "center",
+            padding: "48px",
           },
         }}
       >
-        <Spin />
-      </Drawer>
+        <Spin size="large" />
+      </Modal>
     );
   }
 
   return (
-    <Drawer
-      onClose={closeModal}
+    <Modal
       open={opened}
-      width={756}
+      onCancel={closeModal}
+      width={480}
+      centered
+      footer={null}
+      closable={false}
       styles={{
-        body: { background: "#f5f5f5", padding: 0 },
-        header: { display: "none" },
+        content: {
+          borderRadius: token.borderRadiusLG,
+          padding: 0,
+          overflow: "hidden",
+        },
       }}
     >
+      {/* Profile header */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
-          padding: "16px",
-          backgroundColor: "#fff",
+          gap: "16px",
+          padding: "20px 24px",
+          borderBottom: `1px solid ${token.colorBorderSecondary}`,
+          background: `linear-gradient(135deg, ${token.colorFillAlter} 0%, #FDF2F8 100%)`,
         }}
       >
-        <Text strong>{t("accountSettings.title")}</Text>
+        <CustomAvatar
+          shape="square"
+          src={avatarUrl}
+          name={getNameInitials(name || "")}
+          style={{
+            width: 64,
+            height: 64,
+            fontSize: 24,
+            borderRadius: token.borderRadiusLG,
+            flexShrink: 0,
+          }}
+        />
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <Text strong size="md" ellipsis={{ tooltip: name }}>
+            {name}
+          </Text>
+          <div>
+            <Text className="secondary" ellipsis={{ tooltip: email }}>
+              {email}
+            </Text>
+          </div>
+        </div>
         <Button
           type="text"
+          aria-label={t("common.close")}
           icon={<CloseOutlined />}
-          onClick={() => closeModal()}
+          onClick={closeModal}
         />
       </div>
+
+      {/* Form */}
+      <div style={{ padding: "24px" }}>
+        <Form {...formProps} layout="vertical">
+          <Form.Item label={t("accountSettings.name")} name="name">
+            <Input placeholder={t("accountSettings.name")} />
+          </Form.Item>
+          <Form.Item label={t("accountSettings.email")} name="email">
+            <Input placeholder={t("accountSettings.email")} />
+          </Form.Item>
+          <Form.Item label={t("accountSettings.jobTitle")} name="jobTitle">
+            <Input placeholder={t("accountSettings.jobTitle")} />
+          </Form.Item>
+          <Form.Item label={t("accountSettings.phone")} name="phone">
+            <Input placeholder={t("accountSettings.phone")} />
+          </Form.Item>
+        </Form>
+      </div>
+
+      {/* Footer actions */}
       <div
         style={{
-          padding: "16px",
+          display: "flex",
+          justifyContent: "flex-end",
+          gap: "8px",
+          padding: "0 24px 24px",
         }}
       >
-        <Card>
-          <Form {...formProps} layout="vertical">
-            <CustomAvatar
-              shape="square"
-              src={avatarUrl}
-              name={getNameInitials(name || "")}
-              style={{
-                width: 96,
-                height: 96,
-                marginBottom: "24px",
-              }}
-            />
-            <Form.Item label={t("accountSettings.name")} name="name">
-              <Input placeholder={t("accountSettings.name")} />
-            </Form.Item>
-            <Form.Item label={t("accountSettings.email")} name="email">
-              <Input placeholder={t("accountSettings.email")} />
-            </Form.Item>
-            <Form.Item label={t("accountSettings.jobTitle")} name="jobTitle">
-              <Input placeholder={t("accountSettings.jobTitle")} />
-            </Form.Item>
-            <Form.Item label={t("accountSettings.phone")} name="phone">
-              <Input placeholder={t("accountSettings.phone")} />
-            </Form.Item>
-          </Form>
-          <SaveButton
-            {...saveButtonProps}
-            style={{
-              display: "block",
-              marginInlineStart: "auto",
-            }}
-          />
-        </Card>
+        <Button onClick={closeModal}>{t("common.cancel")}</Button>
+        <SaveButton {...saveButtonProps} />
       </div>
-    </Drawer>
+    </Modal>
   );
 };

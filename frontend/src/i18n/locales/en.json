@@ -5,6 +5,7 @@
     "delete": "Delete",
     "edit": "Edit",
     "create": "Create",
+    "close": "Close",
     "actions": "Actions",
     "unassigned": "Unassigned",
     "paginationTotal": "{{count}} {{entity}} in total"

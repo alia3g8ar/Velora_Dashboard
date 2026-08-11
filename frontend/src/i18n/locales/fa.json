@@ -5,6 +5,7 @@
     "delete": "حذف",
     "edit": "ویرایش",
     "create": "ایجاد",
+    "close": "بستن",
     "actions": "عملیات",
     "unassigned": "بدون دسته",
     "paginationTotal": "در مجموع {{count}} {{entity}}"
