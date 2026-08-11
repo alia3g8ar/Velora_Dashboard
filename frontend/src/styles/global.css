@@ -1,5 +1,13 @@
 /* Velora Global Styles */
 
+/* Base font stack — Dana (installed locally) is preferred for Persian, with
+   safe fallbacks for systems where it is not installed. */
+html,
+body {
+  font-family: "Dana", "Vazirmatn", "Segoe UI", Tahoma, -apple-system,
+    BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
 /* Prevent horizontal overflow on the main content area */
 .ant-layout-content {
   overflow-x: hidden;

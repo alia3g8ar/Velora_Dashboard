@@ -48,7 +48,7 @@ export const ProjectCard = ({
   const { token } = theme.useToken();
   const { edit } = useNavigation();
   const { mutate } = useDelete();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const dropdownItems = useMemo(() => {
     const dropdownItems: MenuProps["items"] = [
@@ -89,7 +89,9 @@ export const ProjectCard = ({
       color: getDateColor({ date: dueDate }) as string,
       text: date.format("MMM D"),
     };
-  }, [dueDate]);
+    // The formatted label depends on the active dayjs locale, so recompute
+    // on language switches even when dueDate itself did not change.
+  }, [dueDate, i18n.language]);
 
   return (
     <ConfigProvider

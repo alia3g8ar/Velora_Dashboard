@@ -35,7 +35,7 @@ import "@refinedev/antd/dist/reset.css";
 import "@/styles/global.css";
 
 const PERSIAN_FONT_STACK =
-  '"Vazirmatn", "Segoe UI", Tahoma, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif';
+  '"Dana", "Vazirmatn", "Segoe UI", Tahoma, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif';
 
 const getDocumentTitleForPath = (pathname: string, t: (key: string) => string) => {
   if (pathname === "/login") return t("documentTitle.default");

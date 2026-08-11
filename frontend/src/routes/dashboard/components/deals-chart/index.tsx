@@ -15,7 +15,7 @@ import { DASHBOARD_DEALS_CHART_QUERY } from "./queries";
 import { mapDealsData } from "./utils";
 
 export const DashboardDealsChart = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data } = useList<GetFieldsFromList<DashboardDealsChartQuery>>({
     resource: "dealStages",
     filters: [{ field: "title", operator: "in", value: ["WON", "LOST"] }],
@@ -26,7 +26,9 @@ export const DashboardDealsChart = () => {
 
   const dealData = React.useMemo(() => {
     return mapDealsData(data?.data);
-  }, [data?.data]);
+    // The x-axis labels are month names formatted in the active dayjs
+    // locale, so remap when the language changes.
+  }, [data?.data, i18n.language]);
 
   const config: AreaConfig = {
     isStack: false,
