@@ -202,7 +202,10 @@ export const authProvider: AuthProvider = {
 
       return data.me;
     } catch (error) {
-      return undefined;
+      // Return null (not undefined) so React Query treats the identity as
+      // valid empty data instead of a failed query — this keeps the admin
+      // panel's login gate clean when the visitor is logged out.
+      return null;
     }
   },
 };

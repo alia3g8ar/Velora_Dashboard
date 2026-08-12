@@ -333,6 +333,20 @@
       "deleteFailed": "Could not delete the user"
     },
     "accessDenied": "You do not have permission to access this page.",
-    "accessDeniedHint": "Only administrators can manage users."
+    "accessDeniedHint": "Only administrators can manage users.",
+    "login": {
+      "title": "Admin Panel",
+      "subtitle": "Sign in with an administrator account to manage users.",
+      "email": "Email",
+      "emailPlaceholder": "you@company.com",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "submit": "Sign in to Admin Panel",
+      "success": "Welcome back, administrator",
+      "failed": "Could not sign in. Please try again.",
+      "notAdmin": "This account does not have administrator access.",
+      "backToApp": "Want to use the CRM instead?",
+      "backToAppLink": "Back to the app"
+    }
   }
 }

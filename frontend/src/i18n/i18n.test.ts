@@ -80,6 +80,15 @@ describe("i18n infrastructure", () => {
     expect(fa.admin.notifications.lastAdmin).toBeTruthy();
   });
 
+  it("admin login keys exist in both locales", () => {
+    expect(en.admin.login.title).toBe("Admin Panel");
+    expect(fa.admin.login.title).toBe("پنل مدیریت");
+    expect(en.admin.login.submit).toContain("Admin");
+    expect(fa.admin.login.submit).toContain("پنل مدیریت");
+    expect(en.admin.login.notAdmin).toBeTruthy();
+    expect(fa.admin.login.notAdmin).toBeTruthy();
+  });
+
   describe("veloraI18nProvider.translate", () => {
     it("resolves a key to the active language", () => {
       expect(veloraI18nProvider.translate("dashboard.dashboard")).toBe(

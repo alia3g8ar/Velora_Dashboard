@@ -141,8 +141,6 @@ const App = () => {
                   <Route path="edit/:id" element={<DealEditPage />} />
                 </Route>
 
-                <Route path="/admin" element={<AdminPage />} />
-
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
 
@@ -158,6 +156,11 @@ const App = () => {
               >
                 <Route path="/login" element={<LoginPage />} />
               </Route>
+
+              {/* Standalone admin panel: outside the app layout, with its own
+                  login gate. An authenticated ADMIN lands straight on the
+                  panel; everyone else sees the dedicated login form. */}
+              <Route path="/admin" element={<AdminPage />} />
             </Routes>
             <UnsavedChangesNotifier />
           </Refine>

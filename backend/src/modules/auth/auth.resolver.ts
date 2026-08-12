@@ -1,7 +1,8 @@
-import { UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, UnauthorizedException } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { IsPublic } from '../../common/decorators/public.decorator';
 import { AuthenticatedRequest } from '../../common/guard/jwt-auth.guard';
+import { Role } from '../crm/enums';
 import { User } from '../crm/entities/user.entity';
 import { AuthResponse } from './auth-response';
 import { AuthService } from './auth.service';
@@ -22,6 +23,29 @@ export class AuthResolver {
     @Mutation(() => AuthResponse)
     register(@Args('registerInput') registerInput: RegisterInput) {
         return this.authService.register(registerInput);
+    }
+
+    /**
+     * Dedicated entry point for the standalone admin panel. The regular
+     * `login` mutation stays open to every account; this one only issues a
+     * token when the credentials belong to an ADMIN user, so non-admin
+     * accounts can never authenticate into the admin panel even with valid
+     * credentials.
+     */
+    @IsPublic()
+    @Mutation(() => AuthResponse)
+    async adminLogin(
+        @Args('loginInput') loginInput: LoginInput,
+    ): Promise<AuthResponse> {
+        const result = await this.authService.login(loginInput);
+
+        if (result.user.role !== Role.ADMIN) {
+            throw new ForbiddenException(
+                'Admin role is required for this operation',
+            );
+        }
+
+        return result;
     }
 
     @Query(() => User)

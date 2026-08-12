@@ -332,7 +332,21 @@
       "cannotDeleteSelf": "نمی‌توانید حساب خودتان را حذف کنید",
       "deleteFailed": "امکان حذف کاربر وجود نداشت"
     },
-    "accessDenied": "شما مجاز به مشاهده این صفحه نیستید.",
-    "accessDeniedHint": "فقط مدیران می‌توانند کاربران را مدیریت کنند."
+    "accessDenied": "You do not have permission to access this page.",
+    "accessDeniedHint": "Only administrators can manage users.",
+    "login": {
+      "title": "پنل مدیریت",
+      "subtitle": "برای مدیریت کاربران با حساب مدیر وارد شوید.",
+      "email": "ایمیل",
+      "emailPlaceholder": "you@company.com",
+      "password": "رمز عبور",
+      "passwordPlaceholder": "رمز عبور خود را وارد کنید",
+      "submit": "ورود به پنل مدیریت",
+      "success": "خوش آمدید، مدیر",
+      "failed": "ورود ممکن نشد. دوباره تلاش کنید.",
+      "notAdmin": "این حساب دسترسی مدیریت ندارد.",
+      "backToApp": "می‌خواهید از اپ استفاده کنید؟",
+      "backToAppLink": "بازگشت به اپ"
+    }
   }
 }

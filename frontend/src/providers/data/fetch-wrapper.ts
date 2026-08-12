@@ -34,6 +34,9 @@ const mapKnownError = (message: string, code?: string): string => {
   if (message.includes("User not found")) {
     return i18n.t("errors.notFound");
   }
+  if (message.includes("Admin role is required")) {
+    return i18n.t("admin.login.notAdmin");
+  }
   if (message.includes("Avatar image is too large")) {
     return i18n.t("errors.avatarTooLarge");
   }
