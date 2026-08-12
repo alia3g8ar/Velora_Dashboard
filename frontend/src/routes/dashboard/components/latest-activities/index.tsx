@@ -166,6 +166,10 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
             return (
               <List.Item>
                 <List.Item.Meta
+                  style={{
+                    minWidth: 0,
+                    width: "100%",
+                  }}
                   avatar={
                     <CustomAvatar
                       shape="square"
@@ -181,6 +185,7 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
+                        maxWidth: "100%",
                       }}
                     >
                       {titleText}
@@ -192,16 +197,15 @@ export const DashboardLatestActivities = ({ limit = 5 }: Props) => {
                       style={{
                         flexWrap: "wrap",
                         width: "100%",
+                        minWidth: 0,
                         gap: "4px",
                       }}
                       direction="horizontal"
                     >
                       <Text
                         style={{
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          maxWidth: "100%",
+                          whiteSpace: "normal",
+                          overflowWrap: "anywhere",
                         }}
                       >
                         {item.action === "CREATE"

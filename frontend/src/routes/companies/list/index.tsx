@@ -99,6 +99,7 @@ export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
             ),
           }}
           rowKey="id"
+          scroll={{ x: 560 }}
         >
           <Table.Column<Company>
             dataIndex="name"
@@ -134,7 +135,7 @@ export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
             title={t("companies.fields.openDealsAmount")}
             render={(_, company) => {
               return (
-                <Text>
+                <Text style={{ whiteSpace: "nowrap" }}>
                   {currencyNumber(company?.dealsAggregate?.[0].sum?.value || 0)}
                 </Text>
               );

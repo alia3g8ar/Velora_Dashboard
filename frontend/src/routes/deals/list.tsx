@@ -108,6 +108,7 @@ export const DealListPage = () => {
             ),
           }}
           rowKey="id"
+          scroll={{ x: 960 }}
         >
           <Table.Column<Deal>
             dataIndex="title"
@@ -148,7 +149,9 @@ export const DealListPage = () => {
             dataIndex="value"
             title={t("deals.fields.value")}
             render={(_, record) => (
-              <Text strong>{currencyNumber(record.value || 0)}</Text>
+              <Text strong style={{ whiteSpace: "nowrap" }}>
+                {currencyNumber(record.value || 0)}
+              </Text>
             )}
           />
           <Table.Column<Deal>

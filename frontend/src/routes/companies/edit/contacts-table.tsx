@@ -334,6 +334,7 @@ export const CompanyContactsTable = () => {
           ...tableProps.pagination,
           showSizeChanger: false,
         }}
+        scroll={{ x: 700 }}
       >
         <Table.Column<Contact>
           title={t("companies.contacts.name")}
