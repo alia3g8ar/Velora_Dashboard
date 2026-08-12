@@ -65,6 +65,9 @@ export const UsersForm = ({ initialValues, cancelForm }: Props) => {
       gqlQuery: USERS_SELECT_QUERY,
     },
     optionLabel: "name",
+    // Admin accounts manage the workspace and are never assignable as a
+    // sales owner, so exclude them from the picker.
+    filters: [{ field: "role", operator: "ne", value: "ADMIN" }],
   });
 
   return (

@@ -129,11 +129,14 @@ async function seedDemoUser(): Promise<void> {
         if (demoUser) {
             // The login email exists (usually the owner's real account). Make
             // sure the documented demo password works for it so logging in
-            // with the new email is possible.
+            // with the new email is possible, and grant it the ADMIN role so
+            // it sees the full dataset (admins are excluded from the sales
+            // owner pickers in the UI).
             demoUser.password = await hash(DEMO_PASSWORD, 10);
+            demoUser.role = Role.ADMIN;
             demoUser = await userRepository.save(demoUser);
             console.log(
-                `  [C] demo login password ensured for ${DEMO_EMAIL} (id ${demoUser.id})`,
+                `  [C] demo login password + ADMIN role ensured for ${DEMO_EMAIL} (id ${demoUser.id})`,
             );
         } else {
             // Existing databases created before the email change still have the
@@ -153,7 +156,7 @@ async function seedDemoUser(): Promise<void> {
                         email: DEMO_EMAIL,
                         name: 'Jim Halpert',
                         password: await hash(DEMO_PASSWORD, 10),
-                        role: Role.SALES_MANAGER,
+                        role: Role.ADMIN,
                         jobTitle: 'Sales Manager',
                         phone: '+1 555 010 2345',
                         timezone: 'America/New_York',

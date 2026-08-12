@@ -67,6 +67,9 @@ export const CompanyForm = () => {
     pagination: {
       mode: "off",
     },
+    // Admin accounts manage the workspace and are never assignable as a
+    // sales owner, so exclude them from the picker.
+    filters: [{ field: "role", operator: "ne", value: "ADMIN" }],
     meta: {
       gqlQuery: USERS_SELECT_QUERY,
     },

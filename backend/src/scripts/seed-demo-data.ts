@@ -453,111 +453,117 @@ async function seed(): Promise<void> {
         // ------------------------------------------------------------------
         const dealRepository = dataSource.getRepository(Deal);
 
-        await requestContext.run({ userId: demoUser.id }, async () => {
-            const deals: Array<
-                Pick<
-                    Deal,
-                    | 'title'
-                    | 'value'
-                    | 'closeDate'
-                    | 'companyId'
-                    | 'dealOwnerId'
-                    | 'stageId'
-                >
-            > = [];
+        await requestContext.run(
+            { userId: demoUser.id, role: demoUser.role },
+            async () => {
+                const deals: Array<
+                    Pick<
+                        Deal,
+                        | 'title'
+                        | 'value'
+                        | 'closeDate'
+                        | 'companyId'
+                        | 'dealOwnerId'
+                        | 'stageId'
+                    >
+                > = [];
 
-            const contacts = await contactRepository.find();
+                const contacts = await contactRepository.find();
 
-            const ownerOf = (company: Company): number => company.salesOwnerId;
+                const ownerOf = (company: Company): number =>
+                    company.salesOwnerId;
 
-            // WON deals across the last 8 months — powers the deals chart.
-            const wonTitles = [
-                'Enterprise license renewal',
-                'Implementation services',
-                'Annual subscription package',
-                'Managed services contract',
-                'Hardware refresh program',
-                'Training & onboarding bundle',
-                'Support escalation plan',
-                'Data migration project',
-                'Security audit package',
-                'Custom integrations suite',
-            ];
-            wonTitles.forEach((title, index) => {
-                deals.push({
-                    title,
-                    value: 18000 + index * 12500,
-                    closeDate: monthsAgo(7 - (index % 8)),
-                    companyId: companies[index % companies.length].id,
-                    dealOwnerId: ownerOf(companies[index % companies.length]),
-                    stageId: stageByTitle['WON'].id,
+                // WON deals across the last 8 months — powers the deals chart.
+                const wonTitles = [
+                    'Enterprise license renewal',
+                    'Implementation services',
+                    'Annual subscription package',
+                    'Managed services contract',
+                    'Hardware refresh program',
+                    'Training & onboarding bundle',
+                    'Support escalation plan',
+                    'Data migration project',
+                    'Security audit package',
+                    'Custom integrations suite',
+                ];
+                wonTitles.forEach((title, index) => {
+                    deals.push({
+                        title,
+                        value: 18000 + index * 12500,
+                        closeDate: monthsAgo(7 - (index % 8)),
+                        companyId: companies[index % companies.length].id,
+                        dealOwnerId: ownerOf(
+                            companies[index % companies.length],
+                        ),
+                        stageId: stageByTitle['WON'].id,
+                    });
                 });
-            });
 
-            // LOST deals across the same window — the chart shows both lines.
-            const lostTitles = [
-                'Proposed partnership',
-                'Pilot program',
-                'Volume discount deal',
-                'Expansion proposal',
-                'Renewal negotiation',
-                'Competitive bid',
-            ];
-            lostTitles.forEach((title, index) => {
-                deals.push({
-                    title,
-                    value: 9000 + index * 8000,
-                    closeDate: monthsAgo(6 - (index % 7)),
-                    companyId: companies[(index + 3) % companies.length].id,
-                    dealOwnerId: ownerOf(
-                        companies[(index + 3) % companies.length],
-                    ),
-                    stageId: stageByTitle['LOST'].id,
+                // LOST deals across the same window — the chart shows both lines.
+                const lostTitles = [
+                    'Proposed partnership',
+                    'Pilot program',
+                    'Volume discount deal',
+                    'Expansion proposal',
+                    'Renewal negotiation',
+                    'Competitive bid',
+                ];
+                lostTitles.forEach((title, index) => {
+                    deals.push({
+                        title,
+                        value: 9000 + index * 8000,
+                        closeDate: monthsAgo(6 - (index % 7)),
+                        companyId: companies[(index + 3) % companies.length].id,
+                        dealOwnerId: ownerOf(
+                            companies[(index + 3) % companies.length],
+                        ),
+                        stageId: stageByTitle['LOST'].id,
+                    });
                 });
-            });
 
-            // Open pipeline deals with expected close dates.
-            const pipelineTitles = [
-                'Quarterly license top-up',
-                'Consulting engagement',
-                'New territory rollout',
-                'Platform migration',
-                'Premium support tier',
-            ];
-            pipelineTitles.forEach((title, index) => {
-                deals.push({
-                    title,
-                    value: 15000 + index * 16000,
-                    closeDate: daysFromNow(20 + index * 12),
-                    companyId: companies[(index + 5) % companies.length].id,
-                    dealOwnerId: ownerOf(
-                        companies[(index + 5) % companies.length],
-                    ),
-                    stageId: [
-                        stageByTitle['NEW'],
-                        stageByTitle['QUALIFIED'],
-                        stageByTitle['PROPOSAL'],
-                    ][index % 3].id,
+                // Open pipeline deals with expected close dates.
+                const pipelineTitles = [
+                    'Quarterly license top-up',
+                    'Consulting engagement',
+                    'New territory rollout',
+                    'Platform migration',
+                    'Premium support tier',
+                ];
+                pipelineTitles.forEach((title, index) => {
+                    deals.push({
+                        title,
+                        value: 15000 + index * 16000,
+                        closeDate: daysFromNow(20 + index * 12),
+                        companyId: companies[(index + 5) % companies.length].id,
+                        dealOwnerId: ownerOf(
+                            companies[(index + 5) % companies.length],
+                        ),
+                        stageId: [
+                            stageByTitle['NEW'],
+                            stageByTitle['QUALIFIED'],
+                            stageByTitle['PROPOSAL'],
+                        ][index % 3].id,
+                    });
                 });
-            });
 
-            await dealRepository.save(
-                deals.map((data) => dealRepository.create(data)),
-            );
+                await dealRepository.save(
+                    deals.map((data) => dealRepository.create(data)),
+                );
 
-            const contactById = Object.fromEntries(
-                contacts.map((contact) => [contact.companyId, contact]),
-            );
-            // Attach a contact reference to each deal where one exists.
-            const savedDeals = await dealRepository.find();
-            for (const deal of savedDeals) {
-                const contact = contactById[deal.companyId];
-                if (contact) {
-                    deal.dealContactId = contact.id;
+                const contactById = Object.fromEntries(
+                    contacts.map((contact) => [contact.companyId, contact]),
+                );
+                // Attach a contact reference to each deal where one exists.
+                const savedDeals = await dealRepository.find();
+                for (const deal of savedDeals) {
+                    const contact = contactById[deal.companyId];
+                    if (contact) {
+                        deal.dealContactId = contact.id;
+                    }
                 }
-            }
-            await dealRepository.save(savedDeals);
-        });
+                await dealRepository.save(savedDeals);
+            },
+        );
 
         // ------------------------------------------------------------------
         // Tasks
