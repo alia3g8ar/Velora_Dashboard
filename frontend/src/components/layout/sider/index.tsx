@@ -1,30 +1,35 @@
-import React from "react";
-
 import { ThemedSiderV2 } from "@refinedev/antd";
-import { useGetIdentity } from "@refinedev/core";
+import type { TitleProps } from "@refinedev/core";
 
-import type { User } from "@/graphql/schema.types";
+import { VeloraLogo } from "../../velora-logo";
 
 /**
- * ThemedSiderV2 wrapper that hides the "admin" menu item from everyone except
- * ADMIN users. The backend enforces the actual access rule; this is purely a
- * UI convenience so regular users never see the admin panel entry.
+ * Sider title: the Velora logo instead of Refine's default "Refine Project"
+ * text. The width adapts to the collapsed rail (desktop) vs the expanded
+ * drawer (mobile).
+ */
+const SiderTitle = ({ collapsed }: TitleProps) => (
+  <VeloraLogo
+    width={collapsed ? 72 : 140}
+    height={collapsed ? 23 : 45}
+  />
+);
+
+/**
+ * ThemedSiderV2 wrapper. The admin panel has its own standalone entry at
+ * /admin (with its own login), so it is never listed in the sidebar menu —
+ * admins and regular users alike reach it only by visiting the URL directly.
  */
 export const Sider = () => {
-  const { data: identity } = useGetIdentity<User>();
-  const isAdmin = identity?.role === "ADMIN";
-
   return (
     <ThemedSiderV2
+      Title={SiderTitle}
       render={({ items, logout, dashboard }) => (
         <>
           {dashboard}
           {items.filter(
             (item) =>
-              isAdmin ||
-              (item.key &&
-                item.key !== "/admin" &&
-                item.key !== "admin"),
+              item.key && item.key !== "/admin" && item.key !== "admin",
           )}
           {logout}
         </>
