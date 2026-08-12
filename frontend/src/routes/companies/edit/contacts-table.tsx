@@ -88,9 +88,8 @@ const ContactModal = ({
     resource: "users",
     optionLabel: "name",
     pagination: { mode: "off" },
-    // Admin accounts manage the workspace and are never assignable as a
-    // sales owner, so exclude them from the picker.
-    filters: [{ field: "role", operator: "ne", value: "ADMIN" }],
+    // The backend scopes the users list to the current user, so this picker
+    // only ever offers the acting user as an option.
     meta: {
       gqlQuery: USERS_SELECT_QUERY,
     },
