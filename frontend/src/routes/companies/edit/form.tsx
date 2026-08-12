@@ -86,6 +86,13 @@ export const CompanyForm = () => {
           name={queryResult?.data?.data?.name ?? ""}
         />
         <Form.Item
+          label={t("companies.fields.companyName")}
+          name="name"
+          rules={[{ required: true }]}
+        >
+          <Input placeholder={t("companies.fields.enterCompanyName")} />
+        </Form.Item>
+        <Form.Item
           label={t("companies.fields.salesOwner")}
           name="salesOwnerId"
           initialValue={formProps?.initialValues?.salesOwner?.id}

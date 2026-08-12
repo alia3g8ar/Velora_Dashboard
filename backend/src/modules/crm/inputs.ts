@@ -380,3 +380,63 @@ export class DealUpdateInput {
     @IsString()
     stageId?: number | null;
 }
+
+@InputType('EventCreateInput')
+export class EventCreateInput {
+    @Field(() => String)
+    @IsString()
+    @IsNotEmpty()
+    title: string;
+
+    @Field(() => ID)
+    @IsString()
+    @IsNotEmpty()
+    categoryId: number;
+
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    description?: string | null;
+
+    @Field(() => String)
+    @IsString()
+    @IsNotEmpty()
+    // The entity column has a DB default; the UI always sends one anyway.
+    color: string;
+
+    @Field(() => GraphQLISODateTime)
+    startDate: Date;
+
+    @Field(() => GraphQLISODateTime)
+    endDate: Date;
+}
+
+@InputType('EventUpdateInput')
+export class EventUpdateInput {
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    title?: string;
+
+    @Field(() => ID, { nullable: true })
+    @IsOptional()
+    categoryId?: number;
+
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    description?: string | null;
+
+    @Field(() => String, { nullable: true })
+    @IsOptional()
+    @IsString()
+    color?: string;
+
+    @Field(() => GraphQLISODateTime, { nullable: true })
+    @IsOptional()
+    startDate?: Date;
+
+    @Field(() => GraphQLISODateTime, { nullable: true })
+    @IsOptional()
+    endDate?: Date;
+}

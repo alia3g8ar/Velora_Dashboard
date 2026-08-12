@@ -41,6 +41,29 @@
     "latestActivities": "Latest activities",
     "upcomingEvents": "Upcoming events",
     "noUpcomingEvent": "No Upcoming Event",
+    "events": {
+      "addEvent": "Add event",
+      "editEvent": "Edit event",
+      "title": "Title",
+      "titlePlaceholder": "Event title",
+      "category": "Category",
+      "categoryPlaceholder": "Select a category",
+      "startDate": "Start",
+      "endDate": "End",
+      "color": "Color",
+      "categories": {
+        "Meeting": "Meeting",
+        "Call": "Call",
+        "Follow-up": "Follow-up",
+        "Demo": "Demo",
+        "Site Visit": "Site Visit"
+      },
+      "notifications": {
+        "created": "Event created",
+        "updated": "Event updated",
+        "failed": "Could not save the event"
+      }
+    },
     "dealState": {
       "won": "Won",
       "lost": "Lost"

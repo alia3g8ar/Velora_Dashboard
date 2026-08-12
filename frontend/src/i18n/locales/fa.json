@@ -41,6 +41,29 @@
     "latestActivities": "آخرین فعالیت‌ها",
     "upcomingEvents": "رویدادهای پیش‌رو",
     "noUpcomingEvent": "رویداد پیش‌رویی وجود ندارد",
+    "events": {
+      "addEvent": "افزودن رویداد",
+      "editEvent": "ویرایش رویداد",
+      "title": "عنوان",
+      "titlePlaceholder": "عنوان رویداد",
+      "category": "دسته",
+      "categoryPlaceholder": "یک دسته انتخاب کنید",
+      "startDate": "شروع",
+      "endDate": "پایان",
+      "color": "رنگ",
+      "categories": {
+        "Meeting": "جلسه",
+        "Call": "تماس",
+        "Follow-up": "پیگیری",
+        "Demo": "دمو",
+        "Site Visit": "بازدید از محل"
+      },
+      "notifications": {
+        "created": "رویداد ایجاد شد",
+        "updated": "رویداد به‌روزرسانی شد",
+        "failed": "امکان ذخیرهٔ رویداد وجود نداشت"
+      }
+    },
     "dealState": {
       "won": "برنده",
       "lost": "از دست رفته"

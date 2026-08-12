@@ -6,6 +6,7 @@ export * from "./icon";
 export * from "./language-switcher";
 export * from "./layout";
 export * from "./pagination-total";
+export * from "./scroll-lock-watchdog";
 export * from "./select-option-with-avatar";
 export * from "./tags";
 export * from "./text";

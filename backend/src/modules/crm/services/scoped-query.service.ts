@@ -200,6 +200,14 @@ const taskRules: ScopedRules<Task> = {
 const eventRules: ScopedRules<Event> = {
     label: 'Event',
     ownerField: 'createdByUserId',
+    prepareCreate: (input, userId) => {
+        // Events are personal; the creator is always the owner.
+        input.createdByUserId = userId;
+    },
+    prepareUpdate: (update) => {
+        // The owner is server-managed and can never be handed to another user.
+        delete update.createdByUserId;
+    },
 };
 
 const auditRules: ScopedRules<Audit> = {

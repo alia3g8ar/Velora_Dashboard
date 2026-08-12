@@ -46,7 +46,13 @@ export class AuditSubscriber implements EntitySubscriberInterface<Deal> {
     }
 
     async afterUpdate(event: UpdateEvent<Deal>): Promise<void> {
-        const entity = event.entity as Deal;
+        const entity = event.entity as Deal | undefined;
+        // manager.update() with a partial entity fires this event without the
+        // primary key — there is nothing to attribute an audit row to, so
+        // skip it.
+        if (!entity?.id) {
+            return;
+        }
         const databaseEntity = event.databaseEntity as Deal | undefined;
         const changes = this.computeChanges(entity, databaseEntity);
         if (changes.length === 0) {

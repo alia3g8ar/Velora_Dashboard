@@ -15,7 +15,7 @@ import { App as AntdApp, ConfigProvider, type ThemeConfig } from "antd";
 import enUS from "antd/locale/en_US";
 import faIR from "antd/locale/fa_IR";
 
-import { Layout } from "@/components";
+import { Layout, ScrollLockWatchdog } from "@/components";
 import { resources } from "@/config/resources";
 import { veloraTheme } from "@/config/theme";
 import { getLocaleDirection, resolveInitialLocale, veloraI18nProvider } from "@/i18n";
@@ -77,7 +77,12 @@ const LocaleProvider = ({ children }: React.PropsWithChildren) => {
       direction={direction}
       theme={theme}
     >
-      <AntdApp>{children}</AntdApp>
+      <AntdApp>
+        {children}
+        {/* Clears a stuck body scroll lock if a modal/drawer close was
+            interrupted — otherwise the page stops scrolling until refresh. */}
+        <ScrollLockWatchdog />
+      </AntdApp>
     </ConfigProvider>
   );
 };
