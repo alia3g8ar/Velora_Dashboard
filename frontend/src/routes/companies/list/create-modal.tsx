@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { useModalForm, useSelect } from "@refinedev/antd";
-import { type HttpError, useGo } from "@refinedev/core";
+import { type HttpError, useGetIdentity, useGo } from "@refinedev/core";
 import type {
   GetFields,
   GetFieldsFromList,
@@ -12,6 +12,7 @@ import { Form, Input, Modal, Select } from "antd";
 
 import { AvatarFormItem, SelectOptionWithAvatar } from "@/components";
 import { USERS_SELECT_QUERY } from "@/graphql/queries";
+import type { User } from "@/graphql/schema.types";
 import type {
   CreateCompanyMutation,
   CreateCompanyMutationVariables,
@@ -23,6 +24,9 @@ import { CREATE_COMPANY_MUTATION } from "./queries";
 export const CompanyCreateModal = () => {
   const go = useGo();
   const { t } = useTranslation();
+  // With per-user data isolation the sales owner is always the current user,
+  // so pre-select it and skip the redundant dropdown step.
+  const { data: currentUser } = useGetIdentity<User>();
 
   const goToListPage = () => {
     go({
@@ -44,6 +48,9 @@ export const CompanyCreateModal = () => {
     resource: "companies",
     redirect: false,
     mutationMode: "pessimistic",
+    defaultFormValues: currentUser?.id
+      ? { salesOwnerId: currentUser.id }
+      : undefined,
     onMutationSuccess: goToListPage,
     meta: {
       gqlMutation: CREATE_COMPANY_MUTATION,

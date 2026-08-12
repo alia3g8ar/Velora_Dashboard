@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { Create, Edit, useForm, useSelect } from "@refinedev/antd";
-import { type HttpError, useGo } from "@refinedev/core";
+import { type HttpError, useGetIdentity, useGo } from "@refinedev/core";
 import type { GetFields, GetFieldsFromList } from "@refinedev/nestjs-query";
 
 import { Form, Input, InputNumber, Select } from "antd";
@@ -13,6 +13,7 @@ import {
   DEAL_STAGES_SELECT_QUERY,
   USERS_SELECT_QUERY,
 } from "@/graphql/queries";
+import type { User } from "@/graphql/schema.types";
 import type {
   CompaniesSelectQuery,
   CreateDealMutation,
@@ -31,6 +32,8 @@ export const DealForm = ({ action }: DealFormProps) => {
   const { t, i18n } = useTranslation();
   const go = useGo();
   const isEdit = action === "edit";
+  // With per-user data isolation the deal owner is always the current user.
+  const { data: currentUser } = useGetIdentity<User>();
 
   const { saveButtonProps, formProps, formLoading } = useForm<
     GetFields<CreateDealMutation>,
@@ -97,6 +100,11 @@ export const DealForm = ({ action }: DealFormProps) => {
         layout="vertical"
         initialValues={{
           ...formProps.initialValues,
+          // Only the create form needs the owner; edits already carry it.
+          dealOwnerId:
+            !isEdit && !formProps.initialValues?.dealOwnerId
+              ? currentUser?.id
+              : formProps.initialValues?.dealOwnerId,
           closeDate: formProps.initialValues?.closeDate
             ? dayjs(formProps.initialValues.closeDate)
             : undefined,

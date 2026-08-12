@@ -15,6 +15,8 @@ export class ContactResolver extends CRUDResolver(Contact, {
     create: { many: { disabled: true } },
     update: { many: { disabled: true } },
     delete: { many: { disabled: true } },
+    // Raw aggregate endpoints would leak cross-user stats.
+    aggregate: { enabled: false },
 }) {
     constructor(
         @InjectQueryService(Contact) readonly service: QueryService<Contact>,

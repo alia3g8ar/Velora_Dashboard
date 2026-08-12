@@ -11,6 +11,8 @@ import { Role } from '../enums';
 
 @ObjectType('User')
 @Entity({ name: 'users' })
+// Per-user data isolation is enforced by the scoped query service (see
+// `services/scoped-query.service.ts`).
 export class User {
     @IDField(() => ID)
     @PrimaryGeneratedColumn()

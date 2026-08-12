@@ -1,4 +1,4 @@
-import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Context, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { InjectQueryService, QueryService } from '@ptc-org/nestjs-query-core';
 import { CRUDResolver, PagingStrategies } from '@ptc-org/nestjs-query-graphql';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -7,6 +7,8 @@ import {
     DealAggregateResponse,
     DealSumAggregate,
 } from '../aggregates/deal-aggregate.types';
+import { AuthenticatedRequest } from '../../../common/guard/jwt-auth.guard';
+import { getCurrentUserId } from '../../../common/context/current-user';
 import { Company } from '../entities/company.entity';
 import { Deal } from '../entities/deal.entity';
 import { CompanyCreateInput, CompanyUpdateInput } from '../inputs';
@@ -23,6 +25,9 @@ export class CompanyResolver extends CRUDResolver(Company, {
     create: { many: { disabled: true } },
     update: { many: { disabled: true } },
     delete: { many: { disabled: true } },
+    // Raw aggregate endpoints would leak cross-user stats; the dashboard uses
+    // scoped `totalCount` + explicit ResolveFields instead.
+    aggregate: { enabled: false },
 }) {
     constructor(
         @InjectQueryService(Company) readonly service: QueryService<Company>,
@@ -41,12 +46,16 @@ export class CompanyResolver extends CRUDResolver(Company, {
     @ResolveField(() => [DealAggregateResponse])
     async dealsAggregate(
         @Parent() company: Company,
+        @Context() context: { req: AuthenticatedRequest },
     ): Promise<DealAggregateResponse[]> {
         const row = await this.dealRepository
             .createQueryBuilder('deal')
             .select('SUM(deal.value)', 'value')
             .leftJoin('deal.stage', 'stage')
             .where('deal.companyId = :companyId', { companyId: company.id })
+            .andWhere('deal.dealOwnerId = :userId', {
+                userId: getCurrentUserId(context),
+            })
             .andWhere(
                 '(stage.id IS NULL OR stage.title NOT IN (:...closedTitles))',
                 {

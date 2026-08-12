@@ -37,6 +37,8 @@ export class AuditChange {
 @ObjectType('Audit')
 @Entity({ name: 'audits' })
 @QueryOptions({ enableTotalCount: true })
+// Per-user data isolation is enforced by the scoped query service (see
+// `services/scoped-query.service.ts`).
 @FilterableRelation('user', () => User, { nullable: true })
 export class Audit {
     @IDField(() => ID)

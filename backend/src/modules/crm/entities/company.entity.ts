@@ -23,6 +23,8 @@ import { BusinessType, CompanySize, Industry } from '../enums';
 @ObjectType('Company')
 @Entity({ name: 'companies' })
 @QueryOptions({ enableTotalCount: true })
+// Per-user data isolation is enforced by the scoped query service wired in
+// `crm.module.ts` (see `services/scoped-query.service.ts`).
 @FilterableRelation('salesOwner', () => User, { nullable: false })
 export class Company {
     @IDField(() => ID)

@@ -2,6 +2,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { NestjsQueryGraphQLModule } from '@ptc-org/nestjs-query-graphql';
 import { NestjsQueryTypeOrmModule } from '@ptc-org/nestjs-query-typeorm';
+import {
+    scopedQueryServiceProvider,
+    scopedRules,
+} from './services/scoped-query.service';
 import { AuditSubscriber } from './subscribers/audit.subscriber';
 import { DealSubscriber } from './subscribers/deal.subscriber';
 import { Audit } from './entities/audit.entity';
@@ -61,6 +65,17 @@ const entities = [
         AuditResolver,
         DealSubscriber,
         AuditSubscriber,
+        // Per-user data isolation: the scoped providers override the plain
+        // QueryService tokens, so every read and mutation is scoped to the
+        // acting user (race-free; the hook mechanism the library provides is
+        // broken for multi-field operations).
+        scopedQueryServiceProvider(Company, scopedRules.Company),
+        scopedQueryServiceProvider(Contact, scopedRules.Contact),
+        scopedQueryServiceProvider(Deal, scopedRules.Deal),
+        scopedQueryServiceProvider(Task, scopedRules.Task),
+        scopedQueryServiceProvider(Event, scopedRules.Event),
+        scopedQueryServiceProvider(Audit, scopedRules.Audit),
+        scopedQueryServiceProvider(User, scopedRules.User),
     ],
 })
 export class CrmModule {}

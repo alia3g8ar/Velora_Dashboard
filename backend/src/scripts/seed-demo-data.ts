@@ -662,7 +662,10 @@ async function seed(): Promise<void> {
                 // userIds is assigned through the join table below.
                 const { userIds, ...scalars } = data;
                 void userIds;
-                return taskRepository.create(scalars);
+                return taskRepository.create({
+                    ...scalars,
+                    createdByUserId: demoUser.id,
+                });
             }),
         );
 
@@ -739,7 +742,10 @@ async function seed(): Promise<void> {
         ];
 
         for (const { userIds, ...data } of eventData) {
-            const event = eventRepository.create(data);
+            const event = eventRepository.create({
+                ...data,
+                createdByUserId: demoUser.id,
+            });
             const saved = await eventRepository.save(event);
             const participants = await userRepository.findBy({
                 id: In(userIds.length ? userIds : [demoUser.id]),

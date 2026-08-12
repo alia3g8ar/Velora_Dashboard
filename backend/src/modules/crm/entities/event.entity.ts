@@ -23,7 +23,10 @@ import { User } from './user.entity';
 @ObjectType('Event')
 @Entity({ name: 'events' })
 @QueryOptions({ enableTotalCount: true })
+// Per-user data isolation is enforced by the scoped query service (see
+// `services/scoped-query.service.ts`).
 @FilterableRelation('category', () => EventCategory, { nullable: false })
+@FilterableRelation('createdBy', () => User, { nullable: true })
 @UnPagedRelation('participants', () => User)
 export class Event {
     @IDField(() => ID)
@@ -60,6 +63,14 @@ export class Event {
     })
     @JoinColumn({ name: 'category_id' })
     category: EventCategory;
+
+    @FilterableField(() => ID, { nullable: true })
+    @Column({ name: 'created_by_id', type: 'int', nullable: true })
+    createdByUserId?: number | null;
+
+    @ManyToOne(() => User, { nullable: true, onDelete: 'SET NULL' })
+    @JoinColumn({ name: 'created_by_id' })
+    createdBy?: User | null;
 
     @ManyToMany(() => User)
     @JoinTable({

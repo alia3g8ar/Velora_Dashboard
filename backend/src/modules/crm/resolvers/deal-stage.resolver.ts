@@ -1,8 +1,10 @@
-import { Parent, ResolveField, Resolver } from '@nestjs/graphql';
+import { Context, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { InjectQueryService, QueryService } from '@ptc-org/nestjs-query-core';
 import { CRUDResolver, PagingStrategies } from '@ptc-org/nestjs-query-graphql';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { AuthenticatedRequest } from '../../../common/guard/jwt-auth.guard';
+import { getCurrentUserId } from '../../../common/context/current-user';
 import { DealAggregateResponse } from '../aggregates/deal-aggregate.types';
 import { Deal } from '../entities/deal.entity';
 import { DealStage } from '../entities/deal-stage.entity';
@@ -33,6 +35,7 @@ export class DealStageResolver extends CRUDResolver(DealStage, {
     @ResolveField(() => [DealAggregateResponse])
     async dealsAggregate(
         @Parent() stage: DealStage,
+        @Context() context: { req: AuthenticatedRequest },
     ): Promise<DealAggregateResponse[]> {
         const rows = await this.dealRepository
             .createQueryBuilder('deal')
@@ -40,6 +43,9 @@ export class DealStageResolver extends CRUDResolver(DealStage, {
             .addSelect('YEAR(deal.closeDate)', 'closeDateYear')
             .addSelect('SUM(deal.value)', 'value')
             .where('deal.stageId = :stageId', { stageId: stage.id })
+            .andWhere('deal.dealOwnerId = :userId', {
+                userId: getCurrentUserId(context),
+            })
             .andWhere('deal.closeDate IS NOT NULL')
             .groupBy('closeDateMonth')
             .addGroupBy('closeDateYear')

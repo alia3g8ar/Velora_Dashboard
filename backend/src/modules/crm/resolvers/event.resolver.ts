@@ -12,6 +12,8 @@ export class EventResolver extends CRUDResolver(Event, {
     create: { one: { disabled: true }, many: { disabled: true } },
     update: { one: { disabled: true }, many: { disabled: true } },
     delete: { one: { disabled: true }, many: { disabled: true } },
+    // Raw aggregate endpoints would leak cross-user stats.
+    aggregate: { enabled: false },
 }) {
     constructor(
         @InjectQueryService(Event) readonly service: QueryService<Event>,

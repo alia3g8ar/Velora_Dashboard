@@ -28,6 +28,8 @@ import { User } from './user.entity';
 @ObjectType('Deal')
 @Entity({ name: 'deals' })
 @QueryOptions({ enableTotalCount: true })
+// Per-user data isolation is enforced by the scoped query service (see
+// `services/scoped-query.service.ts`).
 @FilterableRelation('company', () => Company, { nullable: false })
 @FilterableRelation('dealOwner', () => User, { nullable: false })
 @FilterableRelation('dealContact', () => Contact, { nullable: true })

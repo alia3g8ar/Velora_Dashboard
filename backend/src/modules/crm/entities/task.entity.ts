@@ -24,7 +24,10 @@ import { User } from './user.entity';
 @ObjectType('Task')
 @Entity({ name: 'tasks' })
 @QueryOptions({ enableTotalCount: true })
+// Per-user data isolation is enforced by the scoped query service (see
+// `services/scoped-query.service.ts`).
 @FilterableRelation('stage', () => TaskStage, { nullable: true })
+@FilterableRelation('createdBy', () => User, { nullable: true })
 @UnPagedRelation('users', () => User)
 export class Task {
     @IDField(() => ID)
@@ -57,6 +60,14 @@ export class Task {
     })
     @JoinColumn({ name: 'stage_id' })
     stage?: TaskStage | null;
+
+    @FilterableField(() => ID, { nullable: true })
+    @Column({ name: 'created_by_id', type: 'int', nullable: true })
+    createdByUserId?: number | null;
+
+    @ManyToOne(() => User, { nullable: true, onDelete: 'SET NULL' })
+    @JoinColumn({ name: 'created_by_id' })
+    createdBy?: User | null;
 
     @Field(() => [CheckListItem], { nullable: true })
     @Column({ type: 'json', nullable: true })

@@ -1,5 +1,6 @@
 import {
     Args,
+    Context,
     Field,
     GraphQLISODateTime,
     ID,
@@ -19,6 +20,8 @@ import {
 } from 'class-validator';
 import { In, Repository } from 'typeorm';
 import { Type } from 'class-transformer';
+import { AuthenticatedRequest } from '../../../common/guard/jwt-auth.guard';
+import { getCurrentUserId } from '../../../common/context/current-user';
 import { ChecklistItemInput } from '../entities/check-list-item';
 import { Task } from '../entities/task.entity';
 import { User } from '../entities/user.entity';
@@ -114,6 +117,8 @@ export class TaskResolver extends CRUDResolver(Task, {
     create: { one: { disabled: true }, many: { disabled: true } },
     update: { one: { disabled: true }, many: { disabled: true } },
     delete: { many: { disabled: true } },
+    // Raw aggregate endpoints would leak cross-user stats.
+    aggregate: { enabled: false },
 }) {
     constructor(
         @InjectQueryService(Task) readonly service: QueryService<Task>,
@@ -128,9 +133,12 @@ export class TaskResolver extends CRUDResolver(Task, {
     @Mutation(() => Task)
     async createOneTask(
         @Args('input') input: CreateOneTaskInput,
+        @Context() context: { req: AuthenticatedRequest },
     ): Promise<Task> {
-        const { title, description, dueDate, stageId, checklist, userIds } =
-            input.task;
+        const userId = getCurrentUserId(context);
+        // `userIds` is intentionally ignored: tasks are assigned to their
+        // creator only (strict per-user isolation).
+        const { title, description, dueDate, stageId, checklist } = input.task;
 
         const task = this.taskRepository.create({
             title,
@@ -139,28 +147,31 @@ export class TaskResolver extends CRUDResolver(Task, {
             stageId: stageId == null ? null : Number(stageId),
             completed: false,
             checklist: checklist ?? null,
+            createdByUserId: userId,
         });
 
         const saved = await this.taskRepository.save(task);
 
-        if (userIds?.length) {
-            const users = await this.userRepository.findBy({
-                id: In(userIds.map(Number)),
-            });
-            saved.users = users;
-            return this.taskRepository.save(saved);
-        }
-
-        return saved;
+        // Strict per-user isolation: a task is only ever assigned to its
+        // creator, never to other users (which would expose their identity
+        // through the `users` relation).
+        const users = await this.userRepository.findBy({
+            id: In([userId]),
+        });
+        saved.users = users;
+        return this.taskRepository.save(saved);
     }
 
     @Mutation(() => Task)
     async updateOneTask(
         @Args('input') input: UpdateOneTaskInput,
+        @Context() context: { req: AuthenticatedRequest },
     ): Promise<Task> {
+        const userId = getCurrentUserId(context);
         const { id, update } = input;
         const task = await this.taskRepository.findOneByOrFail({
             id: Number(id),
+            createdByUserId: userId,
         });
 
         const { stageId, userIds, ...scalars } = update;
@@ -174,12 +185,11 @@ export class TaskResolver extends CRUDResolver(Task, {
             task.stageId = stageId === null ? null : Number(stageId);
         }
 
-        if (userIds !== undefined && userIds !== null) {
-            const users = await this.userRepository.findBy({
-                id: In(userIds.map(Number)),
-            });
-            task.users = users;
-        }
+        // Ignore submitted assignees: a task stays assigned to its creator
+        // only, so no other user's identity is ever exposed.
+        void userIds;
+        const users = await this.userRepository.findBy({ id: In([userId]) });
+        task.users = users;
 
         return this.taskRepository.save(task);
     }

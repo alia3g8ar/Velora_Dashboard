@@ -9,7 +9,11 @@ import {
   useSelect,
   useTable,
 } from "@refinedev/antd";
-import { type HttpError, useInvalidate } from "@refinedev/core";
+import {
+  type HttpError,
+  useGetIdentity,
+  useInvalidate,
+} from "@refinedev/core";
 import type {
   GetFields,
   GetFieldsFromList,
@@ -46,7 +50,7 @@ import {
   Text,
 } from "@/components";
 import { USERS_SELECT_QUERY } from "@/graphql/queries";
-import type { ContactStage } from "@/graphql/schema.types";
+import type { ContactStage, User } from "@/graphql/schema.types";
 import type {
   CompanyContactsTableQuery,
   CreateContactMutation,
@@ -195,6 +199,8 @@ export const CompanyContactsTable = () => {
   const invalidate = useInvalidate();
   const { t } = useTranslation();
   const companyId = params?.id as string;
+  // With per-user data isolation the sales owner is always the current user.
+  const { data: currentUser } = useGetIdentity<User>();
 
   const invalidateContacts = () => {
     invalidate({
@@ -257,6 +263,11 @@ export const CompanyContactsTable = () => {
     action: "create",
     redirect: false,
     invalidates: ["list", "many", "detail"],
+    defaultFormValues: {
+      status: "NEW",
+      stage: "LEAD" as ContactStage,
+      ...(currentUser?.id ? { salesOwnerId: currentUser.id } : {}),
+    },
     meta: {
       gqlMutation: CREATE_CONTACT_MUTATION,
     },
