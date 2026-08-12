@@ -71,6 +71,15 @@ describe("i18n infrastructure", () => {
     expect(persianText.includes("ك")).toBe(false);
   });
 
+  it("admin panel keys exist in both locales with role labels", () => {
+    expect(en.admin.admin).toBe("Admin panel");
+    expect(fa.admin.admin).toBe("پنل مدیریت");
+    expect(en.enums.role.ADMIN).toBe("Admin");
+    expect(fa.enums.role.ADMIN).toBe("مدیر");
+    expect(en.admin.notifications.lastAdmin).toBeTruthy();
+    expect(fa.admin.notifications.lastAdmin).toBeTruthy();
+  });
+
   describe("veloraI18nProvider.translate", () => {
     it("resolves a key to the active language", () => {
       expect(veloraI18nProvider.translate("dashboard.dashboard")).toBe(

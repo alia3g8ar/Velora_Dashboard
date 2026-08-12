@@ -291,6 +291,12 @@
       "INTERESTED": "Interested",
       "CONTACTED": "Contacted",
       "CHURNED": "Churned"
+    },
+    "role": {
+      "ADMIN": "Admin",
+      "SALES_INTERN": "Sales intern",
+      "SALES_PERSON": "Sales person",
+      "SALES_MANAGER": "Sales manager"
     }
   },
   "errors": {
@@ -304,5 +310,29 @@
     "avatarTooLarge": "The selected image is too large. Please choose a smaller photo.",
     "emailInUse": "This email is already registered.",
     "saveFailed": "Your changes could not be saved. Please try again."
+  },
+  "admin": {
+    "admin": "Admin panel",
+    "titles": {
+      "list": "Admin panel"
+    },
+    "fields": {
+      "user": "User",
+      "role": "Role",
+      "joinedAt": "Joined"
+    },
+    "actions": {
+      "deleteConfirm": "Delete user {{name}}? Their data will be reassigned to you."
+    },
+    "notifications": {
+      "roleUpdated": "Role updated",
+      "roleUpdateFailed": "Could not update the role",
+      "lastAdmin": "Cannot remove the last administrator",
+      "userDeleted": "User {{name}} deleted",
+      "cannotDeleteSelf": "You cannot delete your own account",
+      "deleteFailed": "Could not delete the user"
+    },
+    "accessDenied": "You do not have permission to access this page.",
+    "accessDeniedHint": "Only administrators can manage users."
   }
 }

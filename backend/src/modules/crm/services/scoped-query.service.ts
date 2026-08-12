@@ -34,7 +34,6 @@ import type {
     ObjectLiteral,
 } from 'typeorm';
 import { getRequestContext } from '../../../common/context/request-context';
-import { Role } from '../enums';
 import { Audit } from '../entities/audit.entity';
 import { Company } from '../entities/company.entity';
 import { Contact } from '../entities/contact.entity';
@@ -79,25 +78,9 @@ const currentUserId = (): number => {
     return id;
 };
 
-/**
- * ADMIN is exempt from per-user isolation: it sees (and manages) the full
- * dataset, while the owner selects exclude admin accounts in the UI.
- */
-const isAdmin = (): boolean => getRequestContext().role === Role.ADMIN;
-
 const assertOwned = (owned: boolean, what: string): void => {
     if (!owned) {
         throw new ForbiddenException(`You do not have access to this ${what}`);
-    }
-};
-
-/**
- * Parent references are validated against the actor's ownership — except for
- * ADMIN, who sees every row and may attach children to any of them.
- */
-const assertOwnedOrAdmin = (owned: boolean, what: string): void => {
-    if (!isAdmin()) {
-        assertOwned(owned, what);
     }
 };
 
@@ -141,7 +124,7 @@ const contactRules: ScopedRules<Contact> = {
     label: 'Contact',
     ownerField: 'salesOwnerId',
     prepareCreate: async (input, userId, dataSource) => {
-        assertOwnedOrAdmin(
+        assertOwned(
             await dataSource.getRepository(Company).existsBy({
                 id: Number(input.companyId),
                 salesOwnerId: userId,
@@ -153,7 +136,7 @@ const contactRules: ScopedRules<Contact> = {
     prepareUpdate: async (update, userId, dataSource) => {
         delete update.salesOwnerId;
         if (update.companyId != null) {
-            assertOwnedOrAdmin(
+            assertOwned(
                 await dataSource.getRepository(Company).existsBy({
                     id: Number(update.companyId),
                     salesOwnerId: userId,
@@ -168,7 +151,7 @@ const dealRules: ScopedRules<Deal> = {
     label: 'Deal',
     ownerField: 'dealOwnerId',
     prepareCreate: async (input, userId, dataSource) => {
-        assertOwnedOrAdmin(
+        assertOwned(
             await dataSource.getRepository(Company).existsBy({
                 id: Number(input.companyId),
                 salesOwnerId: userId,
@@ -176,7 +159,7 @@ const dealRules: ScopedRules<Deal> = {
             'company',
         );
         if (input.dealContactId != null) {
-            assertOwnedOrAdmin(
+            assertOwned(
                 await dataSource.getRepository(Contact).existsBy({
                     id: Number(input.dealContactId),
                     salesOwnerId: userId,
@@ -189,7 +172,7 @@ const dealRules: ScopedRules<Deal> = {
     prepareUpdate: async (update, userId, dataSource) => {
         delete update.dealOwnerId;
         if (update.companyId != null) {
-            assertOwnedOrAdmin(
+            assertOwned(
                 await dataSource.getRepository(Company).existsBy({
                     id: Number(update.companyId),
                     salesOwnerId: userId,
@@ -198,7 +181,7 @@ const dealRules: ScopedRules<Deal> = {
             );
         }
         if (update.dealContactId != null) {
-            assertOwnedOrAdmin(
+            assertOwned(
                 await dataSource.getRepository(Contact).existsBy({
                     id: Number(update.dealContactId),
                     salesOwnerId: userId,
@@ -266,9 +249,6 @@ export class ScopedQueryService<
     }
 
     private ownedBy(): Filter<T> {
-        if (isAdmin()) {
-            return {};
-        }
         // Computed keys widen to `{[x: string]: ...}`, so the cast is
         // required — tsc rejects the literal against `Filter<T>` directly.
         return {
@@ -277,9 +257,6 @@ export class ScopedQueryService<
     }
 
     private ownedByWhere(): FindOptionsWhere<T> {
-        if (isAdmin()) {
-            return {};
-        }
         return {
             [this.rules.ownerField]: currentUserId(),
         } as FindOptionsWhere<T>;

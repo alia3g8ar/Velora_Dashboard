@@ -5,6 +5,7 @@ import {
   FundOutlined,
   ProjectOutlined,
   ShopOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 
 /**
@@ -47,6 +48,13 @@ export const resources: IResourceItem[] = [
     edit: "/deals/edit/:id",
     meta: {
       icon: <FundOutlined />,
+    },
+  },
+  {
+    name: "admin",
+    list: "/admin",
+    meta: {
+      icon: <TeamOutlined />,
     },
   },
 ];

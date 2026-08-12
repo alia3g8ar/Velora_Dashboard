@@ -193,6 +193,7 @@ export const authProvider: AuthProvider = {
                             jobTitle,
                             timezone
                             avatarUrl
+                            role
                         }
                       }
                 `,

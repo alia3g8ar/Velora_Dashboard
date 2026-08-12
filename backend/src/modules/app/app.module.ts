@@ -7,6 +7,7 @@ import { accessSync, constants } from 'fs';
 import { join } from 'path';
 import { DatabaseConfig } from '../../config/database.config';
 import { UserContextMiddleware } from '../../common/middleware/user-context.middleware';
+import { AdminModule } from '../admin/admin.module';
 import { AuthModule } from '../auth/auth.module';
 import { CrmModule } from '../crm/crm.module';
 
@@ -48,6 +49,7 @@ function isFilesystemWritable(): boolean {
         }),
         AuthModule,
         CrmModule,
+        AdminModule,
     ],
 })
 export class AppModule implements NestModule {

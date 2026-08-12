@@ -21,6 +21,7 @@ import { veloraTheme } from "@/config/theme";
 import { getLocaleDirection, resolveInitialLocale, veloraI18nProvider } from "@/i18n";
 import { authProvider, dataProvider, liveProvider } from "@/providers";
 import {
+  AdminPage,
   CompanyCreatePage,
   CompanyEditPage,
   CompanyListPage,
@@ -139,6 +140,8 @@ const App = () => {
                   <Route path="new" element={<DealCreatePage />} />
                   <Route path="edit/:id" element={<DealEditPage />} />
                 </Route>
+
+                <Route path="/admin" element={<AdminPage />} />
 
                 <Route path="*" element={<ErrorComponent />} />
               </Route>
