@@ -8,6 +8,7 @@
     "close": "بستن",
     "actions": "عملیات",
     "unassigned": "بدون دسته",
+    "changePhoto": "تغییر عکس",
     "paginationTotal": "در مجموع {{count}} {{entity}}"
   },
   "buttons": {

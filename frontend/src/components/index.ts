@@ -1,4 +1,5 @@
 export * from "./accordion";
+export * from "./avatar-uploader";
 export * from "./custom-avatar";
 export * from "./date";
 export * from "./icon";

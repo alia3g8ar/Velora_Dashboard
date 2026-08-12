@@ -47,6 +47,7 @@ export const CREATE_CONTACT_MUTATION = gql`
     createOneContact(input: $input) {
       id
       name
+      avatarUrl
       email
       jobTitle
       phone
@@ -62,6 +63,7 @@ export const UPDATE_CONTACT_MUTATION = gql`
     updateOneContact(input: $input) {
       id
       name
+      avatarUrl
       email
       jobTitle
       phone

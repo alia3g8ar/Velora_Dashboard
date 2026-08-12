@@ -104,6 +104,7 @@ export type CreateContactMutation = {
     Types.Contact,
     | "id"
     | "name"
+    | "avatarUrl"
     | "email"
     | "jobTitle"
     | "phone"
@@ -122,6 +123,7 @@ export type UpdateContactMutation = {
     Types.Contact,
     | "id"
     | "name"
+    | "avatarUrl"
     | "email"
     | "jobTitle"
     | "phone"

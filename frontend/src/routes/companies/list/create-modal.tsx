@@ -10,7 +10,7 @@ import type {
 
 import { Form, Input, Modal, Select } from "antd";
 
-import { SelectOptionWithAvatar } from "@/components";
+import { AvatarFormItem, SelectOptionWithAvatar } from "@/components";
 import { USERS_SELECT_QUERY } from "@/graphql/queries";
 import type {
   CreateCompanyMutation,
@@ -69,6 +69,15 @@ export const CompanyCreateModal = () => {
       width={512}
     >
       <Form {...formProps} layout="vertical">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "24px",
+          }}
+        >
+          <AvatarFormItem size={88} />
+        </div>
         <Form.Item
           label={t("companies.fields.companyName")}
           name="name"

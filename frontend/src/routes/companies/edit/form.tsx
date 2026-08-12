@@ -12,7 +12,7 @@ import type {
 import { useQueryClient } from "@tanstack/react-query";
 import { Form, Input, InputNumber, Select } from "antd";
 
-import { CustomAvatar, SelectOptionWithAvatar } from "@/components";
+import { AvatarFormItem, SelectOptionWithAvatar } from "@/components";
 import { USERS_SELECT_QUERY } from "@/graphql/queries";
 import type {
   BusinessType,
@@ -24,7 +24,6 @@ import type {
   UpdateCompanyMutationVariables,
   UsersSelectQuery,
 } from "@/graphql/types";
-import { getNameInitials } from "@/utilities";
 
 import { UPDATE_COMPANY_MUTATION } from "./queries";
 
@@ -37,7 +36,6 @@ export const CompanyForm = () => {
     saveButtonProps,
     formProps,
     formLoading,
-    query: queryResult,
   } = useForm<
     GetFields<UpdateCompanyMutation>,
     HttpError,
@@ -60,8 +58,6 @@ export const CompanyForm = () => {
       gqlMutation: UPDATE_COMPANY_MUTATION,
     },
   });
-  const { avatarUrl, name } = queryResult?.data?.data || {};
-
   const { selectProps: selectPropsUsers, query: queryResultUsers } = useSelect<
     GetFieldsFromList<UsersSelectQuery>
   >({
@@ -82,16 +78,7 @@ export const CompanyForm = () => {
       breadcrumb={false}
     >
       <Form {...formProps} layout="vertical">
-        <CustomAvatar
-          shape="square"
-          src={avatarUrl}
-          name={getNameInitials(name || "")}
-          style={{
-            width: 96,
-            height: 96,
-            marginBottom: "24px",
-          }}
-        />
+        <AvatarFormItem size={96} />
         <Form.Item
           label={t("companies.fields.salesOwner")}
           name="salesOwnerId"

@@ -1,3 +1,4 @@
+export * from "./avatar";
 export * from "./constants";
 export * from "./currency-number";
 export * from "./date";

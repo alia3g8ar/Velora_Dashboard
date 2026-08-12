@@ -39,6 +39,7 @@ import {
 } from "antd";
 
 import {
+  AvatarFormItem,
   ContactStatusTag,
   CustomAvatar,
   SelectOptionWithAvatar,
@@ -111,6 +112,15 @@ const ContactModal = ({
         <Form.Item name="companyId" hidden initialValue={companyId}>
           <Input type="hidden" />
         </Form.Item>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "24px",
+          }}
+        >
+          <AvatarFormItem size={88} />
+        </div>
         <Form.Item
           label={t("companies.contacts.name")}
           name="name"

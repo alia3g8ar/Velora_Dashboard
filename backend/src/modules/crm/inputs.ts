@@ -48,6 +48,11 @@ export class CompanyCreateInput {
     @Field(() => String, { nullable: true })
     @IsOptional()
     @IsString()
+    // A client-resized JPEG avatar encoded as base64 is a few KB, so anything
+    // larger is rejected with a clear message before it reaches the database.
+    @MaxLength(1_000_000, {
+        message: 'Avatar image is too large. Please use a smaller photo.',
+    })
     avatarUrl?: string | null;
 
     @Field(() => Int, { nullable: true })
@@ -93,6 +98,11 @@ export class CompanyUpdateInput {
     @Field(() => String, { nullable: true })
     @IsOptional()
     @IsString()
+    // A client-resized JPEG avatar encoded as base64 is a few KB, so anything
+    // larger is rejected with a clear message before it reaches the database.
+    @MaxLength(1_000_000, {
+        message: 'Avatar image is too large. Please use a smaller photo.',
+    })
     avatarUrl?: string | null;
 
     @Field(() => Int, { nullable: true })
@@ -190,6 +200,9 @@ export class ContactCreateInput {
     @Field(() => String, { nullable: true })
     @IsOptional()
     @IsString()
+    @MaxLength(1_000_000, {
+        message: 'Avatar image is too large. Please use a smaller photo.',
+    })
     avatarUrl?: string | null;
 
     @Field(() => String, { nullable: true })
@@ -248,6 +261,9 @@ export class ContactUpdateInput {
     @Field(() => String, { nullable: true })
     @IsOptional()
     @IsString()
+    @MaxLength(1_000_000, {
+        message: 'Avatar image is too large. Please use a smaller photo.',
+    })
     avatarUrl?: string | null;
 
     @Field(() => String, { nullable: true })

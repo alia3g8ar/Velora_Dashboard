@@ -8,6 +8,7 @@
     "close": "Close",
     "actions": "Actions",
     "unassigned": "Unassigned",
+    "changePhoto": "Change photo",
     "paginationTotal": "{{count}} {{entity}} in total"
   },
   "buttons": {
