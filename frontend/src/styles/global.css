@@ -24,34 +24,34 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #6d28d9 0%, #ec4899 100%);
+  background: #8b5cf6;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #7c3aed 0%, #f472b6 100%);
+  background: #7c3aed;
 }
 
 /* Gradient text utility */
 .gradient-text {
-  background: linear-gradient(135deg, #6d28d9 0%, #ec4899 100%);
+  background: #8b5cf6;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Gradient button */
+/* Solid purple button (was a pink-purple gradient) */
 .gradient-button {
-  background: linear-gradient(135deg, #6d28d9 0%, #ec4899 100%);
+  background: #8b5cf6;
   border: none;
   color: white;
-  transition: all 0.3s ease;
+  font-weight: 500;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .gradient-button:hover {
-  background: linear-gradient(135deg, #7c3aed 0%, #f472b6 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
+  background: #7c3aed;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.35);
 }
 
 /* Card with gradient border */
@@ -77,8 +77,8 @@ body {
 .ant-input:focus,
 .ant-select-focused .ant-select-selector,
 .ant-btn:focus {
-  border-color: #6d28d9 !important;
-  box-shadow: 0 0 0 2px rgba(109, 40, 217, 0.2) !important;
+  border-color: #8b5cf6 !important;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2) !important;
 }
 
 /* Chart customizations */
@@ -115,7 +115,7 @@ body {
 
 /* Menu customizations */
 .ant-menu-dark .ant-menu-item-selected {
-  background: linear-gradient(135deg, #6d28d9 0%, #ec4899 100%) !important;
+  background: #8b5cf6 !important;
 }
 
 /* Form customizations */
@@ -123,17 +123,35 @@ body {
   color: #111827 !important;
 }
 
-/* Button customizations */
+/* Buttons — solid Velora purple, simple hover */
 .ant-btn-primary {
-  background: linear-gradient(135deg, #6d28d9 0%, #ec4899 100%);
+  background: #8b5cf6;
   border: none;
-  box-shadow: 0 2px 4px rgba(109, 40, 217, 0.2);
+  box-shadow: 0 1px 2px rgba(139, 92, 246, 0.25);
 }
 
-.ant-btn-primary:hover {
-  background: linear-gradient(135deg, #7c3aed 0%, #f472b6 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background: #7c3aed !important;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.35);
+}
+
+.ant-btn-primary:active {
+  background: #6d28d9 !important;
+  box-shadow: 0 1px 2px rgba(139, 92, 246, 0.25);
+}
+
+/* Default (outline) buttons — subtle purple hover */
+.ant-btn-default:not(:disabled):hover {
+  color: #8b5cf6;
+  border-color: #8b5cf6;
+  background: #f5f3ff;
+}
+
+/* Text/ghost buttons — simple purple text hover */
+.ant-btn-text:not(:disabled):hover {
+  background: #f5f3ff !important;
+  color: #8b5cf6;
 }
 
 /* Card enhancements */
@@ -162,8 +180,8 @@ body {
 
 /* Pagination customizations */
 .ant-pagination-item-active {
-  background: linear-gradient(135deg, #6d28d9 0%, #ec4899 100%) !important;
-  border-color: #6d28d9 !important;
+  background: #8b5cf6 !important;
+  border-color: #8b5cf6 !important;
 }
 
 .ant-pagination-item-active a {

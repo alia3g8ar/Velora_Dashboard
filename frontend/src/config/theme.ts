@@ -68,7 +68,9 @@ export const veloraTheme: ThemeConfig = {
       colorBorderSecondary: "#E5E7EB",
     },
     Button: {
-      primaryShadow: "0 2px 6px rgba(139, 92, 246, 0.25)",
+      primaryShadow: "0 1px 2px rgba(139, 92, 246, 0.25)",
+      defaultShadow: "none",
+      fontWeight: 500,
     },
     Table: {
       headerBg: "#F9FAFB",
@@ -95,9 +97,10 @@ export const veloraTheme: ThemeConfig = {
   algorithm: undefined,
 };
 
-// Gradient utilities
+// Gradient utilities — kept for reference; buttons and accents are solid
+// Velora purple (single color) per the current design direction.
 export const gradientStyles = {
-  primaryGradient: "linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)",
+  primaryGradient: "#8B5CF6",
   cardGradient: "linear-gradient(135deg, #FFFFFF 0%, #F9FAFB 100%)",
-  textGradient: "linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)",
+  textGradient: "#8B5CF6",
 };
