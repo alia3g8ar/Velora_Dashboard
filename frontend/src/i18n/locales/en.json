@@ -94,6 +94,13 @@
       "enterEmail": "Please enter a valid email",
       "deleteContact": "Delete contact",
       "noContacts": "No contacts yet — add the first contact for this company."
+    },
+    "deals": {
+      "title": "Deals",
+      "totalDeals": "Total deals: ",
+      "addDeal": "Add deal",
+      "editDeal": "Edit deal",
+      "noDeals": "No deals yet — add the first deal for this company."
     }
   },
   "contacts": {

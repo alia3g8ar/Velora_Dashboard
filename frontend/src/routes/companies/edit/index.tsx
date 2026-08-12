@@ -1,6 +1,7 @@
 import { Col, Row } from "antd";
 
 import { CompanyContactsTable } from "./contacts-table";
+import { CompanyDealsTable } from "./deals-table";
 import { CompanyForm } from "./form";
 
 export const CompanyEditPage = () => {
@@ -12,6 +13,9 @@ export const CompanyEditPage = () => {
         </Col>
         <Col xs={24} xl={12}>
           <CompanyContactsTable />
+        </Col>
+        <Col xs={24}>
+          <CompanyDealsTable />
         </Col>
       </Row>
     </div>

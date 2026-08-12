@@ -269,6 +269,24 @@ export type DealsListQuery = {
   };
 };
 
+export type DealGetQueryVariables = Types.Exact<{
+  id: Types.Scalars["ID"]["input"];
+}>;
+
+export type DealGetQuery = {
+  deal: Pick<
+    Types.Deal,
+    | "id"
+    | "title"
+    | "value"
+    | "closeDate"
+    | "notes"
+    | "companyId"
+    | "dealOwnerId"
+    | "stageId"
+  >;
+};
+
 export type CreateDealMutationVariables = Types.Exact<{
   input: Types.CreateOneDealInput;
 }>;

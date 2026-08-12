@@ -32,6 +32,21 @@ export const DEALS_LIST_QUERY = gql`
   }
 `;
 
+export const DEAL_GET_QUERY = gql`
+  query DealGet($id: ID!) {
+    deal(id: $id) {
+      id
+      title
+      value
+      closeDate
+      notes
+      companyId
+      dealOwnerId
+      stageId
+    }
+  }
+`;
+
 export const CREATE_DEAL_MUTATION = gql`
   mutation CreateDeal($input: CreateOneDealInput!) {
     createOneDeal(input: $input) {
