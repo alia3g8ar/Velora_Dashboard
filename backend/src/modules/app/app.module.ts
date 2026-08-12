@@ -49,6 +49,9 @@ function isFilesystemWritable(): boolean {
                 // The frontend sends the Apollo preflight header, but we keep
                 // CSRF prevention off so any GraphQL client can talk to the API.
                 csrfPrevention: false,
+                // Auth resolvers set HttpOnly cookies via context.res; NestJS
+                // only injects req by default.
+                context: ({ req, res }) => ({ req, res }),
             }),
         }),
         AuthModule,
