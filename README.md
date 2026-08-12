@@ -55,7 +55,13 @@
 <td align="center">🔐<br><strong>JWT + bcrypt</strong></td>
 <td align="center">✅<br><strong>class-validator</strong></td>
 <td align="center">⚙️<br><strong>GraphQL Codegen</strong></td>
+<td align="center">🌐<br><strong>i18next + RTL</strong></td>
+</tr>
+<tr>
 <td align="center">🎨<br><strong>Custom Theme</strong></td>
+<td align="center">📅<br><strong>Jalali Calendar</strong></td>
+<td align="center">🕹️<br><strong>Ant Design 5</strong></td>
+<td align="center">⚡<br><strong>Vite 5</strong></td>
 </tr>
 </table>
 
@@ -91,8 +97,10 @@ Velora_Dashboard/
 | 🔐 **Authentication** | Email/password login with JWT (bcrypt-hashed passwords) | ✅ Ready |
 | 📊 **Dashboard** | Company/contact/deal statistics, deals chart, upcoming events & latest activities | ✅ Ready |
 | 🏢 **Companies** | Full CRUD with search, filtering, sorting & pagination | ✅ Ready |
-| 💰 **Deals** | Deal stages, values, close dates & per-company revenue aggregates | ✅ Ready |
-| 👥 **Contacts** | Contact records linked to companies with status & stage | ✅ Ready |
+| 💰 **Deals** | Deal stages, values, close dates & per-company revenue aggregates; create/edit/delete deals right on the company page | ✅ Ready |
+| 👥 **Contacts** | Contact records linked to companies with status & stage — full add/edit/delete from the company page | ✅ Ready |
+| 🌐 **Bilingual (EN/FA)** | Complete English & Persian UI with true RTL, a language switcher on the login page & header, persisted choice | ✅ Ready |
+| 📅 **Jalali Calendar** | Shamsi calendar & Persian dates in the Persian UI, Gregorian in English — stored data always stays Gregorian | ✅ Ready |
 | 📋 **Kanban Board** | Drag & drop between task stages with user assignment, due dates & checklists | ✅ Ready |
 | ⚙️ **Account Settings** | Profile management from the user menu | ✅ Ready |
 | 📝 **Audit Trail** | Real activity records written by the backend on deal changes | ✅ Ready |
@@ -102,6 +110,16 @@ Velora_Dashboard/
 </div>
 
 <br>
+
+## 🌐 Localization & RTL
+
+Velora is fully bilingual (English & Persian) and switches **live without a page reload**:
+
+- **Language switcher** on the login page and in the app header — the choice persists in `localStorage` (`velora.locale`) and defaults to English
+- **Persian mode** sets `lang="fa"` + `dir="rtl"` on `<html>`, flips Ant Design to `fa_IR` with a true RTL layout, and opens the date pickers as a **Shamsi (Jalali) calendar** with Persian months, year and weekday order
+- **English mode** keeps `lang="en"` + `dir="ltr"` and the standard Gregorian calendar
+- **Stored data never changes with the language** — dates are always persisted as Gregorian and only formatted per locale (e.g. `۱۴۰۵/۰۵/۱۵` ↔ `2026-08-06`)
+- **Business data is never translated** — company names, emails, phone numbers and user-created content stay exactly as stored; only UI labels are localized
 
 ## 🏃 Running Locally
 
@@ -150,7 +168,9 @@ From the repository root:
 | `npm run typecheck` | `tsc --noEmit` for both apps |
 | `npm run codegen` | Regenerate frontend GraphQL types |
 | `npm run migration:run` / `migration:show` | Apply / inspect migrations |
-| `npm run seed` | Reseed demo data |
+| `npm run migration:deploy` | Apply migrations (used during production build) |
+| `npm run seed` | Reseed demo data (replaces the whole DB) |
+| `npm run seed:demo-user` | Create the demo user + stages/categories if missing (idempotent, never touches business data) |
 | `npm run test:frontend` | Run frontend unit tests |
 
 ## 📄 Environment Variables
