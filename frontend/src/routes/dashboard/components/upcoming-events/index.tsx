@@ -290,9 +290,13 @@ export const CalendarUpcomingEvents = () => {
     <Card
       style={{
         height: "100%",
+        display: "flex",
+        flexDirection: "column",
       }}
-      headStyle={{ padding: "8px 16px" }}
+      headStyle={{ padding: "8px 16px", flex: "0 0 auto" }}
       bodyStyle={{
+        flex: 1,
+        overflow: "auto",
         padding: "0 1rem",
       }}
       title={
