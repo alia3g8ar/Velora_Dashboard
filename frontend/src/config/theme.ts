@@ -38,9 +38,10 @@ export const veloraTheme: ThemeConfig = {
     borderRadiusLG: 14,
     borderRadiusSM: 8,
 
-    // Font
+    // Font — Dana (installed locally) is preferred for Persian glyphs in both
+    // languages, with safe fallbacks for systems where it is not installed.
     fontFamily:
-      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      '"Dana", "Vazirmatn", "Segoe UI", Tahoma, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif',
     fontSize: 14,
     fontSizeLG: 16,
     fontSizeSM: 12,

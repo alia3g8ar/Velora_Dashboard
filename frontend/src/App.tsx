@@ -38,9 +38,6 @@ import { setDefaultCalendar } from "@/utilities";
 import "@refinedev/antd/dist/reset.css";
 import "@/styles/global.css";
 
-const PERSIAN_FONT_STACK =
-  '"Dana", "Vazirmatn", "Segoe UI", Tahoma, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif';
-
 // The browser tab always shows just the brand name; page-specific titles
 // would add no value at this size and the user asked for a single label.
 const DOCUMENT_TITLE = "Velora";
@@ -58,18 +55,9 @@ const LocaleProvider = ({ children }: React.PropsWithChildren) => {
   const locale = resolveInitialLocale(i18n.language);
   const direction = getLocaleDirection(locale);
 
-  const theme: ThemeConfig = React.useMemo(() => {
-    return {
-      ...veloraTheme,
-      token: {
-        ...veloraTheme.token,
-        fontFamily:
-          locale === "fa"
-            ? PERSIAN_FONT_STACK
-            : veloraTheme.token?.fontFamily,
-      },
-    };
-  }, [locale]);
+  // The theme font stack always leads with Dana so Persian glyphs render
+  // correctly in both languages (e.g. user-typed names inside an English UI).
+  const theme: ThemeConfig = React.useMemo(() => veloraTheme, []);
 
   React.useEffect(() => {
     document.title = DOCUMENT_TITLE;
