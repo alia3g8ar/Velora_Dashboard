@@ -4,10 +4,10 @@ import { Create, Edit, useForm, useSelect } from "@refinedev/antd";
 import { type HttpError, useGo } from "@refinedev/core";
 import type { GetFields, GetFieldsFromList } from "@refinedev/nestjs-query";
 
-import { DatePicker, Form, Input, InputNumber, Select } from "antd";
+import { Form, Input, InputNumber, Select } from "antd";
 import dayjs from "dayjs";
 
-import { SelectOptionWithAvatar } from "@/components";
+import { SelectOptionWithAvatar, VeloraDatePicker } from "@/components";
 import {
   COMPANIES_SELECT_QUERY,
   DEAL_STAGES_SELECT_QUERY,
@@ -183,7 +183,7 @@ export const DealForm = ({ action }: DealFormProps) => {
         </Form.Item>
 
         <Form.Item label={t("deals.fields.closeDate")} name="closeDate">
-          <DatePicker
+          <VeloraDatePicker
             style={{ width: "100%" }}
             format={(value) =>
               formatDate(

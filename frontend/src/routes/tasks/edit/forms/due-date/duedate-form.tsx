@@ -6,9 +6,10 @@ import { useInvalidate } from "@refinedev/core";
 import type { GetFields, GetVariables } from "@refinedev/nestjs-query";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { Button, DatePicker, Form, Space } from "antd";
+import { Button, Form, Space } from "antd";
 import dayjs from "dayjs";
 
+import { VeloraDatePicker } from "@/components";
 import type { Task } from "@/graphql/schema.types";
 import type {
   UpdateTaskMutation,
@@ -73,7 +74,7 @@ export const DueDateForm = ({ initialValues, cancelForm }: Props) => {
             return { value: dayjs(value) };
           }}
         >
-          <DatePicker
+          <VeloraDatePicker
             format={(value) =>
               formatDate(
                 value,

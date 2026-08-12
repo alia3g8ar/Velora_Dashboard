@@ -33,6 +33,7 @@ import {
   TasksEditPage,
   TasksListPage,
 } from "@/routes";
+import { setDefaultCalendar } from "@/utilities";
 
 import "@refinedev/antd/dist/reset.css";
 import "@/styles/global.css";
@@ -73,6 +74,13 @@ const LocaleProvider = ({ children }: React.PropsWithChildren) => {
   React.useEffect(() => {
     document.title = DOCUMENT_TITLE;
   }, []);
+
+  // Let the Jalali picker default to the active calendar for new dayjs
+  // instances (e.g. the panel's "today") without loading dayjs/plugin/
+  // calendar, which would shadow jalaliday's `prototype.calendar`.
+  React.useEffect(() => {
+    setDefaultCalendar(locale === "fa" ? "jalali" : "gregory");
+  }, [locale]);
 
   return (
     <ConfigProvider

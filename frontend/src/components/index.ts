@@ -1,5 +1,6 @@
 export * from "./accordion";
 export * from "./custom-avatar";
+export * from "./date";
 export * from "./icon";
 export * from "./language-switcher";
 export * from "./layout";

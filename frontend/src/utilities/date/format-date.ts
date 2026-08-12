@@ -1,6 +1,8 @@
 import dayjs from "dayjs";
 import { toJalaali } from "jalaali-js";
 
+import { toGregorian } from "./jalali-calendar";
+
 /**
  * Locale-aware date formatting for Velora.
  *
@@ -47,10 +49,15 @@ export const formatJalali = (
   pattern: string,
 ): string => {
   const date = dayjs(value);
+  // Normalize to the Gregorian calendar first. When the Jalali picker is
+  // active, new dayjs instances default to the Jalali calendar, and reading
+  // .year()/.month()/.date() directly would double-convert the value.
+  const gregorian =
+    typeof date.calendar === "function" ? toGregorian(date) : date;
   const { jy, jm, jd } = toJalaali(
-    date.year(),
-    date.month() + 1,
-    date.date(),
+    gregorian.year(),
+    gregorian.month() + 1,
+    gregorian.date(),
   );
   const hour = date.hour();
   const minute = date.minute();

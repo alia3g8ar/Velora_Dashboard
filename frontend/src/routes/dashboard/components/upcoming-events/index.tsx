@@ -32,7 +32,11 @@ export const CalendarUpcomingEvents = () => {
       {
         field: "startDate",
         operator: "gte",
-        value: dayjs().format("YYYY-MM-DD"),
+        // The backend stores Gregorian dates; always format from an explicit
+        // Gregorian instance so the Jalali calendar never leaks into queries.
+        value: (dayjs().calendar?.("gregory") ?? dayjs()).format(
+          "YYYY-MM-DD",
+        ),
       },
     ],
     meta: {

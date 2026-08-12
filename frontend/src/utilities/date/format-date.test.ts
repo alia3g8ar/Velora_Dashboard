@@ -1,6 +1,10 @@
+import dayjs from "dayjs";
+import jalaliday from "jalaliday";
 import { describe, expect, it } from "vitest";
 
 import { formatDate, formatJalali } from "./format-date";
+
+dayjs.extend(jalaliday);
 
 describe("formatJalali", () => {
   it("converts a Gregorian date to the Jalali calendar", () => {
@@ -28,6 +32,24 @@ describe("formatJalali", () => {
     expect(formatJalali("2026-08-14T09:05:00", "YYYY/MM/DD HH:mm")).toBe(
       "۱۴۰۵/۰۵/۲۳ ۰۹:۰۵",
     );
+  });
+
+  it("does not double-convert a Jalali-calendar dayjs instance", () => {
+    const gregorian = dayjs("2026-08-14T12:30:00");
+    const jalali = gregorian.calendar("jalali");
+
+    expect(formatJalali(jalali, "YYYY/MM/DD")).toBe("۱۴۰۵/۰۵/۲۳");
+  });
+
+  it("formats correctly even when dayjs defaults to the Jalali calendar", () => {
+    dayjs.calendar("jalali");
+    try {
+      expect(formatJalali("2026-08-14T12:30:00", "YYYY/MM/DD")).toBe(
+        "۱۴۰۵/۰۵/۲۳",
+      );
+    } finally {
+      dayjs.calendar("gregory");
+    }
   });
 });
 

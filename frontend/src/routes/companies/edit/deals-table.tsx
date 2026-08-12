@@ -19,7 +19,6 @@ import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
   Card,
-  DatePicker,
   Empty,
   Form,
   type FormProps,
@@ -34,7 +33,7 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 
-import { CustomAvatar, SelectOptionWithAvatar, Text } from "@/components";
+import { CustomAvatar, SelectOptionWithAvatar, Text, VeloraDatePicker } from "@/components";
 import {
   DEAL_STAGES_SELECT_QUERY,
   USERS_SELECT_QUERY,
@@ -182,7 +181,7 @@ const DealModal = ({
           />
         </Form.Item>
         <Form.Item label={t("deals.fields.closeDate")} name="closeDate">
-          <DatePicker
+          <VeloraDatePicker
             style={{ width: "100%" }}
             format={(value) =>
               formatDate(
