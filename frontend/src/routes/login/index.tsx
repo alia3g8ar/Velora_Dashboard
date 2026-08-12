@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { AuthPage } from "@refinedev/antd";
-import { useRegister } from "@refinedev/core";
+import { useLogin, useRegister } from "@refinedev/core";
 
-import { Button, Card, Form, Input, Typography } from "antd";
+import { Button, Card, Checkbox, Form, Input, Typography } from "antd";
 
 import { LanguageSwitcher, VeloraLogo } from "@/components";
 import { authCredentials } from "@/providers";
+
+type LoginFormValues = {
+  email: string;
+  password: string;
+  remember?: boolean;
+};
 
 type RegisterFormValues = {
   name: string;
@@ -172,8 +177,130 @@ const RegisterForm = ({ onBackToLogin }: { onBackToLogin: () => void }) => {
   );
 };
 
-export const LoginPage = () => {
+const LoginForm = ({ onGoToRegister }: { onGoToRegister: () => void }) => {
   const { t } = useTranslation();
+
+  // Refine's useLogin resolves even on failure (authProvider returns
+  // `success: false` instead of throwing), so its built-in handling is used:
+  // success redirects into the app, failure shows a translated error
+  // notification — no custom onError needed here.
+  const { mutate: login, isLoading } = useLogin();
+
+  const handleFinish = (values: LoginFormValues) => {
+    login({
+      email: values.email,
+      password: values.password,
+    });
+  };
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        padding: "24px",
+      }}
+    >
+      <div style={{ width: 400, maxWidth: "100%" }}>
+        <div style={{ textAlign: "center", marginBottom: 24 }}>
+          <VeloraLogo width={200} height={60} />
+        </div>
+        <Card
+          styles={{
+            body: { padding: "28px 24px 20px" },
+          }}
+        >
+          <Typography.Title level={4} style={{ marginBottom: 4 }}>
+            {t("pages.login.title")}
+          </Typography.Title>
+          <Typography.Text type="secondary">
+            {t("pages.login.subtitle")}
+          </Typography.Text>
+
+          <Form<LoginFormValues>
+            layout="vertical"
+            onFinish={handleFinish}
+            initialValues={authCredentials}
+            style={{ marginTop: 20 }}
+          >
+            <Form.Item
+              label={t("pages.login.fields.email")}
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: t("pages.login.errors.requiredEmail"),
+                },
+                {
+                  type: "email",
+                  message: t("pages.login.errors.validEmail"),
+                },
+              ]}
+            >
+              <Input
+                size="large"
+                placeholder={t("pages.login.fields.email")}
+              />
+            </Form.Item>
+            <Form.Item
+              label={t("pages.login.fields.password")}
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: t("pages.login.errors.requiredPassword"),
+                },
+              ]}
+            >
+              <Input.Password
+                size="large"
+                placeholder={t("pages.login.fields.password")}
+              />
+            </Form.Item>
+            <Form.Item name="remember" valuePropName="checked" noStyle>
+              <Checkbox style={{ fontSize: 12 }}>
+                {t("pages.login.buttons.rememberMe")}
+              </Checkbox>
+            </Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              block
+              size="large"
+              loading={isLoading}
+              style={{ marginTop: 12 }}
+            >
+              {t("pages.login.signin")}
+            </Button>
+          </Form>
+
+          <div
+            style={{
+              textAlign: "center",
+              marginTop: 16,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 4,
+              flexWrap: "wrap",
+            }}
+          >
+            <Typography.Text type="secondary">
+              {t("pages.login.register.noAccount")}
+            </Typography.Text>
+            <Button type="link" onClick={onGoToRegister}>
+              {t("pages.login.register.signup")}
+            </Button>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+export const LoginPage = () => {
   const [mode, setMode] = useState<"login" | "register">("login");
 
   return (
@@ -189,19 +316,7 @@ export const LoginPage = () => {
         <LanguageSwitcher />
       </div>
       {mode === "login" ? (
-        <AuthPage
-          type="login"
-          registerLink={
-            <Button type="link" onClick={() => setMode("register")}>
-              {t("pages.login.register.noAccount")}
-            </Button>
-          }
-          forgotPasswordLink={false}
-          title={<VeloraLogo width={200} height={60} />}
-          formProps={{
-            initialValues: authCredentials,
-          }}
-        />
+        <LoginForm onGoToRegister={() => setMode("register")} />
       ) : (
         <RegisterForm onBackToLogin={() => setMode("login")} />
       )}
