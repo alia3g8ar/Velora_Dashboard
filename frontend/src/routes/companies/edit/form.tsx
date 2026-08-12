@@ -36,6 +36,7 @@ export const CompanyForm = () => {
     saveButtonProps,
     formProps,
     formLoading,
+    query: queryResult,
   } = useForm<
     GetFields<UpdateCompanyMutation>,
     HttpError,
@@ -78,7 +79,10 @@ export const CompanyForm = () => {
       breadcrumb={false}
     >
       <Form {...formProps} layout="vertical">
-        <AvatarFormItem size={96} />
+        <AvatarFormItem
+          size={96}
+          name={queryResult?.data?.data?.name ?? ""}
+        />
         <Form.Item
           label={t("companies.fields.salesOwner")}
           name="salesOwnerId"

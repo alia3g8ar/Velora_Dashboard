@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { CameraOutlined } from "@ant-design/icons";
 import { Form, theme } from "antd";
 
-import { fileToAvatarDataUrl,getNameInitials } from "@/utilities";
+import { fileToAvatarDataUrl } from "@/utilities";
 
 import { CustomAvatar } from "../custom-avatar";
 
@@ -56,7 +56,10 @@ export const AvatarUploader = ({
       <CustomAvatar
         shape={shape}
         src={value}
-        name={getNameInitials(name)}
+        // Pass the raw name: CustomAvatar derives the initials itself.
+        // Pre-processing here would double-apply getNameInitials and render
+        // only the first letter.
+        name={name}
         style={{
           width: size,
           height: size,
@@ -103,15 +106,23 @@ export const AvatarUploader = ({
 /**
  * A ready-to-use `Form.Item` bound to the `avatarUrl` field. The initials
  * fallback follows the form's `name` field so the preview updates as the
- * user types.
+ * user types. Forms without a `name` field (e.g. the company edit form)
+ * can pass the record name via `name` so the fallback still shows initials.
  */
-export const AvatarFormItem = ({ size = 96 }: { size?: number }) => {
+export const AvatarFormItem = ({
+  size = 96,
+  name: nameFallback = "",
+}: {
+  size?: number;
+  name?: string;
+}) => {
   const form = Form.useFormInstance();
-  const name = Form.useWatch("name", form);
+  const watchedName = Form.useWatch("name", form);
+  const name = watchedName ?? nameFallback;
 
   return (
     <Form.Item name="avatarUrl" style={{ marginBottom: 24 }}>
-      <AvatarUploader name={name ?? ""} size={size} />
+      <AvatarUploader name={name} size={size} />
     </Form.Item>
   );
 };
