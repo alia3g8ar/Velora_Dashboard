@@ -56,7 +56,7 @@ See `.env.example` for all variables: JWT secret, MySQL connection, CORS origin 
 After seeding:
 
 ```
-email:    jim.halpert@dundermifflin.com
+email:    aliasghararyayimehr@gmail.com
 password: demodemo
 ```
 

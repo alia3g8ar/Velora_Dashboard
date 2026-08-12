@@ -37,7 +37,7 @@ const mapAuthError = (error: unknown) => {
  * For demo purposes and to make it easier to test Velora CRM, you can use the following credentials:
  */
 export const authCredentials = {
-  email: "jim.halpert@dundermifflin.com",
+  email: "aliasghararyayimehr@gmail.com",
   password: "demodemo",
 };
 

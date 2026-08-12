@@ -18,10 +18,15 @@ import { Role } from 'src/modules/crm/enums';
  * is never touched.
  *
  * Ensures:
- *  - the demo user (jim.halpert@dundermifflin.com / demodemo)
+ *  - the demo user (aliasghararyayimehr@gmail.com / demodemo)
  *  - deal stages, task stages and event categories the UI depends on
+ *
+ * If a database still has the legacy demo account under the old email, that
+ * user is renamed in place (email only) so existing deployments pick up the
+ * new login without creating a duplicate.
  */
-const DEMO_EMAIL = 'jim.halpert@dundermifflin.com';
+const DEMO_EMAIL = 'aliasghararyayimehr@gmail.com';
+const LEGACY_DEMO_EMAIL = 'jim.halpert@dundermifflin.com';
 const DEMO_PASSWORD = 'demodemo';
 
 const DEAL_STAGES = ['NEW', 'QUALIFIED', 'PROPOSAL', 'WON', 'LOST'];
@@ -61,21 +66,41 @@ async function seedDemoUser(): Promise<void> {
         const userRepository = dataSource.getRepository(User);
         let demoUser = await userRepository.findOneBy({ email: DEMO_EMAIL });
         if (demoUser) {
-            console.log(`  [=] demo user already exists (id ${demoUser.id})`);
-        } else {
-            demoUser = await userRepository.save(
-                userRepository.create({
-                    email: DEMO_EMAIL,
-                    name: 'Jim Halpert',
-                    password: await hash(DEMO_PASSWORD, 10),
-                    role: Role.SALES_MANAGER,
-                    jobTitle: 'Sales Manager',
-                    phone: '+1 555 010 2345',
-                    timezone: 'America/New_York',
-                    avatarUrl: 'https://i.pravatar.cc/150?img=12',
-                }),
+            // The login email exists (usually the owner's real account). Make
+            // sure the documented demo password works for it so logging in
+            // with the new email is possible.
+            demoUser.password = await hash(DEMO_PASSWORD, 10);
+            demoUser = await userRepository.save(demoUser);
+            console.log(
+                `  [C] demo login password ensured for ${DEMO_EMAIL} (id ${demoUser.id})`,
             );
-            console.log(`  [C] demo user created (id ${demoUser.id})`);
+        } else {
+            // Existing databases created before the email change still have the
+            // legacy demo account; rename it instead of creating a duplicate.
+            const legacyUser = await userRepository.findOneBy({
+                email: LEGACY_DEMO_EMAIL,
+            });
+            if (legacyUser) {
+                legacyUser.email = DEMO_EMAIL;
+                demoUser = await userRepository.save(legacyUser);
+                console.log(
+                    `  [C] demo user email updated to ${DEMO_EMAIL} (id ${demoUser.id})`,
+                );
+            } else {
+                demoUser = await userRepository.save(
+                    userRepository.create({
+                        email: DEMO_EMAIL,
+                        name: 'Jim Halpert',
+                        password: await hash(DEMO_PASSWORD, 10),
+                        role: Role.SALES_MANAGER,
+                        jobTitle: 'Sales Manager',
+                        phone: '+1 555 010 2345',
+                        timezone: 'America/New_York',
+                        avatarUrl: 'https://i.pravatar.cc/150?img=12',
+                    }),
+                );
+                console.log(`  [C] demo user created (id ${demoUser.id})`);
+            }
         }
 
         await ensureRows(

@@ -150,7 +150,7 @@ Open http://localhost:5173.
 ## 🔑 Demo Credentials
 
 ```
-Email: jim.halpert@dundermifflin.com
+Email: aliasghararyayimehr@gmail.com
 Password: demodemo
 ```
 

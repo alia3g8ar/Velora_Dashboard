@@ -22,7 +22,7 @@ import {
     Role,
 } from 'src/modules/crm/enums';
 
-const DEMO_EMAIL = 'jim.halpert@dundermifflin.com';
+const DEMO_EMAIL = 'aliasghararyayimehr@gmail.com';
 const DEMO_PASSWORD = 'demodemo';
 
 const monthsAgo = (months: number, day = 15, hour = 12): Date => {
