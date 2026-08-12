@@ -39,6 +39,18 @@ export const DashboardDealsChart = () => {
     animation: true,
     startOnZero: false,
     smooth: true,
+    // The chart renders on canvas, so it does not inherit the page font.
+    // Setting the style sheet font makes every canvas label (axis, legend)
+    // use the same Dana/Vazirmatn stack as the rest of the app — required
+    // for Persian text in RTL mode.
+    theme: {
+      styleSheet: {
+        fontFamily:
+          '"Dana", "Vazirmatn", "Segoe UI", Tahoma, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif',
+        // Default #8c8c8c is too faint on the white card.
+        axisLabelFillColor: "#374151",
+      },
+    },
     legend: {
       offsetY: -6,
       itemName: {
