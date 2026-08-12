@@ -18,12 +18,14 @@ import { Role } from 'src/modules/crm/enums';
  * is never touched.
  *
  * Ensures:
- *  - the demo user (aliasghararyayimehr@gmail.com / demodemo)
+ *  - the demo login (aliasghararyayimehr@gmail.com / demodemo)
  *  - deal stages, task stages and event categories the UI depends on
  *
- * If a database still has the legacy demo account under the old email, that
- * user is renamed in place (email only) so existing deployments pick up the
- * new login without creating a duplicate.
+ * When a database has both the account holding the new email and the legacy
+ * demo account (old email), they are consolidated into the legacy account the
+ * user actually logs in with: every owned row is re-pointed to it, the
+ * duplicate is removed, and it takes the new email — so the user keeps the
+ * same account and all its data, just under the new login email.
  */
 const DEMO_EMAIL = 'aliasghararyayimehr@gmail.com';
 const LEGACY_DEMO_EMAIL = 'jim.halpert@dundermifflin.com';
@@ -53,6 +55,60 @@ async function ensureRows<T extends { title: string }>(
     }
 }
 
+/**
+ * Tables that reference `users` and must be re-pointed when two accounts are
+ * merged, so no data is lost or orphaned.
+ */
+const USER_REFERENCE_TABLES: Array<[string, string]> = [
+    ['companies', 'sales_owner_id'],
+    ['contacts', 'sales_owner_id'],
+    ['deals', 'deal_owner_id'],
+    ['audits', 'user_id'],
+    ['event_participants', 'user_id'],
+    ['task_users', 'user_id'],
+];
+
+/**
+ * If a database has both the account holding the current demo email and the
+ * legacy demo account (old email), consolidate them into ONE account: the
+ * legacy account the user actually logs in with keeps its identity and gains
+ * the new email, and every row owned by the other account is re-pointed to it
+ * (so nothing is lost). The duplicate account is then deleted.
+ *
+ * Returns the merged account, or null when there is nothing to consolidate.
+ */
+async function consolidateDuplicateAccounts(
+    dataSource: DataSource,
+    userRepository: {
+        findOneBy: (where: { email: string }) => Promise<User | null>;
+    },
+): Promise<User | null> {
+    const byNewEmail = await userRepository.findOneBy({ email: DEMO_EMAIL });
+    const byLegacyEmail = await userRepository.findOneBy({
+        email: LEGACY_DEMO_EMAIL,
+    });
+    if (!byNewEmail || !byLegacyEmail || byNewEmail.id === byLegacyEmail.id) {
+        return null;
+    }
+
+    for (const [table, column] of USER_REFERENCE_TABLES) {
+        await dataSource.query(
+            `UPDATE \`${table}\` SET \`${column}\` = ? WHERE \`${column}\` = ?`,
+            [byLegacyEmail.id, byNewEmail.id],
+        );
+    }
+    await dataSource.getRepository(User).delete(byNewEmail.id);
+
+    byLegacyEmail.email = DEMO_EMAIL;
+    byLegacyEmail.password = await hash(DEMO_PASSWORD, 10);
+    const merged = await dataSource.getRepository(User).save(byLegacyEmail);
+    console.log(
+        `  [C] merged duplicate account into id ${merged.id} (${DEMO_EMAIL}) — ` +
+            'all owned data re-pointed, nothing lost',
+    );
+    return merged;
+}
+
 async function seedDemoUser(): Promise<void> {
     process.env.SYNCHRONIZE = 'false';
 
@@ -64,7 +120,12 @@ async function seedDemoUser(): Promise<void> {
         const dataSource: DataSource = app.get(DataSource);
 
         const userRepository = dataSource.getRepository(User);
-        let demoUser = await userRepository.findOneBy({ email: DEMO_EMAIL });
+        const merged = await consolidateDuplicateAccounts(
+            dataSource,
+            userRepository,
+        );
+        let demoUser =
+            merged ?? (await userRepository.findOneBy({ email: DEMO_EMAIL }));
         if (demoUser) {
             // The login email exists (usually the owner's real account). Make
             // sure the documented demo password works for it so logging in
@@ -120,8 +181,9 @@ async function seedDemoUser(): Promise<void> {
         );
 
         console.log(
-            'Demo data ensured. Non-destructive — existing data untouched.',
+            'Demo data ensured. Business data untouched; only the demo login',
         );
+        console.log('account may have been consolidated/renamed.');
         console.log('Demo login:');
         console.log(`  email:    ${DEMO_EMAIL}`);
         console.log(`  password: ${DEMO_PASSWORD}`);
