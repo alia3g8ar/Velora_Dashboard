@@ -1,5 +1,7 @@
 import { ForbiddenException, UnauthorizedException } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import type { Response } from 'express';
+import { clearAuthCookie, setAuthCookie } from '../../common/auth/cookies';
 import { IsPublic } from '../../common/decorators/public.decorator';
 import { AuthenticatedRequest } from '../../common/guard/jwt-auth.guard';
 import { Role } from '../crm/enums';
@@ -9,20 +11,37 @@ import { AuthService } from './auth.service';
 import { LoginInput } from './dto/login.input';
 import { RegisterInput } from './dto/register.input';
 
+type AuthContext = {
+    req: AuthenticatedRequest;
+    res: Response;
+};
+
 @Resolver()
 export class AuthResolver {
     constructor(private readonly authService: AuthService) {}
 
     @IsPublic()
     @Mutation(() => AuthResponse)
-    login(@Args('loginInput') loginInput: LoginInput) {
-        return this.authService.login(loginInput);
+    async login(
+        @Args('loginInput') loginInput: LoginInput,
+        @Context() context: AuthContext,
+    ): Promise<AuthResponse> {
+        const result = await this.authService.login(loginInput);
+        // Hand the browser the token as an HttpOnly cookie so it never lives
+        // in JavaScript-accessible storage.
+        setAuthCookie(context.res, result.accessToken);
+        return result;
     }
 
     @IsPublic()
     @Mutation(() => AuthResponse)
-    register(@Args('registerInput') registerInput: RegisterInput) {
-        return this.authService.register(registerInput);
+    async register(
+        @Args('registerInput') registerInput: RegisterInput,
+        @Context() context: AuthContext,
+    ): Promise<AuthResponse> {
+        const result = await this.authService.register(registerInput);
+        setAuthCookie(context.res, result.accessToken);
+        return result;
     }
 
     /**
@@ -36,6 +55,7 @@ export class AuthResolver {
     @Mutation(() => AuthResponse)
     async adminLogin(
         @Args('loginInput') loginInput: LoginInput,
+        @Context() context: AuthContext,
     ): Promise<AuthResponse> {
         const result = await this.authService.login(loginInput);
 
@@ -45,11 +65,23 @@ export class AuthResolver {
             );
         }
 
+        setAuthCookie(context.res, result.accessToken);
         return result;
     }
 
+    /**
+     * Clears the session cookie. Marked public so logging out always works,
+     * even when the access token has already expired.
+     */
+    @IsPublic()
+    @Mutation(() => Boolean)
+    logout(@Context() context: AuthContext): boolean {
+        clearAuthCookie(context.res);
+        return true;
+    }
+
     @Query(() => User)
-    me(@Context() context: { req: AuthenticatedRequest }): Promise<User> {
+    me(@Context() context: AuthContext): Promise<User> {
         const sub = context.req.user?.sub;
 
         if (!sub) {

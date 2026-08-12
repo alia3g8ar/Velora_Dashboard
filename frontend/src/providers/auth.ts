@@ -48,7 +48,7 @@ export const authCredentials = {
 export const authProvider: AuthProvider = {
   login: async ({ email, password }) => {
     try {
-      const { data } = await dataProvider.custom({
+      await dataProvider.custom({
         url: API_URL,
         method: "post",
         headers: {},
@@ -67,8 +67,9 @@ export const authProvider: AuthProvider = {
         },
       });
 
-      localStorage.setItem("access_token", data.login.accessToken);
-
+      // The access token is stored by the server as an HttpOnly cookie; the
+      // browser attaches it to every request automatically. Nothing is kept
+      // in localStorage, which is read by XSS.
       return {
         success: true,
         redirectTo: "/",
@@ -87,7 +88,7 @@ export const authProvider: AuthProvider = {
   },
   register: async ({ email, password, ...params }) => {
     try {
-      const { data } = await dataProvider.custom({
+      await dataProvider.custom({
         url: API_URL,
         method: "post",
         headers: {},
@@ -107,8 +108,6 @@ export const authProvider: AuthProvider = {
         },
       });
 
-      localStorage.setItem("access_token", data.register.accessToken);
-
       return {
         success: true,
         redirectTo: "/",
@@ -127,6 +126,25 @@ export const authProvider: AuthProvider = {
   },
   logout: async () => {
     localStorage.removeItem("access_token");
+    // Tell the server to delete the HttpOnly cookie so the session actually
+    // ends (not just client-side). Best-effort: a network failure must not
+    // trap the user on a page they can no longer use.
+    try {
+      await dataProvider.custom({
+        url: API_URL,
+        method: "post",
+        headers: {},
+        meta: {
+          rawQuery: `
+                    mutation Logout {
+                        logout
+                    }
+                `,
+        },
+      });
+    } catch {
+      // Ignore logout failures; the local redirect below is what matters.
+    }
 
     return {
       success: true,
@@ -171,17 +189,11 @@ export const authProvider: AuthProvider = {
     }
   },
   getIdentity: async () => {
-    const accessToken = localStorage.getItem("access_token");
-
     try {
       const { data } = await dataProvider.custom<{ me: User }>({
         url: API_URL,
         method: "post",
-        headers: accessToken
-          ? {
-              Authorization: `Bearer ${accessToken}`,
-            }
-          : {},
+        headers: {},
         meta: {
           rawQuery: `
                     query Me {

@@ -1,15 +1,19 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
+import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { accessSync, constants } from 'fs';
 import { join } from 'path';
 import { DatabaseConfig } from '../../config/database.config';
 import { UserContextMiddleware } from '../../common/middleware/user-context.middleware';
+import { MutationRateLimitGuard } from '../../common/guard/mutation-rate-limit.guard';
+import { DemoResetService } from '../../common/services/demo-reset.service';
 import { AdminModule } from '../admin/admin.module';
 import { AuthModule } from '../auth/auth.module';
 import { CrmModule } from '../crm/crm.module';
+import { UploadsModule } from '../uploads/uploads.module';
 
 function isFilesystemWritable(): boolean {
     try {
@@ -50,6 +54,14 @@ function isFilesystemWritable(): boolean {
         AuthModule,
         CrmModule,
         AdminModule,
+        UploadsModule,
+    ],
+    providers: [
+        {
+            provide: APP_GUARD,
+            useClass: MutationRateLimitGuard,
+        },
+        DemoResetService,
     ],
 })
 export class AppModule implements NestModule {

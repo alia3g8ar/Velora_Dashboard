@@ -34,15 +34,8 @@ export const wsClient =
   typeof window !== "undefined" && WS_URL
     ? createClient({
         url: WS_URL,
-        connectionParams: () => {
-          const accessToken = localStorage.getItem("access_token");
-
-          return {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          };
-        },
+        // Auth rides on the HttpOnly cookie, which the browser attaches to
+        // the WebSocket handshake automatically.
       })
     : undefined;
 

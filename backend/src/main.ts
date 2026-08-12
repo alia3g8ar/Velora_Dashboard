@@ -51,6 +51,12 @@ async function bootstrap(): Promise<void> {
         return;
     }
 
+    // Trust the proxy chain so `request.ip` reflects the real client IP from
+    // `x-forwarded-for` (Vercel). Without this every request looks like it
+    // comes from the edge proxy, which would turn the mutation rate limiter
+    // into a global lock shared by all visitors.
+    app.set('trust proxy', true);
+
     const rawFrontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 
     let allowedOrigin: string;

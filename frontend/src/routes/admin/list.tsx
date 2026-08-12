@@ -3,11 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router";
 
 import { List } from "@refinedev/antd";
-import {
-  useCustom,
-  useCustomMutation,
-  useGetIdentity,
-} from "@refinedev/core";
+import { useCustom, useCustomMutation, useGetIdentity } from "@refinedev/core";
 
 import { DeleteOutlined, SafetyCertificateOutlined } from "@ant-design/icons";
 import { useQueryClient } from "@tanstack/react-query";
@@ -30,7 +26,7 @@ import type { ColumnsType } from "antd/es/table";
 import { LanguageSwitcher, VeloraLogo } from "@/components";
 import type { User } from "@/graphql/schema.types";
 import { API_URL, dataProvider } from "@/providers/data";
-import { formatDate } from "@/utilities";
+import { formatDate, resolveAssetUrl } from "@/utilities";
 
 import {
   ADMIN_DELETE_USER_MUTATION,
@@ -64,7 +60,7 @@ const AdminLoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
   const handleFinish = async (values: { email: string; password: string }) => {
     setSubmitting(true);
     try {
-      const { data } = await dataProvider.custom<{
+      await dataProvider.custom<{
         adminLogin: { accessToken: string };
       }>({
         url: API_URL,
@@ -85,7 +81,8 @@ const AdminLoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
         },
       });
 
-      localStorage.setItem("access_token", data.adminLogin.accessToken);
+      // The admin token is set as an HttpOnly cookie by the server; the
+      // browser sends it automatically from here on.
       message.success(t("admin.login.success"));
       onSuccess();
     } catch (error) {
@@ -133,17 +130,11 @@ const AdminLoginForm = ({ onSuccess }: { onSuccess: () => void }) => {
             body: { padding: "28px 24px 20px" },
           }}
         >
-          <Space
-            align="center"
-            style={{ marginBottom: 4, display: "flex" }}
-          >
+          <Space align="center" style={{ marginBottom: 4, display: "flex" }}>
             <SafetyCertificateOutlined
               style={{ fontSize: 20, color: "#722ED1" }}
             />
-            <Typography.Title
-              level={4}
-              style={{ margin: 0 }}
-            >
+            <Typography.Title level={4} style={{ margin: 0 }}>
               {t("admin.login.title")}
             </Typography.Title>
           </Space>
@@ -330,8 +321,8 @@ export const AdminPage = () => {
             raw.includes("last administrator")
               ? t("admin.notifications.lastAdmin")
               : raw.includes("own account")
-                ? t("admin.notifications.cannotDeleteSelf")
-                : t("admin.notifications.deleteFailed"),
+              ? t("admin.notifications.cannotDeleteSelf")
+              : t("admin.notifications.deleteFailed"),
           );
         },
       },
@@ -345,7 +336,10 @@ export const AdminPage = () => {
       key: "name",
       render: (_, record) => (
         <Space>
-          <Avatar src={record.avatarUrl} alt={record.name ?? record.email}>
+          <Avatar
+            src={resolveAssetUrl(record.avatarUrl)}
+            alt={record.name ?? record.email}
+          >
             {(record.name ?? record.email).charAt(0).toUpperCase()}
           </Avatar>
           <Space direction="vertical" size={0}>
@@ -398,7 +392,9 @@ export const AdminPage = () => {
         const isSelf = record.id === identity?.id;
         return (
           <Popconfirm
-            title={t("admin.actions.deleteConfirm", { name: record.name ?? "" })}
+            title={t("admin.actions.deleteConfirm", {
+              name: record.name ?? "",
+            })}
             okText={t("common.delete")}
             cancelText={t("common.cancel")}
             okButtonProps={{ danger: true }}

@@ -14,7 +14,7 @@ import type {
   UpdateUserMutation,
   UpdateUserMutationVariables,
 } from "@/graphql/types";
-import { fileToAvatarDataUrl, getNameInitials } from "@/utilities";
+import { getNameInitials,uploadAvatarImage } from "@/utilities";
 
 import { CustomAvatar } from "../../custom-avatar";
 import { Text } from "../../text";
@@ -35,7 +35,12 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [avatarDraft, setAvatarDraft] = useState<string | null>(null);
 
-  const { saveButtonProps, formProps, form, query: queryResult } = useForm<
+  const {
+    saveButtonProps,
+    formProps,
+    form,
+    query: queryResult,
+  } = useForm<
     GetFields<UpdateUserMutation>,
     HttpError,
     GetVariables<UpdateUserMutationVariables>
@@ -102,11 +107,11 @@ export const AccountSettings = ({ opened, setOpened, userId }: Props) => {
       return;
     }
     try {
-      const dataUrl = await fileToAvatarDataUrl(file);
-      form?.setFieldValue("avatarUrl", dataUrl);
-      setAvatarDraft(dataUrl);
+      const url = await uploadAvatarImage(file);
+      form?.setFieldValue("avatarUrl", url);
+      setAvatarDraft(url);
     } catch {
-      // Ignore unreadable files; keep the current avatar.
+      // Ignore unreadable/oversized files; keep the current avatar.
     }
   };
 

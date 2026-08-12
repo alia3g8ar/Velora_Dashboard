@@ -49,19 +49,15 @@ const mapKnownError = (message: string, code?: string): string => {
 };
 
 const customFetch = async (url: string, options: RequestInit) => {
-  const accessToken = localStorage.getItem("access_token");
   const headers = options.headers as Record<string, string>;
-
-  // Check if we have an access token for protected routes
-  if (!accessToken && url.includes("/graphql")) {
-    console.warn("No access token found. User may need to log in again.");
-  }
 
   return await fetch(url, {
     ...options,
+    // The auth token travels as an HttpOnly cookie; include it on every
+    // request (same-origin on production, cross-origin in local dev).
+    credentials: "include",
     headers: {
       ...headers,
-      Authorization: headers?.Authorization || `Bearer ${accessToken}`,
       "Content-Type": "application/json",
       "Apollo-Require-Preflight": "true",
     },
@@ -108,6 +104,21 @@ export const fetchWrapper = async (
       (error as GraphQLError).statusCode === "UNAUTHENTICATED"
     ) {
       localStorage.removeItem("access_token");
+      // Also clear the HttpOnly session cookie so the server no longer
+      // considers a stale token valid.
+      try {
+        await fetch(`${url}`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            "Apollo-Require-Preflight": "true",
+          },
+          body: JSON.stringify({ query: "mutation Logout { logout }" }),
+        });
+      } catch {
+        // Best-effort; the local redirect handles the rest.
+      }
     }
 
     // Re-throw other errors

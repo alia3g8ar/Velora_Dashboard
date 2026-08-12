@@ -2,6 +2,7 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { NextFunction, Request, Response } from 'express';
 import { Role } from '../../modules/crm/enums';
+import { getAuthTokenFromRequest } from '../auth/cookies';
 import { requestContext } from '../context/request-context';
 
 /**
@@ -20,13 +21,18 @@ export class UserContextMiddleware implements NestMiddleware {
 
         const authHeader = req.headers.authorization;
         const [scheme, token] = authHeader?.split(/\s+/) ?? [];
+        // The frontend sends the token as an HttpOnly cookie; the header is
+        // kept as a fallback for API clients.
+        const authToken =
+            getAuthTokenFromRequest(req) ??
+            (scheme === 'Bearer' ? token : undefined);
 
-        if (scheme === 'Bearer' && token) {
+        if (authToken) {
             try {
                 const payload = this.jwtService.verify<{
                     sub: number;
                     role?: Role;
-                }>(token);
+                }>(authToken);
                 userId = Number(payload.sub) || null;
                 if (Object.values(Role).includes(payload.role as Role)) {
                     role = payload.role as Role;

@@ -1,29 +1,31 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { CameraOutlined } from "@ant-design/icons";
-import { Form, theme } from "antd";
+import { Form, Spin, theme } from "antd";
 
-import { fileToAvatarDataUrl } from "@/utilities";
+import { uploadAvatarImage } from "@/utilities";
 
 import { CustomAvatar } from "../custom-avatar";
 
 type Props = {
-  /** Current avatar URL / data URL (form-controlled via `value`). */
+  /** Current avatar URL (form-controlled via `value`). */
   value?: string | null;
   /** Display name used for the initials fallback while no photo is set. */
   name?: string;
   shape?: "square" | "circle";
   size?: number;
-  /** Called with the resized JPEG data URL after picking a file. */
+  /** Called with the uploaded avatar URL after picking a file. */
   onChange?: (value: string) => void;
 };
 
 /**
  * Avatar preview with a camera overlay that opens a file picker. The picked
- * image is downscaled to a JPEG data URL (see `fileToAvatarDataUrl`) so it
- * can be stored directly in the database. Works as an antd Form control
- * (`value` / `onChange`), so it can be placed inside a `Form.Item`.
+ * image is downscaled to a JPEG blob and uploaded to `/uploads/avatar`,
+ * which stores the file server-side (no base64 in the API or database) and
+ * returns a `/uploads/avatar/:id` URL saved on the record. Works as an antd
+ * Form control (`value` / `onChange`), so it can be placed inside a
+ * `Form.Item`.
  */
 export const AvatarUploader = ({
   value,
@@ -35,19 +37,23 @@ export const AvatarUploader = ({
   const { t } = useTranslation();
   const { token } = theme.useToken();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     // Allow picking the same file again next time.
     event.target.value = "";
-    if (!file) {
+    if (!file || uploading) {
       return;
     }
+    setUploading(true);
     try {
-      const dataUrl = await fileToAvatarDataUrl(file);
-      onChange?.(dataUrl);
+      const url = await uploadAvatarImage(file);
+      onChange?.(url);
     } catch {
-      // Ignore unreadable files; keep the current photo.
+      // Ignore unreadable/oversized files; keep the current photo.
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -67,6 +73,17 @@ export const AvatarUploader = ({
           borderRadius: shape === "circle" ? "50%" : token.borderRadiusLG,
         }}
       />
+      {uploading && (
+        <Spin
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        />
+      )}
       <button
         type="button"
         aria-label={t("common.changePhoto")}

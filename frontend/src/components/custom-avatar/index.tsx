@@ -3,27 +3,28 @@ import React from "react";
 import type { AvatarProps } from "antd";
 import { Avatar as AntdAvatar } from "antd";
 
-import { getNameInitials, getRandomColorFromString } from "@/utilities";
+import { getNameInitials, getRandomColorFromString, resolveAssetUrl } from "@/utilities";
 
 type Props = AvatarProps & {
   name?: string;
 };
 
 const CustomAvatarComponent = ({ name = "", style, ...rest }: Props) => {
+  const src = resolveAssetUrl(rest?.src) ?? rest?.src;
+
   return (
     <AntdAvatar
       alt={name}
       size="small"
       style={{
-        backgroundColor: rest?.src
-          ? "transparent"
-          : getRandomColorFromString(name),
+        backgroundColor: src ? "transparent" : getRandomColorFromString(name),
         display: "flex",
         alignItems: "center",
         border: "none",
         ...style,
       }}
       {...rest}
+      src={src}
     >
       {getNameInitials(name)}
     </AntdAvatar>
