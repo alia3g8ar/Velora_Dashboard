@@ -22,6 +22,9 @@ const mapKnownError = (message: string, code?: string): string => {
   if (message.includes("Invalid email or password")) {
     return i18n.t("pages.login.errors.invalidCredentials");
   }
+  if (message.includes("Email already registered")) {
+    return i18n.t("errors.emailInUse");
+  }
   if (
     message.includes("Not authenticated") ||
     message.includes("Invalid or expired access token")

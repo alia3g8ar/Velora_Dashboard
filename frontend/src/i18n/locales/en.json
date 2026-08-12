@@ -185,6 +185,28 @@
       "signin": "Sign in",
       "buttons": {
         "rememberMe": "Remember me"
+      },
+      "register": {
+        "title": "Create your account",
+        "subtitle": "Sign up to start using Velora CRM",
+        "name": "Full name",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm password",
+        "signup": "Create account",
+        "haveAccount": "Already have an account?",
+        "noAccount": "Don't have an account? Create one",
+        "success": "Account created successfully",
+        "errors": {
+          "requiredName": "Please enter your name",
+          "requiredEmail": "Email is required",
+          "validEmail": "Invalid email address",
+          "requiredPassword": "Password is required",
+          "passwordTooShort": "Password must be at least 6 characters",
+          "requiredConfirm": "Please confirm your password",
+          "passwordMismatch": "Passwords do not match",
+          "registrationFailed": "Registration failed"
+        }
       }
     },
     "error": {
@@ -280,6 +302,7 @@
     "internal": "Something went wrong. Please try again.",
     "unknown": "Something went wrong. Please try again.",
     "avatarTooLarge": "The selected image is too large. Please choose a smaller photo.",
+    "emailInUse": "This email is already registered.",
     "saveFailed": "Your changes could not be saved. Please try again."
   }
 }

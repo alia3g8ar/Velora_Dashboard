@@ -6,6 +6,7 @@ import { User } from '../crm/entities/user.entity';
 import { AuthResponse } from './auth-response';
 import { AuthService } from './auth.service';
 import { LoginInput } from './dto/login.input';
+import { RegisterInput } from './dto/register.input';
 
 @Resolver()
 export class AuthResolver {
@@ -15,6 +16,12 @@ export class AuthResolver {
     @Mutation(() => AuthResponse)
     login(@Args('loginInput') loginInput: LoginInput) {
         return this.authService.login(loginInput);
+    }
+
+    @IsPublic()
+    @Mutation(() => AuthResponse)
+    register(@Args('registerInput') registerInput: RegisterInput) {
+        return this.authService.register(registerInput);
     }
 
     @Query(() => User)

@@ -14,6 +14,7 @@ const mapAuthError = (error: unknown) => {
   // The fetch wrapper already maps known backend messages to the active
   // language, so match both the raw backend text and its translated form.
   const invalidCredentials = i18n.t("pages.login.errors.invalidCredentials");
+  const emailInUse = i18n.t("errors.emailInUse");
   const unauthorized = i18n.t("errors.unauthorized");
 
   if (
@@ -21,6 +22,9 @@ const mapAuthError = (error: unknown) => {
     message.includes("Invalid email or password")
   ) {
     return invalidCredentials;
+  }
+  if (message === emailInUse || message.includes("Email already registered")) {
+    return emailInUse;
   }
   if (
     message === unauthorized ||
@@ -77,6 +81,46 @@ export const authProvider: AuthProvider = {
         error: {
           message: translated,
           name: translated,
+        },
+      };
+    }
+  },
+  register: async ({ email, password, ...params }) => {
+    try {
+      const { data } = await dataProvider.custom({
+        url: API_URL,
+        method: "post",
+        headers: {},
+        meta: {
+          variables: { email, password, name: params.name },
+          rawQuery: `
+                mutation Register($name: String!, $email: String!, $password: String!) {
+                    register(registerInput: {
+                      name: $name
+                      email: $email
+                      password: $password
+                    }) {
+                      accessToken,
+                    }
+                  }
+                `,
+        },
+      });
+
+      localStorage.setItem("access_token", data.register.accessToken);
+
+      return {
+        success: true,
+        redirectTo: "/",
+      };
+    } catch (e) {
+      const translated = mapAuthError(e);
+
+      return {
+        success: false,
+        error: {
+          message: translated,
+          name: i18n.t("pages.login.register.errors.registrationFailed"),
         },
       };
     }

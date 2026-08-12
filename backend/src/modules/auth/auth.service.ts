@@ -1,10 +1,15 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+    ConflictException,
+    Injectable,
+    UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { JwtService } from '@nestjs/jwt';
-import { compare } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { Repository } from 'typeorm';
 import { User } from '../crm/entities/user.entity';
 import { LoginInput } from './dto/login.input';
+import { RegisterInput } from './dto/register.input';
 
 @Injectable()
 export class AuthService {
@@ -31,6 +36,30 @@ export class AuthService {
         if (!passwordMatches) {
             throw new UnauthorizedException('Invalid email or password');
         }
+
+        return {
+            accessToken: this.signAccessToken(user),
+            user,
+        };
+    }
+
+    async register(registerInput: RegisterInput) {
+        const email = registerInput.email.trim().toLowerCase();
+
+        const existing = await this.userRepository.findOneBy({ email });
+        if (existing) {
+            throw new ConflictException('Email already registered');
+        }
+
+        const user = await this.userRepository.save(
+            this.userRepository.create({
+                name: registerInput.name.trim(),
+                email,
+                password: await hash(registerInput.password, 10),
+                jobTitle: registerInput.jobTitle ?? undefined,
+                phone: registerInput.phone ?? undefined,
+            }),
+        );
 
         return {
             accessToken: this.signAccessToken(user),
