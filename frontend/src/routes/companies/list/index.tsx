@@ -99,11 +99,13 @@ export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
             ),
           }}
           rowKey="id"
-          scroll={{ x: 560 }}
+          scroll={{ x: "max-content" }}
         >
           <Table.Column<Company>
             dataIndex="name"
             title={t("companies.fields.companyTitle")}
+            ellipsis
+            width={280}
             defaultFilteredValue={getDefaultFilter("id", filters)}
             filterIcon={<SearchOutlined />}
             filterDropdown={(props) => (
@@ -133,6 +135,7 @@ export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
           <Table.Column<Company>
             dataIndex={"totalRevenue"}
             title={t("companies.fields.openDealsAmount")}
+            width={170}
             render={(_, company) => {
               return (
                 <Text style={{ whiteSpace: "nowrap" }}>
@@ -143,6 +146,7 @@ export const CompanyListPage = ({ children }: React.PropsWithChildren) => {
           />
           <Table.Column<Company>
             fixed="right"
+            width={100}
             dataIndex="id"
             title={t("common.actions")}
             render={(value) => (

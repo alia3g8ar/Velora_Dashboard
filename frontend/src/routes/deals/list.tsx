@@ -108,11 +108,13 @@ export const DealListPage = () => {
             ),
           }}
           rowKey="id"
-          scroll={{ x: 960 }}
+          scroll={{ x: "max-content" }}
         >
           <Table.Column<Deal>
             dataIndex="title"
             title={t("deals.fields.title")}
+            ellipsis
+            width={220}
             filterIcon={<SearchOutlined />}
             filterDropdown={(props) => (
               <FilterDropdown {...props}>
@@ -130,6 +132,8 @@ export const DealListPage = () => {
           <Table.Column<Deal>
             dataIndex="company"
             title={t("deals.fields.company")}
+            ellipsis
+            width={200}
             render={(_, record) => {
               return (
                 <Space>
@@ -148,6 +152,7 @@ export const DealListPage = () => {
           <Table.Column<Deal>
             dataIndex="value"
             title={t("deals.fields.value")}
+            width={130}
             render={(_, record) => (
               <Text strong style={{ whiteSpace: "nowrap" }}>
                 {currencyNumber(record.value || 0)}
@@ -157,6 +162,7 @@ export const DealListPage = () => {
           <Table.Column<Deal>
             dataIndex="stage"
             title={t("deals.fields.stage")}
+            width={120}
             filterDropdown={(props) => (
               <FilterDropdown {...props}>
                 <Select
@@ -181,6 +187,8 @@ export const DealListPage = () => {
           <Table.Column<Deal>
             dataIndex="dealOwner"
             title={t("deals.fields.owner")}
+            ellipsis
+            width={180}
             render={(_, record) => {
               return (
                 <Space>
@@ -198,6 +206,7 @@ export const DealListPage = () => {
           <Table.Column<Deal>
             dataIndex="closeDate"
             title={t("deals.fields.closeDate")}
+            width={170}
             render={(_, record) => {
               if (!record.closeDate) return <Text type="secondary">—</Text>;
               return (
@@ -208,7 +217,7 @@ export const DealListPage = () => {
             }}
           />
           <Table.Column<Deal>
-            fixed="right"
+            width={100}
             dataIndex="id"
             title={t("common.actions")}
             render={(value) => (

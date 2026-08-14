@@ -323,11 +323,13 @@ export const CompanyDealsTable = () => {
           ...tableProps.pagination,
           showSizeChanger: false,
         }}
-        scroll={{ x: 960 }}
+        scroll={{ x: "max-content" }}
       >
         <Table.Column<Deal>
           dataIndex="title"
           title={t("deals.fields.title")}
+          ellipsis
+          width={220}
           render={(_, record) => {
             return (
               <Text strong style={{ whiteSpace: "nowrap" }}>
@@ -339,6 +341,7 @@ export const CompanyDealsTable = () => {
         <Table.Column<Deal>
           dataIndex="stage"
           title={t("deals.fields.stage")}
+          width={110}
           render={(_, record) => {
             const title = record.stage?.title ?? "";
             return (
@@ -354,6 +357,7 @@ export const CompanyDealsTable = () => {
         <Table.Column<Deal>
           dataIndex="value"
           title={t("deals.fields.value")}
+          width={130}
           render={(_, record) => (
             <Text strong style={{ whiteSpace: "nowrap" }}>
               {currencyNumber(record.value || 0)}
@@ -363,6 +367,8 @@ export const CompanyDealsTable = () => {
         <Table.Column<Deal>
           dataIndex="dealOwner"
           title={t("deals.fields.owner")}
+          ellipsis
+          width={170}
           render={(_, record) => {
             return (
               <Space>
@@ -380,6 +386,7 @@ export const CompanyDealsTable = () => {
         <Table.Column<Deal>
           dataIndex="closeDate"
           title={t("deals.fields.closeDate")}
+          width={160}
           render={(_, record) => {
             if (!record.closeDate) return <Text type="secondary">—</Text>;
             return (
