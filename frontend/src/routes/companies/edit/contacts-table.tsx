@@ -334,11 +334,13 @@ export const CompanyContactsTable = () => {
           ...tableProps.pagination,
           showSizeChanger: false,
         }}
-        scroll={{ x: 700 }}
+        scroll={{ x: "max-content" }}
       >
         <Table.Column<Contact>
           title={t("companies.contacts.name")}
           dataIndex="name"
+          ellipsis
+          width={200}
           render={(_, record) => {
             return (
               <Space>
@@ -363,6 +365,8 @@ export const CompanyContactsTable = () => {
         <Table.Column
           title={t("companies.contacts.jobTitle")}
           dataIndex="jobTitle"
+          ellipsis
+          width={180}
           filterIcon={<SearchOutlined />}
           filterDropdown={(props) => (
             <FilterDropdown {...props}>
@@ -373,6 +377,7 @@ export const CompanyContactsTable = () => {
         <Table.Column<Contact>
           title={t("companies.contacts.stage")}
           dataIndex="status"
+          width={150}
           render={(_, record) => {
             return <ContactStatusTag status={record.status} />;
           }}
@@ -392,7 +397,7 @@ export const CompanyContactsTable = () => {
         />
         <Table.Column<Contact>
           dataIndex="id"
-          width={176}
+          width={150}
           render={(value, record) => {
             return (
               <Space>
